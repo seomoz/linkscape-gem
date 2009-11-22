@@ -20,6 +20,12 @@ module Linkscape
       @requestURL = URL_TEMPLATE.template(signRequest(options.merge(:url => url)))
       @requestURL += "&" + options[:query].collect{|k,v| "#{CGI::escape(k.to_s)}=#{CGI::escape(v.to_s)}"}.join('&') if options[:query] && Hash === options[:query]
       @requestURL += "&" + options[:query] if options[:query] && String === options[:query]
+
+      options[:offset] = 0 if options[:offset] && options[:offset] < 0
+      @requestURL += "&Offset=#{options[:offset]}" if options[:offset]
+
+      options[:limit] = 1000 if options[:limit] && options[:limit] > 1000
+      @requestURL += "&Limit=#{options[:limit]}" if options[:limit]
     end
     
     def run
@@ -35,9 +41,9 @@ module Linkscape
 
     private
     def signRequest options
-      id = options[:accessID]#CGI::escape(options[:accessID])
-      expiration = Time.now.to_i + 600
-      key = options[:secretKey]#CGI::escape(options[:secretKey])
+      id = options[:accessID]
+      expiration = Time.now.to_i + 60
+      key = options[:secretKey]
       signature = CGI::escape(
                     Base64.encode64(
                       HMAC::SHA1.digest(

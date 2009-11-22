@@ -19,6 +19,11 @@ module Linkscape
           :desc => %Q[The amount of mozRank passed by the link.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
         }
       }
+      RequestBits[:all] = {
+        :name => 'All columnts',
+        :flag => RequestBits.keys.inject(0) {|sum,k| sum + RequestBits[k][:flag]},
+        :desc => %Q[Requests all known columns from the API]
+      }
 
       ResponseFlags = {
         :no_follow => {
