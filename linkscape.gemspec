@@ -10,7 +10,6 @@ Gem::Specification.new do |s|
   s.files = [
     "README",
     "LICENSE",
-    "init.rb",
     "lib/hash-ext.rb",
     "lib/linkscape/client.rb",
     "lib/linkscape/constants/anchor-metrics.rb",
@@ -22,5 +21,6 @@ Gem::Specification.new do |s|
     "lib/linkscape/response.rb",
     "lib/linkscape.rb",
     "lib/string-ext.rb",
+    "rails/init.rb",
   ]
 end
