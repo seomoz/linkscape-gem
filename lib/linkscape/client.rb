@@ -123,18 +123,18 @@ module Linkscape
       url = args.first ? args.shift : options[:url]
       whichSet = (args.first ? args.shift : options[:set]).to_sym
       
-      raise MissingArgument, "topLinks requires a set (:page, :subdomain, :domain) and a url." unless whichSet and url
+      raise MissingArgument, "topPages requires a set (:page, :subdomain, :domain) and a url." unless whichSet and url
       
       options[:url] = url
       options[:api] = 'top-pages'
       
-      raise InvalidArgument, "topLinks set must be one of :page, :subdomain, :domain" unless options[:api]
+      raise InvalidArgument, "topPages set must be one of :page, :subdomain, :domain" unless options[:api]
       
       options[:query] = {
         'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :url),
       }
 
-      raise MissingArgument, "topLinks requires a list of columns to return." unless options[:query]['Cols'].nonzero?
+      raise MissingArgument, "topPages requires a list of columns to return." unless options[:query]['Cols'].nonzero?
       
       Linkscape::Request.run(@options.merge(options))
     end
