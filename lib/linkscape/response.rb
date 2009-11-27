@@ -46,7 +46,7 @@ module Linkscape
         end
         
       end
-      def [](key); Array === @data ? @data[key] : @data[key.to_sym]; end
+      def [](*args); Array === @data ? @data[*args] : @data[key.to_sym]; end
       def each(&block); @data.each(&block); end
       def each_index(&block); Array === @data ? @data.each_index(&block) : nil; end
       
