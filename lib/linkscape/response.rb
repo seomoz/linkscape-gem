@@ -4,6 +4,17 @@ module Linkscape
     class ResponseData
       include Enumerable
       attr_reader :type, :subjects
+
+      class Flags
+        def initialize(bitfield, type)
+          @value = bitfield
+          @flags = Linkscape::Constants::LinkMetrics::ResponseFlags.to_a.collect{|k,vv| k if @value & vv[:flag]}.compact if type == :link
+        end
+        def [](key); @flags.include? key.to_sym; end
+        def to_a; @flags; end
+        def to_hash; @flags.inject({}){|h,f|h[f]=true;h}; end
+      end
+
       def initialize(data, type=nil)
         @data = data
         @type = if type
@@ -14,7 +25,7 @@ module Linkscape
           :array
         end
         @data.symbolize_keys! if Hash === @data
-        @data.collect{|d|ResponseData.new(d)} if Array === @data
+        @data = @data.collect{|d|ResponseData.new(d)} if Array === @data
         
         if @type == :hash
           subdatas = {}
@@ -22,6 +33,7 @@ module Linkscape
             if field = Linkscape::Constants::ResponseFields[k]
               if subject = field[:subject]
                 subdatas[subject] ||= {}
+                v = ResponseData::Flags.new(v, field[:bitfield]) if field[:bitfield]
                 subdatas[subject][field[:key]] = v
               end
             end
@@ -34,8 +46,31 @@ module Linkscape
         end
         
       end
-      def [](key); @data[key.to_sym]; end
+      def [](key); Array === @data ? @data[key] : @data[key.to_sym]; end
       def each(&block); @data.each(&block); end
+      def each_index(&block); Array === @data ? @data.each_index(&block) : nil; end
+      
+      def to_s(indent="")
+        printer = Proc.new do |h,prefix|
+          o = ""
+          h.sort{|l,r|l.to_s<=>r.to_s}.each do |k,v|
+            field = Linkscape::Constants::ResponseFields[k]
+            desc = field ? field[:name] : k.inspect
+            o += %Q[#{prefix}#{desc}\t - \t#{field[:bitfield] ? v.to_a.inspect : v}\n]
+          end
+          o
+        end
+        if @subjects
+          o = ""
+          @subjects.each do |s|
+            o += %Q[#{indent}#{s}\n]
+            o += printer.call(@data[s], "#{indent}  #{s}.")
+          end
+          o
+        else
+          printer.call(@data, indent)
+        end
+      end
 
       def inspect
         #<Linkscape::Response:0x10161d8a0 @response=#<Net::HTTPUnauthorized 401 Unauthorized readbody=true>>

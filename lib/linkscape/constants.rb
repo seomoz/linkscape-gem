@@ -340,6 +340,7 @@ module Linkscape
         :key => :flags,
         :desc => %Q[A bit field indicating link attributes that apply to this link],
         :subject => :link,
+        :bitfield => :link,
       },
       :lmrr => {
         :source => :lmrr,
@@ -357,11 +358,8 @@ module Linkscape
       },
     }
     
-    ResponseFields = {}
+    ResponseFields = URLResponseFields.merge(LinkResponseFields)
     URLResponseFields.each {|k,v| ResponseFields["lu#{k}".to_sym] = v.dup.merge(:desc => "#{v[:desc]} (Target)", :source => "lu#{k}".to_sym, :subject => :target)}
-    URLResponseFields.each {|k,v| URLResponseFields[v[:key]]=v if v[:key] }
-    LinkResponseFields.each {|k,v| URLResponseFields[v[:key]]=v if v[:key] }
-    ResponseFields.merge!(URLResponseFields)
-    ResponseFields.merge!(LinkResponseFields)
+    ResponseFields.keys.each {|k| ResponseFields[ResponseFields[k][:key]]=ResponseFields[k] if ResponseFields[k][:key] }
   end
 end

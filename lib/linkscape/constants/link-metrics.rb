@@ -10,12 +10,12 @@ module Linkscape
         },
         :anchor_text => {
           :name => 'Anchor Text',
-          :flag => 1,
+          :flag => 4,
           :desc => %Q[The anchor text of the link, including any markup (e.g. image tags with alt text).]
         },
         :mozrank_passed => {
           :name => 'mozRank Passed',
-          :flag => 1,
+          :flag => 16,
           :desc => %Q[The amount of mozRank passed by the link.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
         }
       }
