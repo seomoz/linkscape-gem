@@ -94,9 +94,9 @@ module Linkscape
       end
     end
     
-    def [](*args); Array === @data ? @data[*args] : @data[args.first.to_sym]; end
+    def [](*args); @data[*args]; end
     def each(&block); @data.each(&block); end
-    def each_index(&block); Array === @data ? @data.each_index(&block) : nil; end
+    def each_index(&block); @data.each_index(&block); end
     
     def valid?; valid; end
     
