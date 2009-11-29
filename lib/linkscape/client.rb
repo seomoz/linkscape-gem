@@ -59,7 +59,7 @@ module Linkscape
       options[:api] = {
         :page => 'page-linklist',
         :subdomain => 'subdomain-linklist',
-        :domain => 'domain-linklist',
+        :domain => 'rootdomain-linklist',
       }[whichSet]
       
       raise InvalidArgument, "topLinks set must be one of :page, :subdomain, :domain" unless options[:api]
