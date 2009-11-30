@@ -79,7 +79,7 @@ module Linkscape
     def allLinks(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
-      scope = args.length > 2 ? "#{args.shift}_to_#{args.shift}" : (args.first ? args.shift : options[:scope])
+      scope = args.length >= 2 ? "#{args.shift}_to_#{args.shift}" : (args.first ? args.shift : options[:scope])
       sortOrder = (args.first ? args.shift : (options[:sort] || options[:sortOrder])).to_sym
       filters = args.first ? args.shift : (options[:filters] || options[:filter])
 
@@ -143,7 +143,7 @@ module Linkscape
     def anchorMetrics(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
-      scope = args.length > 2 ? "#{args.shift}_to_#{args.shift}" : (args.first ? args.shift : options[:scope])
+      scope = args.length >= 2 ? "#{args.shift}_to_#{args.shift}" : (args.first ? args.shift : options[:scope])
       filters = args.first ? args.shift : (options[:filters] || options[:filter])
 
       raise InvalidArgument, "anchorMetrics scope must be valid ([phrase, term] to [page, subdomain, domain])" unless scope =~ /^(phrase|term)_to_(page|subdomain|domain)$/
@@ -165,12 +165,12 @@ module Linkscape
       options[:api] = 'anchor-text'
 
       options[:query] = {
-        'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :anchors),
+        # 'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :anchors),
         'Scope' => scope,
         'Filter' => filters.join('+'),
       }
 
-      raise MissingArgument, "anchorMetrics requires a list of columns to return." unless options[:query]['Cols'].nonzero?
+      # raise MissingArgument, "anchorMetrics requires a list of columns to return." unless options[:query]['Cols'].nonzero?
       
       Linkscape::Request.run(@options.merge(options))
     end
