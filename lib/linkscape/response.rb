@@ -1,8 +1,11 @@
 module Linkscape
   class Response
+    extend Forwardable
     
     class ResponseData
       include Enumerable
+      extend Forwardable
+      
       attr_reader :type, :subjects
 
       class Flags
@@ -46,9 +49,9 @@ module Linkscape
         end
         
       end
+
+      def_delegators :@data, :length, :each, :each_index, :map, :collect, :select
       def [](*args); Array === @data ? @data[*args] : @data[args.first.to_sym]; end
-      def each(&block); @data.each(&block); end
-      def each_index(&block); Array === @data ? @data.each_index(&block) : nil; end
       
       def to_s(indent="")
         printer = Proc.new do |h,prefix|
@@ -94,9 +97,7 @@ module Linkscape
       end
     end
     
-    def [](*args); @data[*args]; end
-    def each(&block); @data.each(&block); end
-    def each_index(&block); @data.each_index(&block); end
+    def_delegators :@data, :[], :length, :each, :each_index, :map, :collect, :select
     
     def valid?; valid; end
     
