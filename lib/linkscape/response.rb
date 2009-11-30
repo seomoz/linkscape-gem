@@ -1,3 +1,4 @@
+require 'forwardable'
 module Linkscape
   class Response
     extend Forwardable
