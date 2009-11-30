@@ -143,13 +143,10 @@ module Linkscape
     def anchorMetrics(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
-      scope = args.first ? args.shift : options[:scope]
+      scope = args.length > 2 ? "#{args.shift}_to_#{args.shift}" : (args.first ? args.shift : options[:scope])
       filters = args.first ? args.shift : (options[:filters] || options[:filter])
 
-      scope = "page_to_#{scope}" unless scope =~ /^page_to_/
-
-      raise MissingArgument, "anchorMetrics requires a scope (page to [page, subdomain, domain]) and a url." unless scope and url
-      raise InvalidArgument, "anchorMetrics scope must be valid ([page, domain] to [page, subdomain, domain])" unless scope =~ /^page_to_(page|subdomain|domain)$/
+      raise InvalidArgument, "anchorMetrics scope must be valid ([phrase, term] to [page, subdomain, domain])" unless scope =~ /^(phrase|term)_to_(page|subdomain|domain)$/
 
       if String === filters
         filters = filters.downcase.split(/[,\s\+]+/).sort.collect(&:to_sym)
