@@ -73,7 +73,7 @@ module Linkscape
           h.sort{|l,r|l[0].to_s<=>r[0].to_s}.each do |k,v|
             field = Linkscape::Constants::ResponseFields[k]
             desc = field ? field[:name] : k.inspect
-            o += %Q[#{prefix}#{desc}\t - \t#{field[:bitfield] ? v.to_a.inspect : v}\n]
+            o += %Q[%-#{Linkscape::Constants::LongestNameLength+15}.#{Linkscape::Constants::LongestNameLength+15}s - %s\n] % [%Q[#{prefix}#{desc}], (field[:bitfield] ? v.to_a.inspect : v).to_s]
           end
           o
         end
