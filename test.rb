@@ -16,6 +16,8 @@ puts c.inspect
 def do_request r
   puts r.inspect
   puts ''
+  puts r.response.body
+  puts ''
   if(r.valid?)
     data = r.data
     puts data.inspect
@@ -37,7 +39,7 @@ end
 
 url = %q[http://www.seomoz.org/blog/21-tactics-to-increase-blog-traffic]
 
-do_request c.mozRank(url)
+# do_request c.mozRank(url)
 
 do_request c.urlMetrics(url, :cols => :all)
 

@@ -52,12 +52,25 @@ module Linkscape
       end
 
       def_delegators :@data, :length, :each, :each_index, :map, :collect, :select
-      def [](*args); Array === @data ? @data[*args] : @data[args.first.to_sym]; end
+      def [](*args)
+        if Array === @data
+          @data[*args]
+        else
+          k = args.first.to_sym
+          if @subjects && @subjects.length == 1 && @data[@subjects.first][k]
+            @data[@subjects.first][k]
+          else
+            @data[args.first.to_sym]
+          end
+        end
+      rescue
+        nil
+      end
       
       def to_s(indent="")
         printer = Proc.new do |h,prefix|
           o = ""
-          h.sort{|l,r|l.to_s<=>r.to_s}.each do |k,v|
+          h.sort{|l,r|l[0].to_s<=>r[0].to_s}.each do |k,v|
             field = Linkscape::Constants::ResponseFields[k]
             desc = field ? field[:name] : k.inspect
             o += %Q[#{prefix}#{desc}\t - \t#{field[:bitfield] ? v.to_a.inspect : v}\n]
