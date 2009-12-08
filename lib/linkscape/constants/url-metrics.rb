@@ -133,6 +133,28 @@ module Linkscape
           :flag => 536870912,
           :desc => %Q[The HTTP status code recorded by Linkscape for this URL (if available)]
         },
+
+        :page_strength => {
+          :name => 'Page Strength',
+          :flag => 34359738368,
+          :desc => %Q[The page strength of this URL. This will return the pretty 100-point score.]
+        },
+        :domain_authority => {
+          :name => 'Domain Authority',
+          :flag => 68719476736,
+          :desc => %Q[The page strength of all pages on the root domain. This will return the pretty 100-point score.]
+        },
+        :page_strength_raw => {
+          :name => 'Raw Page Strength',
+          :flag => 137438953472,
+          :desc => %Q[The page strength of this URL. This will return the raw score.]
+        },
+        :domain_authority_raw => {
+          :name => 'Raw Domain Authority',
+          :flag => 274877906944,
+          :desc => %Q[The page strength of all pages on the root domain. This will return the raw score.]
+        },
+
       }
       RequestBits[:all] = {
         :name => 'All columnts',

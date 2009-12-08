@@ -226,6 +226,28 @@ module Linkscape
         :key => :pl_domain,
         :desc => %Q[The pay-level domain (PL domain) as it's identified in the Linkscape index],
       },
+      
+      :upa => {
+        :name => 'Page Strength',
+        :key => :page_strength,
+        :desc => %Q[The pretty (zero to one hundred, logarithmically scaled) page strength of the target URL],
+      },
+      :pda => {
+        :name => 'Domain Authority',
+        :key => :domain_authority,
+        :desc => %Q[The pretty (zero to one hundred, logarithmically scaled) domain authority of the target URL's PL domain],
+      },
+      :upar => {
+        :name => 'Page Strength (raw)',
+        :key => :page_strength_raw,
+        :desc => %Q[The raw (zero to one, linearly scaled) page strength of the target URL],
+      },
+      :pdar => {
+        :name => 'Domain Authority (raw)',
+        :key => :domain_authority_raw,
+        :desc => %Q[The raw (zero to one, linearly scaled) domain authority of the target URL's PL domain],
+      },
+      
     }
     URLResponsePrefixes = {
       nil  => :source,
@@ -277,54 +299,54 @@ module Linkscape
 
 
     AnchorResponseFields = {
-      :pt => {
+      :t => {
         :name => 'Anchor Text',
-        :key => :pt,
+        :key => :t,
         :desc => %Q[The Anchor Text term or phrase],
       },
-      :pi => {
+      :i => {
         :name => 'Internal Target ID',
-        :key => :pi,
+        :key => :i,
         :desc => %Q[Internal ID of the target URL],
       },
-      :piu => {
+      :iu => {
         :name => 'Internal Pages Linking',
-        :key => :piu,
+        :key => :iu,
         :desc => %Q[Number of internal pages linking],
       },
-      :pif => {
+      :if => {
         :name => 'Internal Subdomains Linking',
-        :key => :pif,
+        :key => :if,
         :desc => %Q[Number of internal subdomains linking],
       },
-      :peu => {
+      :eu => {
         :name => 'External Pages Linking',
-        :key => :peu,
+        :key => :eu,
         :desc => %Q[number of external pages linking],
       },
-      :pef => {
+      :ef => {
         :name => 'External Subdomains Linking',
-        :key => :pef,
+        :key => :ef,
         :desc => %Q[number of external subdomains linking],
       },
-      :pep => {
+      :ep => {
         :name => 'External Domains Linking',
-        :key => :pep,
+        :key => :ep,
         :desc => %Q[number of external domains linking],
       },
-      :pimp => {
+      :imp => {
         :name => 'Internal mozRank',
-        :key => :pimp,
+        :key => :imp,
         :desc => %Q[sum of internal mozrank],
       },
-      :pemp => {
+      :emp => {
         :name => 'External mozRank',
-        :key => :pemp,
+        :key => :emp,
         :desc => %Q[sum of external mozrank],
       },
-      :pf => {
+      :f => {
         :name => 'flags',
-        :key => :pf,
+        :key => :f,
         :desc => %Q[Flags],
       },
     }

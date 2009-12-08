@@ -145,8 +145,10 @@ module Linkscape
       url = args.first ? args.shift : options[:url]
       scope = args.length >= 2 ? "#{args.shift}_to_#{args.shift}" : (args.first ? args.shift : options[:scope])
       filters = args.first ? args.shift : (options[:filters] || options[:filter])
+      sortOrder = (args.first ? args.shift : (options[:sort] || options[:sortOrder])).to_sym
 
       raise InvalidArgument, "anchorMetrics scope must be valid ([phrase, term] to [page, subdomain, domain])" unless scope =~ /^(phrase|term)_to_(page|subdomain|domain)$/
+      raise InvalidArgument, "anchorMetrics sort order must be valid (domain_authority, page_strength, domains_linking_page, domains_linking_domain)" unless [:domain_authority, :page_strength, :domains_linking_page, :domains_linking_domain].include? sortOrder
 
       if String === filters
         filters = filters.downcase.split(/[,\s\+]+/).sort.collect(&:to_sym)
@@ -165,9 +167,10 @@ module Linkscape
       options[:api] = 'anchor-text'
 
       options[:query] = {
-        # 'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :anchors),
+        'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :anchors),
         'Scope' => scope,
         'Filter' => filters.join('+'),
+        'Sort' => sortOrder.to_s,
       }
 
       # raise MissingArgument, "anchorMetrics requires a list of columns to return." unless options[:query]['Cols'].nonzero?
