@@ -162,7 +162,7 @@ module Linkscape
       options[:api] = 'anchor-text'
 
       options[:query] = {
-        'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :anchors),
+        'Cols' => translateBitfield(options[:cols], options[:columns], options[:anchorcols], :type => :anchors),
         'Scope' => scope,
         'Filter' => filters.join(' ').gsub(/redir/, ''),
         'Sort' => sortOrder.to_s,
