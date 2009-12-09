@@ -50,7 +50,7 @@ module Linkscape
     def topLinks(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
-      whichSet = (args.first ? args.shift : options[:set]).to_sym
+      whichSet = (args.first ? args.shift : (options[:set] || 'none')).to_sym
       
       raise MissingArgument, "topLinks requires a set (:page, :subdomain, :domain) and a url." unless whichSet and url
       
@@ -80,8 +80,8 @@ module Linkscape
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
       scope = args.length >= 2 ? "#{args.shift}_to_#{args.shift}" : (args.first ? args.shift : options[:scope])
-      sortOrder = (args.first ? args.shift : (options[:sort] || options[:sortOrder])).to_sym
-      filters = args.first ? args.shift : (options[:filters] || options[:filter])
+      sortOrder = (args.first ? args.shift : (options[:sort] || options[:sortOrder] || 'domains_linking_page')).to_sym
+      filters = args.first ? args.shift : (options[:filters] || options[:filter] || '')
 
       raise MissingArgument, "allLinks requires a scope ([page, domain] to [page, subdomain, domain]) and a url." unless scope and url
       raise InvalidArgument, "allLinks scope must be valid ([page, domain] to [page, subdomain, domain])" unless scope =~ /^(page|domain)_to_(page|subdomain|domain)$/
@@ -121,14 +121,9 @@ module Linkscape
     def topPages(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
-      whichSet = (args.first ? args.shift : options[:set]).to_sym
-      
-      raise MissingArgument, "topPages requires a set (:page, :subdomain, :domain) and a url." unless whichSet and url
       
       options[:url] = url
       options[:api] = 'top-pages'
-      
-      raise InvalidArgument, "topPages set must be one of :page, :subdomain, :domain" unless options[:api]
       
       options[:query] = {
         'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :url),
@@ -144,8 +139,8 @@ module Linkscape
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
       scope = args.length >= 2 ? "#{args.shift}_to_#{args.shift}" : (args.first ? args.shift : options[:scope])
-      filters = args.first ? args.shift : (options[:filters] || options[:filter])
-      sortOrder = (args.first ? args.shift : (options[:sort] || options[:sortOrder])).to_sym
+      filters = args.first ? args.shift : (options[:filters] || options[:filter] || '')
+      sortOrder = (args.first ? args.shift : (options[:sort] || options[:sortOrder] || 'domains_linking_page')).to_sym
 
       raise InvalidArgument, "anchorMetrics scope must be valid ([phrase, term] to [page, subdomain, domain])" unless scope =~ /^(phrase|term)_to_(page|subdomain|domain)$/
       raise InvalidArgument, "anchorMetrics sort order must be valid (domain_authority, page_strength, domains_linking_page, domains_linking_domain)" unless [:domain_authority, :page_strength, :domains_linking_page, :domains_linking_domain].include? sortOrder
