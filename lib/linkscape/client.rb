@@ -108,7 +108,7 @@ module Linkscape
         'TargetCols' => translateBitfield(options[:targetcols], options[:targetcolumns], options[:urlcols], :type => :url),
         'LinkCols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :link),
         'Scope' => scope,
-        'Filter' => filters.join('+'),
+        'Filter' => filters.join(' ').gsub(/redir/, ''),
         'Sort' => sortOrder.to_s,
       }
 
@@ -169,7 +169,7 @@ module Linkscape
       options[:query] = {
         'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :anchors),
         'Scope' => scope,
-        'Filter' => filters.join('+'),
+        'Filter' => filters.join(' ').gsub(/redir/, ''),
         'Sort' => sortOrder.to_s,
       }
 
