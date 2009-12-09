@@ -72,12 +72,19 @@ module Linkscape
           o = ""
           h.sort{|l,r|l[0].to_s<=>r[0].to_s}.each do |k,v|
             field = Linkscape::Constants::ResponseFields[k]
-            desc = field ? field[:name] : k.inspect
-            o += %Q[%-#{Linkscape::Constants::LongestNameLength+15}.#{Linkscape::Constants::LongestNameLength+15}s - %s\n] % [%Q[#{prefix}#{desc}], (field[:bitfield] ? v.to_a.inspect : v).to_s]
+            desc = field ? field[:name] : '*'+k.inspect
+            v = ((field && field[:bitfield]) ? v.to_a.inspect : v).to_s
+            o += %Q[%s%-#{Linkscape::Constants::LongestNameLength+15}.#{Linkscape::Constants::LongestNameLength+15}s - %s\n] % [prefix, desc, v]
           end
           o
         end
-        if @subjects
+        if type == :array
+          o = ""
+          @data.each_with_index do |d,idx|
+            o += %Q[#{indent}[#{idx}]\n] + d.to_s("#{indent}  ") + "\n"
+          end
+          o
+        elsif @subjects
           o = ""
           @subjects.each do |s|
             o += %Q[#{indent}#{s}\n]

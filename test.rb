@@ -21,16 +21,7 @@ def do_request r
   if(r.valid?)
     data = r.data
     puts data.inspect
-    if data.type == :array
-      data.each_index do |i|
-        puts %Q[[#{i}]]
-        puts data[i].inspect
-        puts data[i].to_s("   ")
-        puts ''
-      end
-    else
-      puts data.to_s("")
-    end
+    puts data.to_s("")
   else
     puts "Response invalid"
   end
@@ -39,7 +30,7 @@ end
 
 url = %q[http://www.seomoz.org/blog/21-tactics-to-increase-blog-traffic]
 
-do_request c.mozRank(url)
+# do_request c.mozRank(url)
 
 do_request c.urlMetrics(url, :cols => :all)
 
