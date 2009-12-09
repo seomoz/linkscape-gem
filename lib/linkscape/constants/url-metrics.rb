@@ -13,12 +13,12 @@ module Linkscape
           :flag => 4,
           :desc => %Q[The url of the page.  For example: "apiwiki.seomoz.org/Request-Response+Format"]
         },
-        :subdomain => {
+        :fq_domain => {
           :name => 'Subdomain',
           :flag => 8,
           :desc => %Q[The subdomain of the url.  For example: "apiwiki.seomoz.org"]
         },
-        :root_domain => {
+        :pl_domain => {
           :name => 'Root Domain',
           :flag => 16,
           :desc => %Q[The root domain of the url.  For example: "seomoz.org"]
@@ -28,27 +28,27 @@ module Linkscape
           :flag => 32,
           :desc => %Q[The number of juice-passing external links to the url.]
         },
-        :subdomain_external_links => {
+        :fq_domain_external_links => {
           :name => 'Subdomain External Links',
           :flag => 64,
           :desc => %Q[The number of juice-passing external links to the subdomain of the url.]
         },
-        :root_domain_external_links => {
+        :pl_domain_external_links => {
           :name => 'Root Domain External Links',
           :flag => 128,
           :desc => %Q[The number of juice-passing external links to the root domain of the url.]
         },
-        :juice_passing_links => {
+        :juice_links => {
           :name => 'Juice-Passing Links',
           :flag => 256,
           :desc => %Q[The number of juice-passing links (internal or external) to the url.]
         },
-        :subdomains_linking => {
+        :fq_domains_linking => {
           :name => 'Subdomains Linking',
           :flag => 512,
           :desc => %Q[The number of subdomains with any pages linking to the url.]
         },
-        :root_domains_linking => {
+        :pl_domains_linking => {
           :name => 'Root Domains Linking',
           :flag => 1024,
           :desc => %Q[The number of root domains with any pages linking to the url.]
@@ -58,12 +58,12 @@ module Linkscape
           :flag => 2048,
           :desc => %Q[The number of links (juice-passing or not, internal or external) to the url.]
         },
-        :subdomain_subdomains_linking => {
+        :fq_domain_links => {
           :name => 'Subdomain Subdomains Linking',
           :flag => 4096,
           :desc => %Q[The number of subdomains with any pages linking to the subdomain of the url.]
         },
-        :root_domain_root_domains_linking => {
+        :pl_domain_links => {
           :name => 'Root Domain Root Domains Linking',
           :flag => 8192,
           :desc => %Q[The number of root domains with any pages linking to the root domain of the url.]
@@ -73,12 +73,12 @@ module Linkscape
           :flag => 16384,
           :desc => %Q[The mozRank of the url.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
         },
-        :subdomain_mozrank => {
+        :fq_domain_mozrank => {
           :name => 'Subdomain mozRank',
           :flag => 32768,
           :desc => %Q[The mozRank of the subdomain of the url.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
         },
-        :root_domain_mozrank => {
+        :pl_domain_mozrank => {
           :name => 'Root Domain mozRank',
           :flag => 65536,
           :desc => %Q[The mozRank of the Root Domain of the url.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
@@ -88,12 +88,12 @@ module Linkscape
           :flag => 131072,
           :desc => %Q[The mozTrust of the url.    Requesting this metric will provide both the pretty 10-point score and the raw score.]
         },
-        :subdomain_moztrust => {
+        :fq_domain_moztrust => {
           :name => 'Subdomain mozTrust',
           :flag => 262144,
           :desc => %Q[The mozTrust of the subdomain of the url.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
         },
-        :root_domain_moztrust => {
+        :pl_domain_moztrust => {
           :name => 'Root Domain mozTrust',
           :flag => 524288,
           :desc => %Q[The mozTrust of the root domain of the url.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
@@ -103,22 +103,23 @@ module Linkscape
           :flag => 1048576,
           :desc => %Q[The portion of the url's mozRank coming from external links.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
         },
-        :subdomain_external_domain_juice => {
+        :fq_domain_external_mozrank_sum_raw => {
           :name => 'Subdomain External Domain Juice',
           :flag => 2097152,
           :desc => %Q[The portion of the mozRank of all pages on the subdomain coming from external links.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
         },
-        :root_domain_external_domain_juice => {
+        :pl_domain_external_mozrank_sum_raw => {
           :name => 'Root Domain External Domain Juice',
           :flag => 4194304,
           :desc => %Q[The portion of the mozRank of all pages on the root domain coming from external links.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
+          #     source.External mozRank sum of all PL Domain Pages (raw)                       - 9.8334596959365e-11
         },
-        :subdomain_domain_juice => {
+        :fq_domain_mozrank_sum_raw => {
           :name => 'Subdomain Domain Juice',
           :flag => 8388608,
           :desc => %Q[The mozRank of all pages on the subdomain combined.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
         },
-        :root_domain_domain_juice => {
+        :pl_domain_mozrank_sum_raw => {
           :name => 'Root Domain Domain Juice',
           :flag => 16777216,
           :desc => %Q[The mozRank of all pages on the root domain combined.  Requesting this metric will provide both the pretty 10-point score and the raw score.]
@@ -128,7 +129,7 @@ module Linkscape
           :flag => 268435456,
           :desc => %Q[If the url canaonicalizes to a different form, that canonical form will be available in this field]
         },
-        :http_status_code => {
+        :status => {
           :name => 'HTTP Status Code',
           :flag => 536870912,
           :desc => %Q[The HTTP status code recorded by Linkscape for this URL (if available)]

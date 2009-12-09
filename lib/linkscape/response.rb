@@ -51,7 +51,7 @@ module Linkscape
         
       end
 
-      def_delegators :@data, :length, :each, :each_index, :map, :collect, :select
+      def_delegators :@data, :length, :each, :each_index, :map, :collect, :select, :keys
       def [](*args)
         if Array === @data
           @data[*args]

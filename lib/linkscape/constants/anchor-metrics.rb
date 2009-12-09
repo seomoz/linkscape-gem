@@ -33,7 +33,7 @@ module Linkscape
           :flag => 64,
           :desc => %Q[the number of external subdomains linking]
         },
-        :external_domains_linkin => {
+        :external_domains_linking => {
           :name => 'External Domains Linking',
           :flag => 128,
           :desc => %Q[the number of external domains linking]

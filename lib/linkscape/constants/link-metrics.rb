@@ -8,12 +8,12 @@ module Linkscape
           :flag => 2,
           :desc => %Q[A bit field indicating a variety of attributes which apply to this link.]
         },
-        :anchor_text => {
+        :text => {
           :name => 'Anchor Text',
           :flag => 4,
           :desc => %Q[The anchor text of the link, including any markup (e.g. image tags with alt text).]
         },
-        :mozrank_passed => {
+        :mozrank => {
           :name => 'mozRank Passed',
           :flag => 16,
           :desc => %Q[The amount of mozRank passed by the link.  Requesting this metric will provide both the pretty 10-point score and the raw score.]

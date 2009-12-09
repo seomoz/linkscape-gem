@@ -301,52 +301,52 @@ module Linkscape
     AnchorResponseFields = {
       :t => {
         :name => 'Anchor Text',
-        :key => :t,
+        :key => :text,
         :desc => %Q[The Anchor Text term or phrase],
       },
       :i => {
         :name => 'Internal Target ID',
-        :key => :i,
+        :key => :record_id,
         :desc => %Q[Internal ID of the target URL],
       },
       :iu => {
         :name => 'Internal Pages Linking',
-        :key => :iu,
+        :key => :internal_pages_linking,
         :desc => %Q[Number of internal pages linking],
       },
       :if => {
         :name => 'Internal Subdomains Linking',
-        :key => :if,
+        :key => :internal_subdomains_linking,
         :desc => %Q[Number of internal subdomains linking],
       },
       :eu => {
         :name => 'External Pages Linking',
-        :key => :eu,
+        :key => :external_pages_linking,
         :desc => %Q[number of external pages linking],
       },
       :ef => {
         :name => 'External Subdomains Linking',
-        :key => :ef,
+        :key => :external_subdomains_linking,
         :desc => %Q[number of external subdomains linking],
       },
       :ep => {
         :name => 'External Domains Linking',
-        :key => :ep,
+        :key => :external_domains_linking,
         :desc => %Q[number of external domains linking],
       },
       :imp => {
         :name => 'Internal mozRank',
-        :key => :imp,
+        :key => :internal_mozrank,
         :desc => %Q[sum of internal mozrank],
       },
       :emp => {
         :name => 'External mozRank',
-        :key => :emp,
+        :key => :external_mozrank,
         :desc => %Q[sum of external mozrank],
       },
       :f => {
         :name => 'flags',
-        :key => :f,
+        :key => :flags,
         :desc => %Q[Flags],
       },
     }
