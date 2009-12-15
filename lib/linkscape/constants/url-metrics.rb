@@ -59,11 +59,26 @@ module Linkscape
           :desc => %Q[The number of links (juice-passing or not, internal or external) to the url.]
         },
         :fq_domain_links => {
+          :name => 'Subdomain Links',
+          :flag => 4294967296,
+          :desc => %Q[The number of links to any page on the subdomain of the url.]
+        },
+        :fq_domain_fq_domains_linking => {
           :name => 'Subdomain Subdomains Linking',
           :flag => 4096,
           :desc => %Q[The number of subdomains with any pages linking to the subdomain of the url.]
         },
+        :fq_domain_pl_domains_linking => {
+          :name => 'Subdomain Root Domains Linking',
+          :flag => 17179869184,
+          :desc => %Q[The number of domains with any pages linking to the subdomain of the url.]
+        },
         :pl_domain_links => {
+          :name => 'Root Domain Links',
+          :flag => 8589934592,
+          :desc => %Q[The number of links to any page on the root domain of the url.]
+        },
+        :pl_domain_pl_domains_linking => {
           :name => 'Root Domain Root Domains Linking',
           :flag => 8192,
           :desc => %Q[The number of root domains with any pages linking to the root domain of the url.]

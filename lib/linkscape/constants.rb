@@ -57,7 +57,12 @@ module Linkscape
 
       :fid => {
         :name => 'Number of Links to FQ Domain',
-        :key => :fq_domain_links,
+        :key => :fq_domain_fq_domains_linking,
+        :desc => %Q[The number of domains with at least one link to any page on the FQ domain of the target URL],
+      },
+      :fipl => {
+        :name => 'Number of Links to FQ Domain',
+        :key => :fq_domain_pl_domains_linking,
         :desc => %Q[The number of domains with at least one link to any page on the FQ domain of the target URL],
       },
       :feid => {
@@ -67,7 +72,7 @@ module Linkscape
       },
       :pid => {
         :name => 'Number of Links to PL Domain',
-        :key => :pl_domain_links,
+        :key => :pl_domain_pl_domains_linkingn,
         :desc => %Q[The number of domains with at least one link to any page on the PL domain of the target URL],
       },
       :peid => {
@@ -79,6 +84,16 @@ module Linkscape
         :name => 'Number of Links',
         :key => :links,
         :desc => %Q[The number of internal and external, juice and non-juice passing links to the target URL in the Linkscape index],
+      },
+      :fuin => {
+        :name => 'Number of Links to Subdomain',
+        :key => :fq_domain_links,
+        :desc => %Q[The number of internal and external, juice and non-juice passing links to the subdomain of the target URL in the Linkscape index],
+      },
+      :puin => {
+        :name => 'Number of Links to Root Domain',
+        :key => :pl_domain_links,
+        :desc => %Q[The number of internal and external, juice and non-juice passing links to the root domain of the target URL in the Linkscape index],
       },
       :ujid => {
         :name => 'Number of Juice-passing Links',
