@@ -72,9 +72,10 @@ module Linkscape
           o = ""
           h.sort{|l,r|l[0].to_s<=>r[0].to_s}.each do |k,v|
             field = Linkscape::Constants::ResponseFields[k]
-            desc = field ? field[:name] : '*'+k.inspect
             v = ((field && field[:bitfield]) ? v.to_a.inspect : v).to_s
-            o += %Q[%s%-#{Linkscape::Constants::LongestNameLength+15}.#{Linkscape::Constants::LongestNameLength+15}s - %s\n] % [prefix, desc, v]
+            #desc = field ? field[:name] : '*'+k.inspect
+            #o += %Q[%s%-#{Linkscape::Constants::LongestNameLength+15}.#{Linkscape::Constants::LongestNameLength+15}s - %s\n] % [prefix, desc, v]
+            o += %Q[%s%-#{Linkscape::Constants::LongestKeyLength+5}.#{Linkscape::Constants::LongestKeyLength+5}s - %s\n] % [prefix, k, v]
           end
           o
         end

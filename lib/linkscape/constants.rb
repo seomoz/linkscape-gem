@@ -411,6 +411,7 @@ module Linkscape
     ResponseFields.keys.each {|k| ResponseFields[ResponseFields[k][:key]] ||= ResponseFields[k] if ResponseFields[k][:key] }
 
     LongestNameLength = ResponseFields.collect{|k,v|v[:name].length}.max
+    LongestKeyLength = ResponseFields.collect{|k,v|v[:key].to_s.length}.max
 
   end
 end
