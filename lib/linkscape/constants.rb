@@ -72,7 +72,7 @@ module Linkscape
       },
       :pid => {
         :name => 'Number of Links to PL Domain',
-        :key => :pl_domain_pl_domains_linkingn,
+        :key => :pl_domain_pl_domains_linking,
         :desc => %Q[The number of domains with at least one link to any page on the PL domain of the target URL],
       },
       :peid => {
