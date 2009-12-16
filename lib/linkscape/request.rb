@@ -2,10 +2,10 @@ module Linkscape
   class Request
     require 'net/http'
     require 'uri'
-    require 'base64'
     require 'cgi'
-    require 'rubygems'
-    require 'hmac-sha1'
+    # require 'base64'
+    # require 'rubygems'
+    # require 'hmac-sha1'
     
     attr_accessor :requestURL
     
@@ -41,19 +41,7 @@ module Linkscape
 
     private
     def signRequest options
-      id = options[:accessID]
-      expiration = Time.now.to_i + 60
-      key = options[:secretKey]
-      signature = CGI::escape(
-                    Base64.encode64(
-                      HMAC::SHA1.digest(
-                        key,
-                        "#{id}\n#{expiration}"
-                      )
-                    ).chomp
-                  )
-      options[:expiration] = expiration
-      options[:signature] = signature
+      Linkscape::Signer.signParams(options)
       options
     end
 
