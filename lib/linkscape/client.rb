@@ -70,7 +70,7 @@ module Linkscape
         'LinkCols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :link),
       }
 
-      raise MissingArgument, "topLinks requires a list of columns for Source, Target, and Link." unless options[:query]['SourceCols'].nonzero? and options[:query]['TargetCols'].nonzero? and options[:query]['LinkCols'].nonzero?
+      raise MissingArgument, "topLinks requires a list of columns for Source, Target, and/or Link." unless options[:query]['SourceCols'].nonzero? or options[:query]['TargetCols'].nonzero? or options[:query]['LinkCols'].nonzero?
       
       Linkscape::Request.run(@options.merge(options))
     end
@@ -112,7 +112,7 @@ module Linkscape
         'Sort' => sortOrder.to_s,
       }
 
-      raise MissingArgument, "allLinks requires a list of columns for Source, Target, and Link." unless options[:query]['SourceCols'].nonzero? and options[:query]['TargetCols'].nonzero? and options[:query]['LinkCols'].nonzero?
+      raise MissingArgument, "allLinks requires a list of columns for Source, Target, and/or Link." unless options[:query]['SourceCols'].nonzero? or options[:query]['TargetCols'].nonzero? or options[:query]['LinkCols'].nonzero?
       
       Linkscape::Request.run(@options.merge(options))
     end
