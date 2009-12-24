@@ -85,12 +85,12 @@ module Linkscape
         :key => :links,
         :desc => %Q[The number of internal and external, juice and non-juice passing links to the target URL in the Linkscape index],
       },
-      :fuin => {
+      :fuid => {
         :name => 'Number of Links to Subdomain',
         :key => :fq_domain_links,
         :desc => %Q[The number of internal and external, juice and non-juice passing links to the subdomain of the target URL in the Linkscape index],
       },
-      :puin => {
+      :puid => {
         :name => 'Number of Links to Root Domain',
         :key => :pl_domain_links,
         :desc => %Q[The number of internal and external, juice and non-juice passing links to the root domain of the target URL in the Linkscape index],
