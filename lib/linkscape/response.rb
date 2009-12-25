@@ -17,6 +17,9 @@ module Linkscape
         def [](key); @flags.include? key.to_sym; end
         def to_a; @flags; end
         def to_hash; @flags.inject({}){|h,f|h[f]=true;h}; end
+        def to_s
+          %Q[#{@value}=#{self.to_a.inspect}]
+        end
       end
 
       def initialize(data, type=nil)
@@ -72,7 +75,8 @@ module Linkscape
           o = ""
           h.sort{|l,r|l[0].to_s<=>r[0].to_s}.each do |k,v|
             field = Linkscape::Constants::ResponseFields[k]
-            v = ((field && field[:bitfield]) ? v.to_a.inspect : v).to_s
+            v = v.to_s
+            # v = ((field && field[:bitfield]) ? v.to_a.inspect : v).to_s
             #desc = field ? field[:name] : '*'+k.inspect
             #o += %Q[%s%-#{Linkscape::Constants::LongestNameLength+15}.#{Linkscape::Constants::LongestNameLength+15}s - %s\n] % [prefix, desc, v]
             o += %Q[%s%-#{Linkscape::Constants::LongestKeyLength+5}.#{Linkscape::Constants::LongestKeyLength+5}s - %s\n] % [prefix, k, v]
