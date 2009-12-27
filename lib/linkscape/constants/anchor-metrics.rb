@@ -61,7 +61,7 @@ module Linkscape
       }
 
       ResponseFlags = {
-        :alt_tags => {
+        :alt_text => {
           :name => 'Alt Text',
           :flag => 1,
           :desc => %Q[The anchor text is from the alt text of an image]
