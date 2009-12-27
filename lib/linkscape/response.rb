@@ -13,6 +13,7 @@ module Linkscape
         def initialize(bitfield, type)
           @value = bitfield
           @flags = Linkscape::Constants::LinkMetrics::ResponseFlags.to_a.collect{|k,vv| k if (@value & vv[:flag]) == vv[:flag]}.compact if type == :link
+          @flags = Linkscape::Constants::AnchorMetrics::ResponseFlags.to_a.collect{|k,vv| k if (@value & vv[:flag]) == vv[:flag]}.compact if type == :anchor
         end
         def [](key); @flags.include? key.to_sym; end
         def to_a; @flags; end

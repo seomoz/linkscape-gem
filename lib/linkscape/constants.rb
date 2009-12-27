@@ -362,6 +362,7 @@ module Linkscape
       :f => {
         :name => 'flags',
         :key => :flags,
+        :bitfield => :anchor,
         :desc => %Q[Flags],
       },
     }

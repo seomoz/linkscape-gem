@@ -60,6 +60,16 @@ module Linkscape
         :desc => %Q[Requests all known columns from the API]
       }
 
+      ResponseFlags = {
+        :alt_tags => {
+          :name => 'Alt Text',
+          :flag => 1,
+          :desc => %Q[The anchor text is from the alt text of an image]
+        },
+      }
+      ResponseFlagMap = {}
+      ResponseFlags.each {|k,v| ResponseFlagMap[v[:flag]] = k }
+
     end
   end
 end
