@@ -243,9 +243,9 @@ module Linkscape
       },
       
       :upa => {
-        :name => 'Page Strength',
-        :key => :page_strength,
-        :desc => %Q[The pretty (zero to one hundred, logarithmically scaled) page strength of the target URL],
+        :name => 'Page Authority',
+        :key => :page_authority,
+        :desc => %Q[The pretty (zero to one hundred, logarithmically scaled) page authority of the target URL],
       },
       :pda => {
         :name => 'Domain Authority',
@@ -253,9 +253,9 @@ module Linkscape
         :desc => %Q[The pretty (zero to one hundred, logarithmically scaled) domain authority of the target URL's PL domain],
       },
       :upar => {
-        :name => 'Page Strength (raw)',
-        :key => :page_strength_raw,
-        :desc => %Q[The raw (zero to one, linearly scaled) page strength of the target URL],
+        :name => 'Page Authority (raw)',
+        :key => :page_authority_raw,
+        :desc => %Q[The raw (zero to one, linearly scaled) page authority of the target URL],
       },
       :pdar => {
         :name => 'Domain Authority (raw)',
