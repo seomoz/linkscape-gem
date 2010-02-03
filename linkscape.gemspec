@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{}
   s.description = %q{Provides an interface to SEOmoz's suite of APIs, including the free and site intelligence APIs.}
   s.files = [
-    "README",
+    "README.rdoc",
     "LICENSE",
     "lib/hash-ext.rb",
     "lib/linkscape/client.rb",
@@ -19,6 +19,7 @@ Gem::Specification.new do |s|
     "lib/linkscape/errors.rb",
     "lib/linkscape/request.rb",
     "lib/linkscape/response.rb",
+    "lib/linkscape/signer.rb",
     "lib/linkscape.rb",
     "lib/string-ext.rb",
     "rails/init.rb",
