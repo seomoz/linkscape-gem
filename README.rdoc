@@ -30,13 +30,13 @@ The Linkscape::Client object can make the following API calls:
 
 Returns the mozRank of the supplied URI.
 
-Example: <tt>client.mozRank(uri)</tt>
+  client.mozRank(uri)
 
 === urlMetrics
 
 Returns metrics about the supplied URI.
 
-Example: <tt>client.urlMetrics(uri, :cols => :all)</tt>
+  client.urlMetrics(uri, :cols => :all)
 
 This call accepts the following options:
 
@@ -46,7 +46,7 @@ This call accepts the following options:
 
 Returns a list of topLinks to the supplied URI and :type.
 
-Example: <tt>client.topLinks(uri, :page, :urlcols => :all, :linkcols => :all, :limit => 3))</tt>
+  client.topLinks(uri, :page, :urlcols => :all, :linkcols => :all, :limit => 3))</tt>
 
 The 2nd parameter of this method, <tt>:type</tt> can be either <tt>:page</tt>, <tt>:subdomain</tt> <tt>:domain</tt>.  It specifies the type of links you are requesting (links to the supplied URI, Root Domain or the Subdomain of the supplied URI).
 
@@ -60,7 +60,7 @@ This call accepts the following options:
 
 Returns all the links to a specific URI and :type.
 
-Example: <tt>client.allLinks(uri, :page, :urlcols => [:title, :url, :page_authority, :domain_authority], :linkcols => :all, :filters => :external, :limit => 3)</tt>
+  client.allLinks(uri, :page, :urlcols => [:title, :url, :page_authority, :domain_authority], :linkcols => :all, :filters => :external, :limit => 3)
 
 The 2nd parameter of this method, <tt>:type</tt> can be either <tt>:page</tt>, <tt>:subdomain</tt> <tt>:domain</tt>.  It specifies the type of links you are requesting (links to the supplied URI, Root Domain or the Subdomain of the supplied URI).
 
@@ -77,7 +77,7 @@ This call accepts the following options:
 
 Returns a list of the top pages on the URI in question
 
-Example: <tt>client.topPages(uri, :page, :cols => :all, :limit => 3, :limit => 3)</tt>
+  client.topPages(uri, :page, :cols => :all, :limit => 3, :limit => 3)
 
 The 2nd parameter of this method, <tt>:type</tt> can be either <tt>:page</tt>, <tt>:subdomain</tt> <tt>:domain</tt>.  It specifies the type of top pages you are requesting (top pages on the supplied URI, Root Domain or the Subdomain of the supplied URI).
 
@@ -89,7 +89,9 @@ This call accepts the following options:
 
 Returns anchor text metrics about the URI in question
 
-Example: <tt>client.anchorMetrics(uri, :cols => :all, :scope => "page_to_domain", :filters => :external, :sort => :domains_linking_page, :limit => 3, :scope => :phrase_to_page)</tt>
+  client.anchorMetrics(uri, :cols => :all, :scope => "page_to_domain", :filters => :external, :sort => :domains_linking_page, :limit => 3, :scope => :phrase_to_page)
+
+This call accepts the following options: 
 
 * <tt>:cols</tt> - An array of data columns (see below) that should be returned.
 * <tt>:scope</tt> - A symbol representing the 'scope' of the anchor text data (see below).
