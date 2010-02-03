@@ -1,12 +1,12 @@
 Gem::Specification.new do |s|
   s.name = %q{linkscape}
-  s.version = "0.2.0"
-  s.date = %q{2009-11-18}
-  s.authors = ["Marty Smyth"]
-  s.email = %q{martian@midgard.org}
-  s.summary = %q{Provides an interface to SEOmoz's Linkscape API}
+  s.version = "0.2.1"
+  s.date = %q{2010-02-02}
+  s.authors = ["Marty Smyth", "Jeff Pollard"]
+  s.email = %q{api@seomoz.org}
+  s.summary = %q{Provides an interface to the SEOmoz API}
   s.homepage = %q{}
-  s.description = %q{Provides an interface to SEOmoz's Linkscape API}
+  s.description = %q{Provides an interface to SEOmoz's suite of APIs, including the free and site intelligence APIs.}
   s.files = [
     "README",
     "LICENSE",
