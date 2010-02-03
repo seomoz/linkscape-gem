@@ -46,7 +46,7 @@ This call accepts the following options:
 
 Returns a list of topLinks to the supplied URI and :type.
 
-  client.topLinks(uri, :page, :urlcols => :all, :linkcols => :all, :limit => 3))</tt>
+  client.topLinks(uri, :page, :urlcols => :all, :linkcols => :all, :limit => 3))
 
 The 2nd parameter of this method, <tt>:type</tt> can be either <tt>:page</tt>, <tt>:subdomain</tt> <tt>:domain</tt>.  It specifies the type of links you are requesting (links to the supplied URI, Root Domain or the Subdomain of the supplied URI).
 
@@ -55,6 +55,8 @@ This call accepts the following options:
 * <tt>:sourcecols</tt> - An array of data columns (see below) that should be returned for the link source.
 * <tt>:targetcols</tt> - An array of data columns (see below) that should be returned for the link target.
 * <tt>:linkcols</tt> - An array of data columns (see below) that should be returned for the link itself.
+* <tt>:limit</tt> - The # of links (limit) you would like to return.
+* <tt>:offset</tt> = The number of records to offset before returning the 1st record of results.
 
 === allLinks
 
@@ -69,8 +71,9 @@ This call accepts the following options:
 * <tt>:sourcecols</tt> - An array of data columns (see below) that should be returned for the link source.
 * <tt>:targetcols</tt> - An array of data columns (see below) that should be returned for the link target.
 * <tt>:linkcols</tt> - An array of data columns (see below) that should be returned for the link itself.
-* <tt>:filters</tt> - A String, Hash, Array or Sybol of filters (see below) that should be applied to the list of links.
+* <tt>:filters</tt> - A String, Array or Symbol of filters (see below) that should be applied to the list of links.  NOTE: Multiple filters may be combined, i.e. <tt>:filters => [:internal,:follow,:redir301]</tt>.
 * <tt>:limit</tt> - The # of links (limit) you would like to return.
+* <tt>:offset</tt> = The number of records to offset before returning the 1st record of results.
 * <tt>:scope</tt> - A symbol representing the 'scope' of the links (see below).
 
 === topPages
@@ -84,6 +87,8 @@ The 2nd parameter of this method, <tt>:type</tt> can be either <tt>:page</tt>, <
 This call accepts the following options:
 
 * <tt>:cols</tt> - An array of data columns (see below) that should be returned for the link source.
+* <tt>:limit</tt> - The # of links (limit) you would like to return.
+* <tt>:offset</tt> = The number of records to offset before returning the 1st record of results.
 
 === anchorMetrics
 
@@ -97,6 +102,8 @@ This call accepts the following options:
 * <tt>:scope</tt> - A symbol representing the 'scope' of the anchor text data (see below).
 * <tt>:sort</tt> - A symbol representing the 'sort order' of the anchor text data (see below).
 * <tt>:filters</tt> - A symbol representing the 'filter' of the anchor text data (see below).
+* <tt>:limit</tt> - The # of links (limit) you would like to return.
+* <tt>:offset</tt> = The number of records to offset before returning the 1st record of results.
 
 == Requesting Data on Multiple URLs
 
