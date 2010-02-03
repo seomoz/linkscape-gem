@@ -111,7 +111,7 @@ For the API calls which support it, you may request data on multiple URLs by pas
 array of URLs to the API call.
 
   urls = ["http://www.seomoz.org/blog/21-tactics-to-increase-blog-traffic", "http://www.seomoz.org/tools"]
-  response = client.urlMetrics(url, :cols => :all)
+  response = client.urlMetrics(urls, :cols => :all)
   response.data.first[:url]
   >> "http://www.seomoz.org/blog/21-tactics-to-increase-blog-traffic"
   response.data.first[:external_links]
