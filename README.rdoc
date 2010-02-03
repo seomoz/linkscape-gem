@@ -77,7 +77,7 @@ This call accepts the following options:
 
 Returns a list of the top pages on the URI in question
 
-  client.topPages(uri, :page, :cols => :all, :limit => 3, :limit => 3)
+  client.topPages(uri, :page, :cols => :all, :limit => 3)
 
 The 2nd parameter of this method, <tt>:type</tt> can be either <tt>:page</tt>, <tt>:subdomain</tt> <tt>:domain</tt>.  It specifies the type of top pages you are requesting (top pages on the supplied URI, Root Domain or the Subdomain of the supplied URI).
 
@@ -179,29 +179,29 @@ Links may be filtered to only include the following.
 
 When requesting anchor text data, the following scopes may be used.
 
-* <tt>phrase_to_page</tt>
-* <tt>phrase_to_subdomain</tt>
-* <tt>phrase_to_domain</tt>
-* <tt>term_to_page</tt>
-* <tt>term_to_subdomain</tt>
-* <tt>term_to_domain</tt>
+* <tt>:phrase_to_page</tt>
+* <tt>:phrase_to_subdomain</tt>
+* <tt>:phrase_to_domain</tt>
+* <tt>:term_to_page</tt>
+* <tt>:term_to_subdomain</tt>
+* <tt>:term_to_domain</tt>
 
 == Link Scope
 
 When requesting links, the following scope may be used
 
-* <tt>page_to_page</tt>
-* <tt>page_to_subdomain</tt>
-* <tt>page_to_domain</tt>
-* <tt>domain_to_page</tt>
-* <tt>domain_to_subdomain</tt>
-* <tt>domain_to_domain</tt>
+* <tt>:page_to_page</tt>
+* <tt>:page_to_subdomain</tt>
+* <tt>:page_to_domain</tt>
+* <tt>:domain_to_page</tt>
+* <tt>:domain_to_subdomain</tt>
+* <tt>:domain_to_domain</tt>
 
 == Sort Orders
 
 When sorting links, the following sort orders are available.
 
-* <tt>page_athority</tt>
-* <tt>domain_authority</tt>
-* <tt>domains_linking_page</tt>
-* <tt>domains_linking_domain</tt>
+* <tt>:page_athority</tt>
+* <tt>:domain_authority</tt>
+* <tt>:domains_linking_page</tt>
+* <tt>:domains_linking_domain</tt>
