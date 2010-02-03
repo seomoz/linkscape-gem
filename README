@@ -16,7 +16,11 @@ At this point <tt>response</tt> should be a Linkscape::Response object.  You can
 
   response.data
   
-This returns a Linkscape::Response::ResponseData object, which is the container class for the response data
+This returns a Linkscape::Response::ResponseData object, which is the container class for the response data.  From there, you can request specific data points, like:
+
+  response.data[:url]
+  response.data[:external_links]
+  response.data[:page_authority]
 
 == Available API Calls
 
@@ -91,6 +95,14 @@ Example: <tt>client.anchorMetrics(uri, :cols => :all, :scope => "page_to_domain"
 * <tt>:scope</tt> - A symbol representing the 'scope' of the anchor text data (see below).
 * <tt>:sort</tt> - A symbol representing the 'sort order' of the anchor text data (see below).
 * <tt>:filters</tt> - A symbol representing the 'filter' of the anchor text data (see below).
+
+== Requesting Data on Multiple URLs
+
+For the API calls which support it, you may request data on multiple URLs by passing an
+array of URLs to the API call.
+
+  urls = ["http://www.seomoz.org/blog/21-tactics-to-increase-blog-traffic", "http://www.seomoz.org/tools"]
+  response = client.urlMetrics(url, :cols => :all)
 
 == Available Response Columns
 
