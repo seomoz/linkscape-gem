@@ -30,13 +30,13 @@ The Linkscape::Client object can make the following API calls:
 
 Returns the mozRank of the supplied URI.
 
-Example: <tt>client.mozRank(uri)
+Example: <tt>client.mozRank(uri)</tt>
 
 === urlMetrics
 
 Returns metrics about the supplied URI.
 
-Example: <tt>client.urlMetrics(uri, :cols => :all)
+Example: <tt>client.urlMetrics(uri, :cols => :all)</tt>
 
 This call accepts the following options:
 
@@ -103,6 +103,10 @@ array of URLs to the API call.
 
   urls = ["http://www.seomoz.org/blog/21-tactics-to-increase-blog-traffic", "http://www.seomoz.org/tools"]
   response = client.urlMetrics(url, :cols => :all)
+  response.data.first[:url]
+  >> "http://www.seomoz.org/blog/21-tactics-to-increase-blog-traffic"
+  response.data.first[:external_links]
+  >> 436
 
 == Available Response Columns
 
