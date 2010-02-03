@@ -101,7 +101,7 @@ This call accepts the following options:
 * <tt>:cols</tt> - An array of data columns (see below) that should be returned.
 * <tt>:scope</tt> - A symbol representing the 'scope' of the anchor text data (see below).
 * <tt>:sort</tt> - A symbol representing the 'sort order' of the anchor text data (see below).
-* <tt>:filters</tt> - A symbol representing the 'filter' of the anchor text data (see below).
+* <tt>:filters</tt> - A symbol representing the 'filter' of the anchor text data (see below).  NOTE: Only <tt>:external</tt> or <tt>internal</tt> filters may be used, separately.
 * <tt>:limit</tt> - The # of links (limit) you would like to return.
 * <tt>:offset</tt> = The number of records to offset before returning the 1st record of results.
 
@@ -174,7 +174,7 @@ The following columns are available for requesting from the API.
 
 == Available Filters
 
-Links may be filtered to only include the following.
+Links may be filtered by any of the following.  Anchor text may o
 
 * <tt>:internal</tt>
 * <tt>:external</tt>

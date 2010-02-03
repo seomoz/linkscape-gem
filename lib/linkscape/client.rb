@@ -84,7 +84,7 @@ module Linkscape
       filters = args.first ? args.shift : (options[:filters] || options[:filter] || '')
 
       raise MissingArgument, "allLinks requires a scope ([page, domain] to [page, subdomain, domain]) and a url." unless scope and url
-      raise InvalidArgument, "allLinks scope must be valid ([page, domain] to [page, subdomain, domain])" unless scope =~ /^(page|domain)_to_(page|subdomain|domain)$/
+      raise InvalidArgument, "allLinks scope must be valid ([page, domain] to [page, subdomain, domain])" unless scope.to_s =~ /^(page|domain)_to_(page|subdomain|domain)$/
       raise InvalidArgument, "allLinks sort order must be valid (domain_authority, page_authority, domains_linking_page, domains_linking_domain)" unless [:domain_authority, :page_authority, :domains_linking_page, :domains_linking_domain].include? sortOrder
 
       if String === filters
@@ -142,7 +142,7 @@ module Linkscape
       filters = args.first ? args.shift : (options[:filters] || options[:filter] || '')
       sortOrder = (args.first ? args.shift : (options[:sort] || options[:sortOrder] || 'domains_linking_page')).to_sym
 
-      raise InvalidArgument, "anchorMetrics scope must be valid ([phrase, term] to [page, subdomain, domain])" unless scope =~ /^(phrase|term)_to_(page|subdomain|domain)$/
+      raise InvalidArgument, "anchorMetrics scope must be valid ([phrase, term] to [page, subdomain, domain])" unless scope.to_s =~ /^(phrase|term)_to_(page|subdomain|domain)$/
       raise InvalidArgument, "anchorMetrics sort order must be valid (domain_authority, page_authority, domains_linking_page, domains_linking_domain)" unless [:domain_authority, :page_authority, :domains_linking_page, :domains_linking_domain].include? sortOrder
 
       if String === filters
@@ -156,7 +156,7 @@ module Linkscape
       else
         raise InvalidArgument, "anchorMetrics filters must be a string, hash, or array"
       end
-      raise InvalidArgument, "anchorMetrics filters must be from the set (:internal, :external, :redir301, :follow, :nofollow)" unless (filters - [:internal, :external, :redir301, :follow, :nofollow]).empty?
+      raise InvalidArgument, "anchorMetrics filters must be from the set (:internal, :external)" unless (filters - [:internal, :external]).empty?
 
       options[:url] = url
       options[:api] = 'anchor-text'
