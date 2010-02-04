@@ -21,6 +21,13 @@ This returns a Linkscape::Response::ResponseData object, which is the container 
   response.data[:url]
   response.data[:external_links]
   response.data[:page_authority]
+  
+Note that anchor text and link results, those which return an array as a response, are keyed on their respective types.  For example
+
+ response.data.first[:source][:mozrank]               # :source just for topPages and link calls
+ response.data.first[:target][:page_authority]        # :target just for link calls
+ response.data.first[:link][:text]                    # :link just for link calls
+ response.data.first[:anchor][:text]                  # :anchor just for link anchorMetrics calls
 
 == Available API Calls
 
