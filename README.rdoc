@@ -128,9 +128,9 @@ array of URLs to the API call.
 
 == Available Response Columns
 
-The following columns are available for requesting from the API.
+Depending on the type of data point return, you may access certain data points inside the ResponseData object.
 
-=== URL Metrics
+=== Source/Target/URL Metrics
 
 * <tt>:status</tt>
 * <tt>:fq_domain_mozrank</tt>
@@ -166,6 +166,11 @@ The following columns are available for requesting from the API.
 * <tt>:domain_authority</tt>
 * <tt>:fq_domain_mozrank_sum_raw</tt>
 * <tt>:moztrust</tt>
+
+=== Link Metrics
+
+* <tt>:text</tt>
+* <tt>:mozrank</tt> (passed)
 
 === Anchor Text Metrics
 
