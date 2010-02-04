@@ -16,13 +16,15 @@ At this point <tt>response</tt> should be a Linkscape::Response object.  You can
 
   response.data
   
-This returns a Linkscape::Response::ResponseData object, which is the container class for the response data.  From there, you can request specific data points, like:
+This returns a Linkscape::Response::ResponseData object, which is the container class for the response data.
+
+For the urlMetrics and mozrank call, you can request specific data points, like:
 
   response.data[:url]
   response.data[:external_links]
   response.data[:page_authority]
   
-Note that anchor text and link results, those which return an array as a response, are keyed on their respective types.  For example
+For all other calls, such as anchor text, top pages and link data sets, <tt>data</tt> is an array of ResponseData objects, with each one keyed on their respective types.  For example:
 
  response.data.first[:source][:mozrank]               # :source just for topPages and link calls
  response.data.first[:target][:page_authority]        # :target just for link calls
