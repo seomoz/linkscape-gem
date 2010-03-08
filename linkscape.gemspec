@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = %q{linkscape}
-  s.version = "0.2.1"
-  s.date = %q{2010-02-02}
+  s.version = "0.2.2"
+  s.date = %q{2010-03-8}
   s.authors = ["Marty Smyth", "Jeff Pollard"]
   s.email = %q{api@seomoz.org}
   s.summary = %q{Provides an interface to the SEOmoz API}
