@@ -126,7 +126,7 @@ module Linkscape
       options[:api] = 'top-pages'
       
       options[:query] = {
-        'Cols' => translateBitfield(options[:cols], options[:columns], options[:linkcols], :type => :url),
+        'Cols' => translateBitfield(options[:cols], options[:columns], options[:sourcecols], options[:sourcecolumns], options[:urlcols], :type => :url),
       }
 
       raise MissingArgument, "topPages requires a list of columns to return." unless options[:query]['Cols'].nonzero?
