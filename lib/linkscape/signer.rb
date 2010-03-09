@@ -1,9 +1,5 @@
 module Linkscape
   class Signer
-    require 'rubygems'
-    require 'cgi'
-    require 'base64'
-    require 'hmac-sha1'
     
     def self.signParams params, keysToSign=[:accessID, :expiration], key = nil
       params[:expiration] ||= Time.now.to_i + 60

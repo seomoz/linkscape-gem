@@ -1,3 +1,8 @@
+require 'rubygems'
+require 'cgi'
+require 'base64'
+require 'hmac-sha1'
+
 directory = File.expand_path(File.dirname(__FILE__))
 
 require File.join(directory, 'hash-ext') unless Hash.method_defined?(:symbolize_keys)

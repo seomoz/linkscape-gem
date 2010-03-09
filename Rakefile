@@ -10,7 +10,7 @@ begin
     gem.email = %q{api@seomoz.org}
     gem.homepage = "http://www.seomoz.org/api"
     gem.authors = ["Marty Smyth", "Jeff Pollard"]
-    gem.add_development_dependency "ruby-hmac", ">= 0"
+    gem.add_dependency "ruby-hmac", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
   end
   Jeweler::GemcutterTasks.new
