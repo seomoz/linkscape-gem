@@ -1,6 +1,6 @@
 = Linkscape Gem
 
-This is the official Gem to interact with the SEOmoz API.  For more information, please check out the {API page on SEOmoz}[http://www.seomoz.org/api] and the {SEOmoz API Wiki}[http://apiwiki.seomoz.org]
+This is the official Gem to interact with the SEOmoz API.  For more information, please check out the {API page on SEOmoz}[http://www.seomoz.org/api] and the {SEOmoz API Wiki}[http://apiwiki.seomoz.org].   Note: this gem is currently an alpha release, and is not intended for production use...yet.
 
 == Usage
 
