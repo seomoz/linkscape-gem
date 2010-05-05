@@ -8,7 +8,7 @@ begin
     gem.summary = %Q{Provides an interface to the SEOmoz API}
     gem.description = %Q{Provides an interface to SEOmoz's suite of APIs, including the free and site intelligence APIs.}
     gem.email = %q{api@seomoz.org}
-    gem.homepage = "http://www.seomoz.org/api"
+    gem.homepage = "http://github.com/seomoz/linkscape-gem"
     gem.authors = ["Marty Smyth", "Jeff Pollard"]
     gem.add_dependency "ruby-hmac", ">= 0"
     # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
