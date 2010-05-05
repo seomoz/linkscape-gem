@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{linkscape}
-  s.version = "0.2.5"
+  s.version = "0.2.6"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Marty Smyth", "Jeff Pollard"]
-  s.date = %q{2010-03-08}
+  s.date = %q{2010-05-05}
   s.description = %q{Provides an interface to SEOmoz's suite of APIs, including the free and site intelligence APIs.}
   s.email = %q{api@seomoz.org}
   s.extra_rdoc_files = [
