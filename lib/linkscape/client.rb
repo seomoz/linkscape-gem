@@ -134,6 +134,12 @@ module Linkscape
       Linkscape::Request.run(@options.merge(options))
     end
 
+    def status(*args)
+      options = Hash === args.last ? args.pop.symbolize_keys : {}
+      options[:api] = 'status'
+      Linkscape::Request.run(@options.merge(options))
+    end
+
 
     def anchorMetrics(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
