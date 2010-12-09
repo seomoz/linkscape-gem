@@ -32,8 +32,17 @@ module Linkscape
         elsif Array === @data
           :array
         end
+        
         @data.symbolize_keys! if Hash === @data
         @data = @data.collect{|d|ResponseData.new(d)} if Array === @data
+        
+        if Hash === @data && !type.nil?
+          Linkscape::Constants::CalculationKeyMap.each do |key, keys|
+            unless @data[keys[0]].nil? or @data[keys[1]].nil?
+              @data[key] = @data[keys[0]] - @data[keys[1]]
+            end
+          end
+        end
         
         if @type == :hash
           subdatas = {}
@@ -75,11 +84,7 @@ module Linkscape
         printer = Proc.new do |h,prefix|
           o = ""
           h.sort{|l,r|l[0].to_s<=>r[0].to_s}.each do |k,v|
-            field = Linkscape::Constants::ResponseFields[k]
             v = v.to_s
-            # v = ((field && field[:bitfield]) ? v.to_a.inspect : v).to_s
-            #desc = field ? field[:name] : '*'+k.inspect
-            #o += %Q[%s%-#{Linkscape::Constants::LongestNameLength+15}.#{Linkscape::Constants::LongestNameLength+15}s - %s\n] % [prefix, desc, v]
             o += %Q[%s%-#{Linkscape::Constants::LongestKeyLength+5}.#{Linkscape::Constants::LongestKeyLength+5}s - %s\n] % [prefix, k, v]
           end
           o

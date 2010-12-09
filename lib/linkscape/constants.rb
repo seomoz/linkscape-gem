@@ -242,6 +242,98 @@ module Linkscape
         :desc => %Q[The pay-level domain (PL domain) as it's identified in the Linkscape index],
       },
       
+      :ued => {
+        :key => :all_external_links,
+        :name => 'All external links page to page',
+        :desc => %Q[The number of external links from one page to another (included followed and nofollowed).]
+      },
+      :ujfq => {
+        :key => :juice_fq_domains_linking,
+        :name => 'Followed Domains Linking Page',
+        :desc => %Q[The number of unique domains with followed links to the target url.]
+      },
+      :ujp => {
+        :key => :juice_ips_linking,
+        :name => 'Followed IPs Linking',
+        :desc => %Q[The number unique IPs with a followable link to a target url.]
+      },
+      :uip => {
+        :key => :ips_linking,
+        :name => 'IPs Linking',
+        :desc => %Q[The total number of unique IPs linking to a target url.]
+      },
+      :ujpl => {
+        :key => :juice_pl_domains_linking,
+        :name => 'Followed Domains to Page',
+        :desc => %Q[The number of unique domains with followed links to a given url.]
+      },
+      :uib => {
+        :key => :cblocks_linking,
+        :name => 'All Cblock Linking',
+        :desc => %Q[The total number unique cblocks linking to a page.]
+      },
+      :ujb => {
+        :key => :juice_cblocks_linking,
+        :name => 'Followed CBLocks Linking',
+        :desc => %Q[The total number unique cblocks with followed links to a page.]
+      },
+      :fjid => {
+        :key => :fq_domain_juice_links,
+        :name => 'Followed Subdomain Linking Domains',
+        :desc => %Q[A count of all unique subdomains with followed links to the target domain.]
+      },
+      :fed => {
+        :key => :fq_domain_all_external_links,
+        :name => 'Subdomain External Links',
+        :desc => %Q[The total number (followed and nofollowed) external links to the subdomain of the url.]
+      },
+      :fjf => {
+        :key => :fq_domain_juice_fq_domains_linking,
+        :name => 'Followed Subdomain Subdomains Links',
+        :desc => %Q[The number of subdomains with followed links to the subdomain of the url.]
+      },
+      :fjd => {
+        :key => :fq_domain_juice_pl_domains_linking,
+        :name => 'Followed Domain Subdomains Links',
+        :desc => %Q[The number of unique domains with followed links to the subdomain of the url.]
+      },
+      :pjid => {
+        :key => :pl_domain_juice_links,
+        :name => 'Followed Root Domain Links',
+        :desc => %Q[The total number of followed links (both internal and external) from a page to a domain.]
+      },
+      :ped => {
+        :key => :pl_domain_all_external_links,
+        :name => 'All Root Domain External Links',
+        :desc => %Q[The total number of external links (both followed and no-followed) from a page to a domain.]
+      },
+      :pjd => {
+        :key => :pl_domain_juice_pl_domains_linking,
+        :name => 'All Followed Root Domains Linking Domain',
+        :desc => %Q[The total number of followed root domains linking to the target's domain.]
+      },
+      :pip => {
+        :key => :pl_domain_ips_linking,
+        :name => 'IPs Linking to Domain',
+        :desc => %Q[The total number of unique IPs linking to the target's domain.]
+      },
+      :pjip => {
+        :key => :pl_domain_juice_ips_linking,
+        :name => 'Followed IPs Linking to Domain',
+        :desc => %Q[The total number of unique IPs with followed links to the target's domain.]
+      },
+      :pib => {
+        :key => :pl_domain_cblocks_linking,
+        :name => 'All Cblock Linking Domain',
+        :desc => %Q[The number of unique cblocks with a link to a domain.]
+      },
+      :pjb => {
+        :key => :pl_domain_juice_cblocks_linking,
+        :name => 'Followed Cblock Linking Domain',
+        :desc => %Q[The total number of cblock with followed links to a domain.]
+      },
+      
+      
       :upa => {
         :name => 'Page Authority',
         :key => :page_authority,
@@ -268,8 +360,8 @@ module Linkscape
       nil  => :source,
       :lu  => :target,
     }
-
-
+    
+    
     LinkResponseFields = {
       :t => {
         :name => 'Anchor Text',
@@ -311,8 +403,8 @@ module Linkscape
     LinkResponsePrefixes = {
       :l   => :link,
     }
-
-
+    
+    
     AnchorResponseFields = {
       :t => {
         :name => 'Anchor Text',
@@ -374,10 +466,45 @@ module Linkscape
       :atf => :anchor,
       :atu => :anchor,
     }
-
-
+    
+    # For values calculated from other values.
+    # format is  [ :unknown_fraction,  [ :whole_value, :known_fraction ] ]
+    # result is  data[:unknown_fraction] = data[:whole_value] - data[:known_fraction]
+    # IFF both data[:whole_value] and data[:known_fraction] are present.
+    # 
+    # Some calculated values are based on other calculated values,
+    # so be careful about the ordering of the list.
+    CalculationKeyMap = [
+      [:unfollowed_external_links,                  [ :all_external_links,           :external_links                     ]],
+      [:unfollowed_links,                           [ :links,                        :juice_links                        ]],
+      [:juice_internal_links,                       [ :juice_links,                  :external_links                     ]],
+      [:internal_links,                             [ :links,                        :all_external_links                 ]],
+      [:unfollowed_internal_links,                  [ :internal_links,               :juice_internal_links               ]],
+      
+      [:fq_domain_unfollowed_external_links,        [ :fq_domain_all_external_links, :fq_domain_external_links           ]],
+      [:fq_domain_unfollowed_links,                 [ :fq_domain_links,              :fq_domain_juice_links              ]],
+      [:fq_domain_juice_internal_links,             [ :fq_domain_juice_links,        :fq_domain_external_links           ]],
+      [:fq_domain_internal_links,                   [ :fq_domain_links,              :fq_domain_all_external_links       ]],
+      [:fq_domain_unfollowed_internal_links,        [ :fq_domain_internal_links,     :fq_domain_juice_internal_links     ]],
+      
+      [:pl_domain_unfollowed_external_links,        [ :pl_domain_all_external_links, :pl_domain_external_links           ]],
+      [:pl_domain_unfollowed_links,                 [ :pl_domain_links,              :pl_domain_juice_links              ]],
+      [:pl_domain_juice_internal_links,             [ :pl_domain_juice_links,        :pl_domain_external_links           ]],
+      [:pl_domain_internal_links,                   [ :pl_domain_links,              :pl_domain_all_external_links       ]],
+      [:pl_domain_unfollowed_internal_links,        [ :pl_domain_internal_links,     :pl_domain_juice_internal_links     ]],
+      
+      [:unfollowed_fq_domains_linking,              [ :fq_domains_linking,           :juice_fq_domains_linking           ]],
+      [:unfollowed_pl_domains_linking,              [ :pl_domains_linking,           :juice_pl_domains_linking           ]],
+      [:fq_domain_unfollowed_fq_domains_linking,    [ :fq_domain_fq_domains_linking, :fq_domain_juice_fq_domains_linking ]],
+      [:pl_domain_unfollowed_pl_domains_linking,    [ :pl_domain_pl_domains_linking, :pl_domain_juice_pl_domains_linking ]],
+      [:fq_domain_unfollowed_pl_domains_linking,    [ :fq_domain_pl_domains_linking, :fq_domain_juice_pl_domains_linking ]],
+      [:unfollowed_ips_linking,                     [ :ips_linking,                  :juice_ips_linking                  ]],
+      [:unfollowed_cblocks_linking,                 [ :cblocks_linking,              :juice_cblocks_linking              ]],
+      [:pl_domain_unfollowed_cblocks_linking,       [ :pl_domain_cblocks_linking,    :pl_domain_juice_cblocks_linking    ]],
+      [:pl_domain_unfollowed_ips_linking,           [ :pl_domain_ips_linking,        :pl_domain_juice_ips_linking        ]],
+    ]
     ResponseFields = {}
-
+    
     URLResponsePrefixes.each do |prefix, subject|
       URLResponseFields.each do |k,v|
         v = v.dup.merge(
@@ -408,11 +535,11 @@ module Linkscape
         ResponseFields[v[:source]] = v
       end
     end
-
+    
     ResponseFields.keys.each {|k| ResponseFields[ResponseFields[k][:key]] ||= ResponseFields[k] if ResponseFields[k][:key] }
-
+    
     LongestNameLength = ResponseFields.collect{|k,v|v[:name].length}.max
     LongestKeyLength = ResponseFields.collect{|k,v|v[:key].to_s.length}.max
-
+    
   end
 end
