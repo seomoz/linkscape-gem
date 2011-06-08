@@ -10,6 +10,7 @@ module Linkscape
     attr_accessor :requestURL
     
     URL_TEMPLATE = %Q[http://:apiHost:/:apiRoot:/:api:/:url:?AccessID=:accessID:&Expires=:expiration:&Signature=:signature:]
+    MAX_URL_LENGTH = 500
 
     def self.run(options)
       self.new(options).run
@@ -28,6 +29,10 @@ module Linkscape
         else
           raise "URL most be a String or an Array"
         end
+      end
+
+      if Array(new_vals[:url]).any? { |u| u.length > MAX_URL_LENGTH }
+        raise ArgumentError.new("Request URLs must be < #{MAX_URL_LENGTH} long")
       end
      
       @requestURL = URL_TEMPLATE.template(signRequest(options.merge(new_vals)))
