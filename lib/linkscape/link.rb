@@ -71,7 +71,7 @@ class Linkscape::Link < Linkscape::Resource
       :is_same_root_domain, :is_feed, :is_rel_canonical, :is_via_301]
       
     link_flags.each {|key|
-      @attributes[key] = (flags & LinkscapeFields::HUMAN[key][:flag]) > 0
+      @attributes[key] = (flags & Linkscape::Fields::HUMAN[key][:flag]) > 0
     }
     @attributes.delete(:lf) 
   end
@@ -87,7 +87,7 @@ class Linkscape::Link < Linkscape::Resource
   def self.theoretical_count(site, params = {}, metrics = nil)
     
     # We need to look it up
-    metrics = UrlMetric.find(site) unless metrics
+    metrics = Linkscape::UrlMetric.find(site) unless metrics
     
     case params[:target]
     when "page"
