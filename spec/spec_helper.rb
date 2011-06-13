@@ -1,0 +1,2 @@
+require "linkscape"
+require "fakeweb"

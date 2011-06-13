@@ -1,17 +1,27 @@
-require 'rubygems'
 require 'cgi'
 require 'base64'
 require 'hmac-sha1'
 
-directory = File.expand_path(File.dirname(__FILE__))
+require 'linkscape/configuration'
+require 'linkscape/link'
+require 'linkscape/anchor'
+require 'linkscape/page'
+require 'linkscape/url_metric'
+require 'linkscape/fields'
 
-require File.join(directory, 'hash-ext') unless Hash.method_defined?(:symbolize_keys)
-require File.join(directory, 'string-ext')
+#require File.join(directory, 'hash-ext') unless Hash.method_defined?(:symbolize_keys)
 
-require File.join(directory, 'linkscape', 'signer')
-require File.join(directory, 'linkscape', 'constants')
 
-require File.join(directory, 'linkscape', 'client')
-require File.join(directory, 'linkscape', 'request')
-require File.join(directory, 'linkscape', 'response')
-require File.join(directory, 'linkscape', 'errors')
+module Linkscape
+  
+  def self.config
+    @config ||= Configuration.new
+  end
+  
+  def self.configure
+    yield config
+    
+    Linkscape::Resource.user = config.access_id
+    Linkscape::Resource.password = config.access_key
+  end
+end
