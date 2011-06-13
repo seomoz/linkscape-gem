@@ -1,4 +1,4 @@
-class Page < Linkscape::Resource
+class Linkscape::Page < Linkscape::Resource
   
   self.collection_name = "top-pages"
   

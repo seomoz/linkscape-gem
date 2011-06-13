@@ -1,4 +1,4 @@
-class Anchor < Linkscape::Resource
+class Linkscape::Anchor < Linkscape::Resource
   
   self.collection_name = "anchor-text"
 
