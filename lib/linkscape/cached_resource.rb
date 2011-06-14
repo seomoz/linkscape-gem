@@ -1,8 +1,7 @@
 require 'active_support/concern'
 
 ##
-# Provide caching of resources on reads. Hooks into Rails.cache and automatically caches
-# remote data.
+# Provide caching of resources on reads.
 module Linkscape::CachedResource
   extend ActiveSupport::Concern
   
@@ -14,10 +13,23 @@ module Linkscape::CachedResource
   end
   
   module ClassMethods
+    
+    ##
+    # @return [Integer] The number of seconds the resource should cached.
+    # @author Brad Seefeld (brad@urbaninfluence.com)
     def cache_expires_in
       Linkscape.config.cache_for
     end
     
+    ##
+    # This method is automatically called when a find operation is called. It attempts
+    # to perform the find operation using the cache instead of going across the wire. If
+    # the resource is found in the cache, that value is used, otherwise, the normal find
+    # operation is executed.
+    # 
+    # @param [] arguments Argumentst that are normally passed to the find method
+    # @return [Object] The response
+    # @author Brad Seefeld (brad@urbaninfluence.com)
     def find_with_read_through_cache(*arguments)
       key = cache_key(arguments)
       result = Linkscape.config.cache.read(key).try(:dup)
@@ -25,15 +37,14 @@ module Linkscape::CachedResource
       unless result
         result = find_without_read_through_cache(*arguments)
         
-        # TODO is result an error?
-        
+        # Assuming there is an error, an exception is thrown. Cache away!
         Linkscape.config.cache.write(key, result, :expires_in => self.cache_expires_in)
       end
       
       result
     end
     
-    private
+  private
     
     def cache_key(args)
       key = name

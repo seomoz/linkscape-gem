@@ -16,7 +16,10 @@ class Linkscape::Resource < ActiveResource::Base
   
   self.include_root_in_json = false
   
-  # A poor implementation of caching. This isnt caching.
+  ##
+  # A poor implementation of caching. This isnt caching. This is used internally
+  # when a true cache store has not been provided. When this happens, results are
+  # cached only for the duration of the session.
   @@crummy_cache = {}
   
   ##
@@ -176,7 +179,7 @@ class Linkscape::Resource < ActiveResource::Base
     end
   end
   
-  private
+private
   
   ##
   # 'Gracefully' paginate through the resource. This pagination method will automatically
@@ -186,7 +189,7 @@ class Linkscape::Resource < ActiveResource::Base
   # helpful since the API does not provide any information for paging and often times, client
   # applications are blindly paging through the results. 
   #
-  # If a redis client has been provided, the results are cached.
+  # If a cache client has been provided, the results are cached.
   #
   # @param page [Number] The page number. Should be > 0
   # @param limit [Number] The max number of results to appear on a page

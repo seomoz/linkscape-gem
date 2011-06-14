@@ -1,13 +1,10 @@
-require 'cgi'
-require 'base64'
-require 'hmac-sha1'
-
 require 'linkscape/configuration'
 require 'linkscape/link'
 require 'linkscape/anchor'
 require 'linkscape/page'
 require 'linkscape/url_metric'
 require 'linkscape/fields'
+require 'linkscape/signer'
 
 #require File.join(directory, 'hash-ext') unless Hash.method_defined?(:symbolize_keys)
 

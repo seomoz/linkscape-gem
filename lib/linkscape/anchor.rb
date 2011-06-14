@@ -1,5 +1,10 @@
+##
+# Model a Linkscape Anchor resource.
+# 
+# @author Brad Seefeld (brad@urbaninfluence.com)
 class Linkscape::Anchor < Linkscape::Resource
   
+  # The API path
   self.collection_name = "anchor-text"
 
   ##

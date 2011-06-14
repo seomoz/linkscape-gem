@@ -18,7 +18,7 @@ class Linkscape::Fields
       :key  => :ut,
       :desc => %Q[The title of the page if available. For example: "Request-Response Format"]
     },
-    :is_nofollow => {
+    :nofollow? => {
       :name => "Is No Follow?",
       :flag => 2**0,
       :desc => %Q[The link in question bore a "rel=nofollow" directive indicating that no juice should flow over the link.]
@@ -29,7 +29,7 @@ class Linkscape::Fields
       :key => :atut,
       :desc => %Q[The anchor text term or phrase]
     },
-    :is_same_sub_domain => {
+    :same_sub_domain? => {
       :name => "Is Same Sub Domain?",
       :flag => 2**1,
       :desc => %Q[The link is between two pages on the same domain.]
@@ -39,62 +39,62 @@ class Linkscape::Fields
       :flag => 2**2,
       :desc => %Q[The url of the page.  For example: "apiwiki.seomoz.org/Request-Response+Format"]
     },
-    :is_meta_refresh => {
+    :meta_refresh? => {
       :name => "Has Meta-Refresh?",
       :flag => 2**2,
       :desc => %Q[The link is actually a meta refresh from the source page to the target]
     },
-    :is_same_ip => {
+    :same_ip? => {
       :name => "Has Same IP?",
       :flag => 2**3,
       :desc => %Q[The link is between two pages hosted on the same IP address, strongly indicating a potential administrative relationship between the two.]
     },
-    :is_same_cblock => {
+    :same_cblock? => {
       :name => "Has Same C-Block?",
       :flag => 2**4,
       :desc => %Q[The link is between two pages hosted on the same C Block of IP addresses, indicating a potential administrative relationship between the two.]
     },
-    :is_301 => {
+    :http_301? => {
       :name => "Is 301 Redirect?",
       :flag => 2**6,
       :desc => %Q[The link is a 301 redirect.  The source page returned a 301 redirect to our crawler, indicating that the resource was available on the target.]
     },
-    :is_302 => {
+    :http_302? => {
       :name => "Is 302 Redirect?",
       :flag => 2**7,
       :desc => %Q[The link is a 302 redirect.  The source page returned a 302 redirect to our crawler, indicating that the resource was temporarily available on the target.]
     },
-    :is_noscript => {
+    :noscript? => {
       :name => "Appears in noscript",
       :flag => 2**8,
       :desc => %Q[The link was located within a noscript html block. This means the link may not have been visible to users using javascript.]
     },
-    :is_off_screen => {
+    :off_screen? => {
       :name => "Appears Off-Screen",
       :flag => 2**9,
       :desc => %Q[We determined that the link likely appears offscreen.  This means that the link may not have been visible to most users.]
     },
-    :is_meta_nofollow => {
+    :meta_nofollow? => {
       :name => "Has Meta Nofollow",
       :flag => 2**11,
       :desc => %Q[The link appeared on a page using a page level (meta) no follow directive.  This link passes no juice.]
     },
-    :is_same_root_domain => {
+    :same_root_domain? => {
       :name => "Has Same Root Domain?",
       :flag => 2**12,
       :desc => %Q[The link is between two pages on the same root domain.  The link is internal, and strongly indicates an administrative relationship between the two pages.]
     },
-    :is_feed => {
+    :feed? => {
       :name => "Is Syndication Feed?",
       :flag => 2**14,
       :desc => %Q[The link indicates a syndication feed (e.g. rss or atom) for the source page.]
     },
-    :is_rel_canonical => {
+    :rel_canonical? => {
       :name => "Is Rel Canonical",
       :flag => 2**15,
       :desc => %Q[The link indicates a canonical form of the page using the rel=canonical directive.]
     },
-    :is_via_301 => {
+    :via_301? => {
       :name => "Is Found via 301?",
       :flag => 2**16,
       :desc => %Q[The source page actually links to some other URL which redirects via a 301 to the target page.]
@@ -437,7 +437,6 @@ class Linkscape::Fields
       :key  => :pib,
       :desc => %Q[The number of unique cblocks with a link to a domain.]
     },
-    
     
     # Fields that should not be included as flags, but are included in responses.
     :internal_source_url_id => {

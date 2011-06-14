@@ -1,6 +1,10 @@
 require "logger"
 require "linkscape/session_cache"
 
+##
+# Basic configuration data for the LSAPI.
+# 
+# @author Brad Seefeld (brad@urbaninfluence.com)
 module Linkscape
   class Configuration
     attr_accessor :cache, :logger, :access_id, :access_key, :cache_for

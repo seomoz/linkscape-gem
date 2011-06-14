@@ -66,14 +66,14 @@ class Linkscape::Link < Linkscape::Resource
     flags = flags.to_i
     
     # Expand the bit flag field
-    link_flags = [:is_nofollow, :is_same_sub_domain, :is_meta_refresh, :is_same_ip, 
-      :is_same_cblock, :is_301, :is_302, :is_noscript, :is_off_screen, :is_meta_nofollow,
-      :is_same_root_domain, :is_feed, :is_rel_canonical, :is_via_301]
+    link_flags = [:nofollow?, :same_sub_domain?, :meta_refresh?, :same_ip?, 
+      :same_cblock?, :http_301?, :http_302?, :noscript?, :off_screen?, :meta_nofollow?,
+      :same_root_domain?, :feed?, :rel_canonical?, :via_301?]
       
     link_flags.each {|key|
       @attributes[key] = (flags & Linkscape::Fields::HUMAN[key][:flag]) > 0
     }
-    @attributes.delete(:lf) 
+    @attributes.delete(:lf)
   end
   
   ##
@@ -103,7 +103,7 @@ class Linkscape::Link < Linkscape::Resource
     count(site, params)
   end
   
-  private
+private
   
   def self.domain_scope_count(metrics, params)
     case params[:source]

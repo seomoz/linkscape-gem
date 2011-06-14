@@ -3,10 +3,20 @@
 #
 class Linkscape::UrlMetric < Linkscape::Resource
   
+  # The LSAPI path for this resource.
   self.collection_name = "url-metrics"
   
+  # A magical number that the API returns if the resource is not found (instead of a 404).
   NOT_FOUND_ID = 18446744073709551615
   
+  ##
+  # Generate the path part of the URL to find a single resource.
+  # 
+  # @param [String] id The unique ID of the resource. Site in our case.
+  # @param [Hash] prefix_options
+  # @param [Hash] query_options
+  # @return [String] The path part of the URL.
+  # @author Brad Seefeld (brad@urbaninfluence.com)
   def self.element_path(id, prefix_options = {}, query_options = nil)
     prefix_options, query_options = split_options(prefix_options) if query_options.nil?
     
@@ -18,152 +28,99 @@ class Linkscape::UrlMetric < Linkscape::Resource
     super
   end
   
-  def is_found?
+  ##
+  # @return [Boolean] True if the metrics were found.
+  # @author Brad Seefeld (brad@urbaninfluence.com)
+  def found?
     return false unless @attributes[:internal_id]
     internal_id != NOT_FOUND_ID
   end
   
-  def is_canonical?
+  ##
+  # @return [Boolean] True if the supplied URL was canonical.
+  # @author Brad Seefeld (brad@urbaninfluence.com)
+  def canonical?
     return false unless @attributes[:internal_id] and @attributes[:canonical_internal_id]
     internal_id == canonical_internal_id
   end
   
   def num_internal_follow_links_to_page
-    return nil unless self.respond_to? :num_follow_links_to_page
-    return nil unless self.respond_to? :num_external_follow_links_to_page
-    return nil unless num_follow_links_to_page
-    return nil unless num_external_follow_links_to_page
-    
+    return nil unless present?(:num_follow_links_to_page, :num_external_follow_links_to_page)    
     num_follow_links_to_page - num_external_follow_links_to_page
   end
   
   def num_nofollow_links_to_page
-    return nil unless self.respond_to? :num_links
-    return nil unless self.respond_to? :num_follow_links_to_page
-    return nil unless num_links
-    return nil unless num_follow_links_to_page
-    
+    return nil unless present?(:num_links, :num_follow_links_to_page)
     num_links - num_follow_links_to_page
   end
   
   def num_external_nofollow_links_to_page
-    return nil unless self.respond_to? :num_external_links_to_page
-    return nil unless self.respond_to? :num_external_follow_links_to_page
-    return nil unless num_external_links_to_page
-    return nil unless num_external_follow_links_to_page
-    
+    return nil unless present?(:num_external_links_to_page, :num_external_follow_links_to_page)
     num_external_links_to_page - num_external_follow_links_to_page
   end
   
   def num_internal_nofollow_links_to_page
-    return nil unless self.respond_to? :num_nofollow_links_to_page
-    return nil unless self.respond_to? :num_external_nofollow_links_to_page
-    return nil unless num_nofollow_links_to_page
-    return nil unless num_external_nofollow_links_to_page
-    
+    return nil unless present?(:num_nofollow_links_to_page, :num_external_nofollow_links_to_page)
     num_nofollow_links_to_page - num_external_nofollow_links_to_page
   end
   
   def num_internal_links_to_page
-    return nil unless self.respond_to? :num_links
-    return nil unless self.respond_to? :num_external_links_to_page
-    return nil unless num_links
-    return nil unless num_external_links_to_page
-    
+    return nil unless present?(:num_links, :num_external_links_to_page)    
     num_links - num_external_links_to_page
   end
   
   def num_internal_follow_links_to_subdomain
-    return nil unless self.respond_to? :num_follow_links_to_subdomain
-    return nil unless self.respond_to? :num_external_follow_links_to_subdomain
-    return nil unless num_follow_links_to_subdomain
-    return nil unless num_external_follow_links_to_subdomain
-    
+    return nil unless present?(:num_follow_links_to_subdomain, :num_external_follow_links_to_subdomain)
     num_follow_links_to_subdomain - num_external_follow_links_to_subdomain
   end
   
   def num_internal_links_to_subdomain
-    return nil unless self.respond_to? :num_links_to_subdomain
-    return nil unless self.respond_to? :num_external_links_to_subdomain
-    return nil unless num_links_to_subdomain
-    return nil unless num_external_links_to_subdomain
-    
+    return nil unless present?(:num_links_to_subdomain, :num_external_links_to_subdomain)
     num_links_to_subdomain - num_external_links_to_subdomain
   end
   
   def num_nofollow_links_to_subdomain
-    return nil unless self.respond_to? :num_links_to_subdomain
-    return nil unless self.respond_to? :num_follow_links_to_subdomain
-    return nil unless num_links_to_subdomain
-    return nil unless num_follow_links_to_subdomain
-    
+    return nil unless present?(:num_links_to_subdomain, :num_follow_links_to_subdomain)    
     num_links_to_subdomain - num_follow_links_to_subdomain
   end
   
   def num_external_nofollow_links_to_subdomain
-    return nil unless self.respond_to? :num_external_links_to_subdomain
-    return nil unless self.respond_to? :num_external_follow_links_to_subdomain
-    return nil unless num_external_links_to_subdomain
-    return nil unless num_external_follow_links_to_subdomain
-    
+    return nil unless present?(:num_external_links_to_subdomain, :num_external_follow_links_to_subdomain)
     num_external_links_to_subdomain - num_external_follow_links_to_subdomain
   end
   
   def num_internal_nofollow_links_to_subdomain
-    return nil unless self.respond_to? :num_nofollow_links_to_subdomain
-    return nil unless self.respond_to? :num_external_nofollow_links_to_subdomain
-    return nil unless num_nofollow_links_to_subdomain
-    return nil unless num_external_nofollow_links_to_subdomain
+    return nil unless present?(:num_nofollow_links_to_subdomain, :num_external_nofollow_links_to_subdomain)
     num_nofollow_links_to_subdomain - num_external_nofollow_links_to_subdomain
   end
   
   def num_internal_links_to_domain
-    return nil unless self.respond_to? :num_links_to_domain
-    return nil unless self.respond_to? :num_external_links_to_domain
-    return nil unless num_links_to_domain
-    return nil unless num_external_links_to_domain
-    
+    return nil unless present?(:num_links_to_domain, :num_external_links_to_domain)
     num_links_to_domain - num_external_links_to_domain
   end
   
   def num_nofollow_links_to_domain
-    return nil unless self.respond_to? :num_links_to_domain
-    return nil unless self.respond_to? :num_follow_links_to_domain
-    return nil unless num_links_to_domain
-    return nil unless num_follow_links_to_domain
-    
+    return nil unless present?(:num_links_to_domain, :num_follow_links_to_domain)    
     num_links_to_domain - num_follow_links_to_domain
   end
   
   def num_external_nofollow_links_to_domain
-    return nil unless self.respond_to? :num_external_links_to_domain
-    return nil unless self.respond_to? :num_external_follow_links_to_domain
-    return nil unless num_external_links_to_domain
-    return nil unless num_external_follow_links_to_domain
-    
+    return nil unless present?(:num_external_links_to_domain, :num_external_follow_links_to_domain)
     num_external_links_to_domain - num_external_follow_links_to_domain
   end
   
   def num_internal_nofollow_links_to_domain
-    return nil unless self.respond_to? :num_nofollow_links_to_domain
-    return nil unless self.respond_to? :num_external_nofollow_links_to_domain
-    return nil unless num_nofollow_links_to_domain
-    return nil unless num_external_nofollow_links_to_domain
-    
+    return nil unless present?(:num_nofollow_links_to_domain, :num_external_nofollow_links_to_domain)
     num_nofollow_links_to_domain - num_external_nofollow_links_to_domain
   end
   
   def num_internal_follow_links_to_domain
-    return nil unless self.respond_to? :num_follow_links_to_domain
-    return nil unless self.respond_to? :num_external_follow_links_to_domain
-    return nil unless num_follow_links_to_domain
-    return nil unless num_external_follow_links_to_domain
-    
+    return nil unless present?(:num_follow_links_to_domain, :num_external_follow_links_to_domain)
     num_follow_links_to_domain - num_external_follow_links_to_domain
   end
   
   def to_json(options = {})
-    methods = [:is_canonical?, :num_internal_follow_links_to_page, :num_nofollow_links_to_page,
+    methods = [:canonical?, :num_internal_follow_links_to_page, :num_nofollow_links_to_page,
       :num_external_nofollow_links_to_page, :num_internal_nofollow_links_to_page, :num_internal_links_to_page,
       :num_internal_follow_links_to_subdomain, :num_internal_links_to_subdomain, :num_nofollow_links_to_subdomain,
       :num_external_nofollow_links_to_subdomain, :num_internal_nofollow_links_to_subdomain,
@@ -192,5 +149,15 @@ class Linkscape::UrlMetric < Linkscape::Resource
       :num_follow_domains_to_page, :num_cblocks_to_page, :num_follow_domains_to_subdomain, :num_follow_domains_to_domain,
       :num_cblocks_to_domain
     ]
+  end
+  
+private
+
+  def present?(*fields)
+    fields.each do |field|
+      return nil unless self.respond_to?(field)
+      return nil unless self.send(field)
+    end
+    true
   end
 end

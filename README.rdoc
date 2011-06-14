@@ -19,7 +19,7 @@ Then you should be able to make one of the predefined API calls
   
 At this point <tt>response</tt> should be a Linkscape::UrlMetric object. You can get various pieces of information by calling its instance methods:
 
-  response.is_canonical?
+  response.canonical?
   response.num_nofollow_links_to_page
   response.page_authority
 
@@ -37,7 +37,7 @@ All of the normal ActiveResource methods are provided. In addition, each resourc
 
 === MozRank
 
-Returns the mozRank of the supplied URI.
+Returns the MozRank of the supplied URI.
 
   Linkscape::UrlMetric.find(uri).mozrank
 

@@ -3,27 +3,27 @@ require 'spec_helper'
 describe Linkscape::UrlMetric do
   
   it "knows when it is not found when nothing has been loaded" do
-    Linkscape::UrlMetric.new.is_found?.should_not be_true
+    Linkscape::UrlMetric.new.found?.should_not be_true
   end
   
   it "is not found when the magic not found id is present" do
-    Linkscape::UrlMetric.new({:internal_id => Linkscape::UrlMetric::NOT_FOUND_ID}).is_found?.should_not be_true
+    Linkscape::UrlMetric.new({:internal_id => Linkscape::UrlMetric::NOT_FOUND_ID}).found?.should_not be_true
   end
   
   it "knows when it is found" do
-    Linkscape::UrlMetric.new({:internal_id => 389393838}).is_found?.should be_true
+    Linkscape::UrlMetric.new({:internal_id => 389393838}).found?.should be_true
   end
   
   it "is canonical when IDs match" do
-    Linkscape::UrlMetric.new({:internal_id => 7, :canonical_internal_id => 7}).is_canonical?.should be_true
+    Linkscape::UrlMetric.new({:internal_id => 7, :canonical_internal_id => 7}).canonical?.should be_true
   end
   
   it "is not canonical when IDs dont match" do
-    Linkscape::UrlMetric.new({:internal_id => 7, :canonical_internal_id => 8}).is_canonical?.should_not be_true
+    Linkscape::UrlMetric.new({:internal_id => 7, :canonical_internal_id => 8}).canonical?.should_not be_true
   end
   
   it "is not canonical when data is not populated" do
-    Linkscape::UrlMetric.new().is_canonical?.should_not be_true
+    Linkscape::UrlMetric.new().canonical?.should_not be_true
   end
   
   context "calculating 'to page' metrics" do
