@@ -13,6 +13,11 @@ describe Linkscape::Link do
     FakeWeb.clean_registry
   end
   
+  it "can set the values of fields with question marks" do
+    link = Linkscape::Link.new(:http_301? => true)
+    link.http_301?.should be_true
+  end  
+  
   context "calculating 'to page' links" do
     
     before(:each) do

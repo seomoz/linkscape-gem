@@ -40,6 +40,31 @@ class Linkscape::Resource < ActiveResource::Base
   end
   
   ##
+  # Copied from ActiveResource::Base. Modified slightly to return an
+  # attribute if exists before attemptingo to parse out equal signs and
+  # question marks.
+  # 
+  # @author Brad Seefeld (brad@urbaninfluence.com)
+  def method_missing(method_symbol, *arguments) #:nodoc:
+    method_name = method_symbol.to_s
+
+    return attributes[method_name] if attributes.include?(method_name)
+    
+    if method_name =~ /(=|\?)$/
+      case $1
+      when "="
+        attributes[$`] = arguments.first
+      when "?"
+        attributes[$`]
+      end
+    else
+      # not set right now but we know about it
+      return nil if known_attributes.include?(method_name)
+      super
+    end
+  end
+  
+  ##
   # Cache the max offset for the given search params.
   #
   # @param params [Hash] A hash of the query parameters that are being used in the search.
