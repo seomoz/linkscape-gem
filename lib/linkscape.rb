@@ -20,5 +20,6 @@ module Linkscape
     
     Linkscape::Resource.user = config.access_id
     Linkscape::Resource.password = config.access_key
+    Linkscape::Resource.timeout = config.timeout
   end
 end

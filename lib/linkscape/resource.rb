@@ -205,7 +205,7 @@ class Linkscape::Resource < ActiveResource::Base
   end
   
 private
-  
+
   ##
   # 'Gracefully' paginate through the resource. This pagination method will automatically
   # find the last page if a page greater than the max is specified. For example, if I ask
