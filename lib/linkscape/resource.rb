@@ -107,6 +107,14 @@ class Linkscape::Resource < ActiveResource::Base
     "#{prefix(prefix_options)}#{collection_name}/#{CGI::escape id.to_s}#{query_string(query_options)}"        
   end
   
+  def self.find(*arguments)
+    scope   = arguments.slice!(0)
+    options = arguments.slice!(0) || {}
+    params = options[:params] || {}
+    options[:params] = normalize_query(params)
+    super(scope, options)
+  end
+  
   ##
   # Override the behavior of the collection path. This path differs in that
   # the 'site' URL param becomes part of the URL. Instead of resource?site=value,
@@ -121,32 +129,7 @@ class Linkscape::Resource < ActiveResource::Base
     site = query_options.delete(:site)
     raise ArgumentError, "A site parameter is expected" unless site
     site = CGI::escape(site)
-    
-    # Handle case sensitivity issue.
-    if !query_options[:Sort] and query_options[:sort]
-      query_options[:Sort] = query_options[:sort]
-    end
-    query_options.delete :sort 
-    
-    # Handle case sensitivity issue.
-    if !query_options[:Scope] and query_options[:scope]
-      query_options[:Scope] = query_options[:scope]
-    end
-    query_options.delete :scope
-    
-    # Convert source columns to a bit field.
-    source_cols = columns_to_bits(query_options[:source_cols])
-    query_options.delete(:source_cols)
-    
-    if source_cols > 0
-      query_options[:SourceCols] = source_cols
-    end
-    
-    target_cols = columns_to_bits(query_options[:target_cols])
-    query_options.delete(:target_cols)
-    if target_cols > 0
-      query_options[:TargetCols] = target_cols
-    end
+    query_options = normalize_query(query_options)
     
     "#{prefix(prefix_options)}#{collection_name}/#{site}#{query_string(query_options)}"
   end
@@ -204,6 +187,37 @@ class Linkscape::Resource < ActiveResource::Base
   end
   
 private
+
+  def self.normalize_query(params)
+    params = params.clone
+    # Handle case sensitivity issue.
+    if !params[:Sort] and params[:sort]
+      params[:Sort] = params[:sort]
+    end
+    params.delete :sort 
+
+    # Handle case sensitivity issue.
+    if !params[:Scope] and params[:scope]
+      params[:Scope] = params[:scope]
+    end
+    params.delete :scope
+
+    # Convert source columns to a bit field.
+    source_cols = columns_to_bits(params[:source_cols])
+    params.delete(:source_cols)
+
+    if source_cols > 0
+      params[:SourceCols] = source_cols
+    end
+
+    target_cols = columns_to_bits(params[:target_cols])
+    params.delete(:target_cols)
+    if target_cols > 0
+      params[:TargetCols] = target_cols
+    end
+    
+    params
+  end
 
   ##
   # 'Gracefully' paginate through the resource. This pagination method will automatically
