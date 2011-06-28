@@ -10,15 +10,17 @@ class Linkscape::Anchor < Linkscape::Resource
   def self.find(*arguments)
     scope   = arguments.slice!(0)
     options = arguments.slice!(0) || {}
-    
+    params = options[:params] || {}
+    options[:params] = params
+        
     # Init defaults as needed
-    options[:scope] = :term_to_page unless (options[:scope] or options[:Scope])
-    options[:sort]  = :domains_linking_page unless options[:sort]
+    params[:scope] = :term_to_page unless (params[:scope] or params[:Scope])
+    params[:sort]  = :domains_linking_page unless options[:sort]
     
-    options[:Cols]  = options[:cols] unless options[:Cols]
-    options[:Cols]  = get_cols unless options[:Cols]
-    options[:Cols]  = columns_to_bits(options[:Cols])
-    options.delete(:cols)
+    params[:Cols]  = params[:cols] unless params[:Cols]
+    params[:Cols]  = get_cols unless params[:Cols]
+    params[:Cols]  = columns_to_bits(params[:Cols])
+    params.delete(:cols)
     super(scope, options)
   end
   
