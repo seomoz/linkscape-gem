@@ -37,30 +37,30 @@ module Linkscape::CachedResource
       result
     end
     
-  private
+private
     
-    def cache_key(args)
-      key = name
-      args.each {|value|
-        if value.is_a? Hash
-          key << "/" << expand_hash(value)
-        else
-          key << "/" << value.to_s
-        end
-      }      
-      key.downcase
-    end
-    
-    def expand_hash(hash)
-      str = ""
-      Hash[hash.sort].each do |k, v|
-        if v.is_a? Hash
-          str << k.to_s << "/" << expand_hash(v)
-        else 
-          str << "/" << k.to_s << "/" << v.to_s
-        end
+  def cache_key(args)
+    Linkscape.config.logger.debug "the keys to cache are #{key}"
+    key = name
+    args.each {|value|
+      if value.is_a? Hash
+        key << "/" << expand_hash(value)
+      else
+        key << "/" << value.to_s
       end
-      str
+    }      
+    key.downcase
+  end
+  
+  def expand_hash(hash)
+    str = ""
+    Hash[hash.sort].each do |k, v|
+      if v.is_a? Hash
+        str << k.to_s << "/" << expand_hash(v)
+      else 
+        str << "/" << k.to_s << "/" << v.to_s
+      end
     end
+    str
   end
 end
