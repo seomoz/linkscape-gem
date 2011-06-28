@@ -7,20 +7,19 @@ class Linkscape::Page < Linkscape::Resource
   # The LSAPI path.
   self.collection_name = "top-pages"
   
-  ##
-  # Provide the path to the links resource collection. In particular, we provide
-  # default values for required fields if none are given.
-  #
-  # @return [String] The path to the remote resource including all parameters
-  def self.collection_path(prefix_options = {}, query_options = nil)
-    prefix_options, query_options = split_options(prefix_options) if query_options.nil?
+  def self.find(*arguments)
+    scope   = arguments.slice!(0)
+    options = arguments.slice!(0) || {}
+    params = options[:params] || {}
+    options[:params] = params
     
     # Add columns.
-    cols = query_options[:cols]
+    cols = params[:cols]
     cols = get_cols unless cols
-    query_options[:Cols] = columns_to_bits(cols) 
-    query_options.delete(:cols)
-    super
+    params[:Cols] = columns_to_bits(cols) 
+    params.delete(:cols)
+    
+    super(scope, options)
   end
   
   ##
