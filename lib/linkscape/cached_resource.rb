@@ -49,7 +49,7 @@ private
           key << "/" << value.to_s
         end
       }      
-      key.downcase
+      "lsapi_request_#{key.downcase.hash}"
     end
   
     def expand_hash(hash)
