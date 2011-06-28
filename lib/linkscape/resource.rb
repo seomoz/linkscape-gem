@@ -290,7 +290,7 @@ private
   # @params[Hash] The parameters that are being sent to the remote API
   # @return [String] A unique string to be used like a hash key
   def self.pagination_key(params)
-    options = Hash[params.sort]
+    options = params.clone
     options.delete(:Limit)
     options.delete(:Offset)
     Linkscape.config.logger.info "the options are #{options}"
