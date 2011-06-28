@@ -294,7 +294,7 @@ private
   # @return [String] A unique string to be used like a hash key
   def self.pagination_key(params)
     unique_hash = ""
-    config.logger.info params
+    Linkscape.config.logger.info params
     Hash[params.sort].each do |key,value|
       unless [:Limit, :Offset].include?(key)
         unique_hash << "&" << key.to_s << "=" << value.to_s
