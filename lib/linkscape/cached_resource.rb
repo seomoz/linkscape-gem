@@ -63,7 +63,7 @@ module Linkscape::CachedResource
     
     def expand_hash(hash)
       str = ""
-      hash.each do |k, v|
+      Hash[hash.sort].each do |k, v|
         if v.is_a? Hash
           str << k.to_s << "/" << expand_hash(v)
         else 
