@@ -293,7 +293,6 @@ private
     options = params.clone
     options.delete(:Limit)
     options.delete(:Offset)
-    Linkscape.config.logger.info "the options are #{options}"
     collection_path({}, options)
   end
   
