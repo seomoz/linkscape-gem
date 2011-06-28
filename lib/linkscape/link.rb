@@ -4,29 +4,28 @@ require "linkscape/resource"
 #
 class Linkscape::Link < Linkscape::Resource
   
-  ##
-  # Provide the path to the links resource collection. In particular, we provide
-  # default values for required fields if none are given.
-  #
-  # @return [String] The path to the remote resource including all parameters
-  def self.collection_path(prefix_options = {}, query_options = nil)
-    prefix_options, query_options = split_options(prefix_options) if query_options.nil?
+  def self.find(*arguments)
+    scope   = arguments.slice!(0)
+    options = arguments.slice!(0) || {}
+    params = options[:params] || {}
+    options[:params] = params
     
     # Init defaults as needed
-    query_options[:scope]       = :page_to_page unless (query_options[:scope] or query_options[:Scope])
-    query_options[:sort]        = :domain_authority unless query_options[:sort]
-    query_options[:target_cols] = get_target_cols unless query_options[:target_cols]
-    query_options[:source_cols] = get_source_cols unless query_options[:source_cols]
+    params[:scope]       = :page_to_page unless (params[:scope] or params[:Scope])
+    query_options[:sort]        = :domain_authority unless params[:sort]
+    query_options[:target_cols] = get_target_cols unless params[:target_cols]
+    query_options[:source_cols] = get_source_cols unless params[:source_cols]
     
-    query_options[:Filter] = query_options[:filter] unless query_options[:Filter]
-    query_options.delete(:filter)
+    params[:Filter] = params[:filter] unless params[:Filter]
+    params.delete(:filter)
     
     # Add link columns.
-    link_cols = query_options[:link_cols]
+    link_cols = params[:link_cols]
     link_cols = get_link_cols unless link_cols
-    query_options[:LinkCols] = columns_to_bits(link_cols) 
-    query_options.delete(:link_cols)
-    super
+    params[:LinkCols] = columns_to_bits(link_cols) 
+    params.delete(:link_cols)
+    
+    super(scope, options)
   end
   
   ##

@@ -220,11 +220,6 @@ describe Linkscape::Link do
       Linkscape::Link.theoretical_count("", @criteria, metrics).should == 3
     end
   end
-  
-  it "includes default values in collection_path" do
-    path = Linkscape::Link.collection_path({:site => "seomoz.org"})
-    path.should == "/linkscape/links/seomoz.org?Filter=&LinkCols=6&Scope=page_to_page&Sort=domain_authority&SourceCols=103079224341&TargetCols=28"
-  end
 end
 
 def mock_count(site, url_metric)
