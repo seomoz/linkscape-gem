@@ -31,9 +31,9 @@ module Linkscape::CachedResource
     # @return [Object] The response
     # @author Brad Seefeld (brad@urbaninfluence.com)
     def find_with_read_through_cache(*arguments)
-      key = cache_key(arguments)      
+      key = cache_key(arguments)
+      Linkscape.config.logger.debug "The Linkscape resource cache key is #{key}"
       result = Linkscape.config.cache.read(key).try(:dup)
-      
       unless result
         result = find_without_read_through_cache(*arguments)
         
