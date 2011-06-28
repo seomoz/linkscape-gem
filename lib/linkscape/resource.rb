@@ -161,8 +161,7 @@ class Linkscape::Resource < ActiveResource::Base
     raise ArgumentError, "Site cannot be nil" unless site
     params = {} unless params
     params[:site] = site
-    max_offset = get_cached_max_offset(params)
-    return max_offset
+    get_cached_max_offset(params)
   end
   
   ##
@@ -291,8 +290,6 @@ private
   # @params[Hash] The parameters that are being sent to the remote API
   # @return [String] A unique string to be used like a hash key
   def self.pagination_key(params)
-    unique_hash = ""
-    Linkscape.config.logger.info params
     options = Hash[params.sort]
     options.delete(:Limit)
     options.delete(:Offset)

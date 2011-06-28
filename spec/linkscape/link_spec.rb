@@ -83,6 +83,11 @@ describe Linkscape::Link do
       metrics = Linkscape::UrlMetric.new({:uid => 10})
       Linkscape::Link.theoretical_count("", @criteria, metrics).should == 10
     end
+    
+    it "is able to get the count from cache" do
+      Linkscape::Link.set_cached_max_offset({:site => "test.com/"}, 3)
+      Linkscape::Link.theoretical_count("test.com/", {}, Linkscape::UrlMetric.new).should == 3
+    end
   end
   
   context "calculating 'to subdomain' link counts" do

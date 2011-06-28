@@ -125,6 +125,11 @@ describe Linkscape::Resource do
     it "raises an ArgumentError when nil is given for site" do
       expect{ Linkscape::Resource.count(nil, nil) }.to raise_error(ArgumentError)
     end
+    
+    it "returns the count" do
+      Linkscape::Resource.set_cached_max_offset({:site => "test.com/"}, 3)
+      Linkscape::Resource.count("test.com/", nil).should == 3
+    end
   end
   
   context "paginating without graceful pagination" do
