@@ -12,9 +12,9 @@ class Linkscape::Link < Linkscape::Resource
     
     # Init defaults as needed
     params[:scope]       = :page_to_page unless (params[:scope] or params[:Scope])
-    query_options[:sort]        = :domain_authority unless params[:sort]
-    query_options[:target_cols] = get_target_cols unless params[:target_cols]
-    query_options[:source_cols] = get_source_cols unless params[:source_cols]
+    params[:sort]        = :domain_authority unless params[:sort]
+    params[:target_cols] = get_target_cols unless params[:target_cols]
+    params[:source_cols] = get_source_cols unless params[:source_cols]
     
     params[:Filter] = params[:filter] unless params[:Filter]
     params.delete(:filter)
