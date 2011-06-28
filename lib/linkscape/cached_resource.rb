@@ -40,7 +40,7 @@ module Linkscape::CachedResource
 private
     
     def cache_key(args)
-      Linkscape.config.logger.debug "the keys to cache are #{key}"
+      Linkscape.config.logger.debug "the keys to cache are #{args}"
       key = name
       args.each {|value|
         if value.is_a? Hash
