@@ -19,6 +19,7 @@ class Linkscape::Anchor < Linkscape::Resource
     options[:Cols]  = get_cols unless options[:Cols]
     options[:Cols]  = columns_to_bits(options[:Cols])
     options.delete(:cols)
+    super(scope, options)
   end
   
   ##
