@@ -5,13 +5,6 @@ require 'active_support/concern'
 module Linkscape::CachedResource
   extend ActiveSupport::Concern
   
-  included do
-    class << self
-      alias_method_chain :find, :read_through_cache
-    end
-    class_attribute :cache_for
-  end
-  
   module ClassMethods
     
     ##
@@ -30,12 +23,12 @@ module Linkscape::CachedResource
     # @param [] arguments Argumentst that are normally passed to the find method
     # @return [Object] The response
     # @author Brad Seefeld (brad@urbaninfluence.com)
-    def find_with_read_through_cache(*arguments)
+    def find(*arguments)
       key = cache_key(arguments)
       Linkscape.config.logger.info "The Linkscape resource cache key is #{key}"
       result = Linkscape.config.cache.read(key).try(:dup)
       unless result
-        result = find_without_read_through_cache(*arguments)
+        result = super
         
         # Assuming there is an error, an exception is thrown. Cache away!
         Linkscape.config.cache.write(key, result, :expires_in => self.cache_expires_in)

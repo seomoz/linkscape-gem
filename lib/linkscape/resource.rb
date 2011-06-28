@@ -6,7 +6,6 @@ require "will_paginate"
 # A generic linkscape resource class. Actual resources should extend this
 # class. They will magically work if named appropriately.
 class Linkscape::Resource < ActiveResource::Base
-  include Linkscape::CachedResource
   
   # URI to API
   self.site = "http://lsapi.seomoz.com/linkscape"
@@ -336,4 +335,6 @@ private
   def self.reset_crummy_cache
     @@crummy_cache = {}
   end
+  
+  include Linkscape::CachedResource
 end
