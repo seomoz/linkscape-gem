@@ -41,7 +41,7 @@ class Linkscape::Resource < ActiveResource::Base
   
   ##
   # Copied from ActiveResource::Base. Modified slightly to return an
-  # attribute if exists before attemptingo to parse out equal signs and
+  # attribute if exists before attempting to parse out equal signs and
   # question marks.
   # 
   # @author Brad Seefeld (brad@urbaninfluence.com)
@@ -294,6 +294,7 @@ private
   # @return [String] A unique string to be used like a hash key
   def self.pagination_key(params)
     unique_hash = ""
+    config.logger.info params
     Hash[params.sort].each do |key,value|
       unless [:Limit, :Offset].include?(key)
         unique_hash << "&" << key.to_s << "=" << value.to_s
