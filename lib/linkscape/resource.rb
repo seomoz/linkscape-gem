@@ -316,6 +316,8 @@ private
   # @return A bit field
   def self.columns_to_bits(columns)
     return 0 unless columns
+    return columns if columns.is_a? Fixnum
+    
     bits = 0
     columns.each do |key|
       col = Linkscape::Fields::HUMAN[key.to_sym]

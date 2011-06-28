@@ -11,7 +11,7 @@ class Linkscape::Anchor < Linkscape::Resource
     scope   = arguments.slice!(0)
     options = arguments.slice!(0) || {}
     params = options[:params] || {}
-    options[:params] = params
+    options[:params] = params.clone
         
     # Init defaults as needed
     params[:scope] = :term_to_page unless (params[:scope] or params[:Scope])
