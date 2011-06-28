@@ -223,9 +223,7 @@ private
   # @return [Array|WillPaginate::Collection] An array with the results enhanced with will_paginate methods.
   def self.gracefully_paginate(page, limit, site, params = {})
     Linkscape.config.logger.info "We didnt find any results and the users page is greater than 1."
-    
-    page_key = pagination_key(params)
-    
+        
     max_offset = get_cached_max_offset(params)
     max_offset = max_offset.to_i if max_offset
     
@@ -295,12 +293,10 @@ private
   def self.pagination_key(params)
     unique_hash = ""
     Linkscape.config.logger.info params
-    Hash[params.sort].each do |key,value|
-      unless [:Limit, :Offset].include?(key)
-        unique_hash << "&" << key.to_s << "=" << value.to_s
-      end
-    end
-    unique_hash
+    options = Hash[params.sort]
+    options.delete(:Limit)
+    options.delete(:Offset)
+    collection_path({}, options)
   end
   
   ##

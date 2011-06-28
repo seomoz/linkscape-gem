@@ -66,8 +66,8 @@ describe Linkscape::Resource do
   
   context "interacting with cached offsets" do
     it "does a poor mans cache when no redis is given" do
-      Linkscape::Resource.set_cached_max_offset({}, 100)
-      Linkscape::Resource.get_cached_max_offset({}).should == 100
+      Linkscape::Resource.set_cached_max_offset({:site => "test.com"}, 100)
+      Linkscape::Resource.get_cached_max_offset({:site => "test.com"}).should == 100
     end
   end
   
@@ -102,13 +102,13 @@ describe Linkscape::Resource do
   
   context "when creating a pagination key" do
     it "does not include limit and offset" do
-      key = Linkscape::Resource.pagination_key({:Limit => 4, :Offset => 5, :property => :value})
-      key.should == "&property=value"
+      key = Linkscape::Resource.pagination_key({:Limit => 4, :Offset => 5, :property => :value, :site => "test.com"})
+      key.should == "/linkscape/resources/test.com?property=value"
     end
     
     it "does not care about ordering" do
-      key1 = Linkscape::Resource.pagination_key({:property3 => :value, :my_key => 4, :asomething => :hello})
-      key2 = Linkscape::Resource.pagination_key({:asomething => :hello, :property3 => :value, :my_key => 4})
+      key1 = Linkscape::Resource.pagination_key({:property3 => :value, :my_key => 4, :asomething => :hello, :site => "test.com"})
+      key2 = Linkscape::Resource.pagination_key({:asomething => :hello, :property3 => :value, :my_key => 4, :site => "test.com"})
       key1.should == key2
     end
   end
