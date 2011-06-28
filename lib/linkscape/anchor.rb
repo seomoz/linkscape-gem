@@ -10,8 +10,11 @@ class Linkscape::Anchor < Linkscape::Resource
   def self.find(*arguments)
     scope   = arguments.slice!(0)
     options = arguments.slice!(0) || {}
-    params = options[:params] || {}
-    options[:params] = params.clone
+    params = {}
+    if options[:params]
+      params = options[:params].clone
+    end
+    options[:params] = params
         
     # Init defaults as needed
     params[:scope] = :term_to_page unless (params[:scope] or params[:Scope])
