@@ -8,7 +8,7 @@ class Linkscape::Fields
   HUMAN = {
     :internal_id => {
       :name => 'Internal ID',
-      :flag => 0,
+      :flag => 1,
       :key => :lrid,
       :desc => %Q[The internal ID]
     },
@@ -449,11 +449,6 @@ class Linkscape::Fields
       :key  => :ltgt,
       :desc => %Q[Internal ID of the target URL (Link)]
     },
-    :internal_id => {
-      :name => "Internal ID",
-      :key => :urid,
-      :desc => %Q[Internal ID of the URL (Source)]
-    },
     :canonical_internal_id => {
       :name => "Internal ID of Canonical",
       :key => :urrid,
@@ -534,6 +529,14 @@ class Linkscape::Fields
     },
     :atuif => {
       :human => :num_subdomains_on_domain_with_anchor_text
+    },
+    :urid => {
+      :human => :internal_id,
+      :desc => %Q[Internal ID of the URL (Source)]
+    },
+    :aturid => {
+      :human => :internal_id,
+      :desc => %Q[Internal ID for the anchor]
     }
   }
   HUMAN.each { |key, value|

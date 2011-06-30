@@ -89,7 +89,7 @@ describe Linkscape::Resource do
     end
     
     it "converts and sets properties that are in the mapping file" do
-      human = :internal_id
+      human = :num_follow_domains_to_domain
       machine = Linkscape::Fields::HUMAN[human][:key]
       attributes = {machine => :my_value}
       
