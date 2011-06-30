@@ -536,7 +536,11 @@ class Linkscape::Fields
     },
     :aturid => {
       :human => :internal_id,
-      :desc => %Q[Internal ID for the anchor]
+      :desc => %Q[Internal ID for the anchor term]
+    },
+    :apurid => {
+      :human => :internal_id,
+      :desc => %Q[Internal ID for anchor phrase]
     }
   }
   HUMAN.each { |key, value|
