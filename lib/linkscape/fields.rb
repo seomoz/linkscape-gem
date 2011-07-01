@@ -541,6 +541,22 @@ class Linkscape::Fields
     :apurid => {
       :human => :internal_id,
       :desc => %Q[Internal ID for anchor phrase]
+    },
+    :apfrid => {
+      :human => :internal_id,
+      :desc  => %Q[Internal ID for anchor phrases to subdomain]
+    },
+    :apprid => {
+      :human => :internal_id,
+      :desc  => %Q[Internal ID for anchor phrases to domain]
+    },
+    :atprid => {
+      :human => :internal_id,
+      :desc  => %Q[Internal ID for anchor terms to domain]
+    },
+    :atfrid => {
+      :human => :internal_id,
+      :desc  => %Q[Internal ID for anchor terms to subdomain]
     }
   }
   HUMAN.each { |key, value|
