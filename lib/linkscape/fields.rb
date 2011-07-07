@@ -557,6 +557,26 @@ class Linkscape::Fields
     :atfrid => {
       :human => :internal_id,
       :desc  => %Q[Internal ID for anchor terms to subdomain]
+    },
+    :apuf => {
+      :human => :anchor_is_image,
+      :desc  => %Q[The anchor is an image]
+    },
+    :appf => {
+      :human => :anchor_is_image,
+      :desc  => %Q[The anchor is an image]
+    },
+    :apff => {
+      :human => :anchor_is_image,
+      :desc => %Q[The anchor is an image]
+    },
+    :atpf => {
+      :human => :anchor_is_image,
+      :desc  => %Q[The anchor is an image]
+    },
+    :atff => {
+      :human => :anchor_is_image,
+      :desc  => %Q[The anchor is an image]
     }
   }
   HUMAN.each { |key, value|
