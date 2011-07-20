@@ -22,6 +22,9 @@ module Linkscape
       if options[:url] 
         case options[:url]
         when String
+          if options[:url].length > MAX_URL_LENGTH
+            raise ArgumentError.new("Request URLs must be < #{MAX_URL_LENGTH} long")
+          end
           new_vals = {:url => CGI::escape(options[:url].sub(/^https?:\/\//, '')) }
         when Array
           @body = options[:url].collect{ |u| u.sub(/^https?:\/\//, '') }
@@ -31,10 +34,6 @@ module Linkscape
         end
       end
 
-      if Array(new_vals[:url]).any? { |u| u.length > MAX_URL_LENGTH }
-        raise ArgumentError.new("Request URLs must be < #{MAX_URL_LENGTH} long")
-      end
-     
       @requestURL = URL_TEMPLATE.template(signRequest(options.merge(new_vals)))
       @requestURL += "&" + options[:query].collect{|k,v| "#{CGI::escape(k.to_s)}=#{CGI::escape(v.to_s)}"}.join('&') if options[:query] && Hash === options[:query]
       @requestURL += "&" + options[:query] if options[:query] && String === options[:query]
