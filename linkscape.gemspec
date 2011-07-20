@@ -39,7 +39,7 @@ Gem::Specification.new do |s|
   ]
   s.homepage = %q{http://github.com/seomoz/linkscape-gem}
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.1}
+  s.rubygems_version = %q{1.6.2}
   s.summary = %q{Provides an interface to the SEOmoz API}
 
   if s.respond_to? :specification_version then
