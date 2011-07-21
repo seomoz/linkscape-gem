@@ -1,4 +1,5 @@
 require 'active_support/concern'
+require 'hmac-sha1'
 
 ##
 # Provide caching of resources on reads.
@@ -49,7 +50,8 @@ private
         end
       }
       Linkscape.config.logger.debug "The keys to cache are #{key}"
-      "lsapi_request_#{key.downcase.hash}"
+      key = Digest::SHA1.hexdigest(key.downcase)
+      "lsapi_request_#{key}"
     end
   
     def expand_hash(hash)
