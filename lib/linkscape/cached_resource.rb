@@ -40,7 +40,6 @@ module Linkscape::CachedResource
 private
     
     def cache_key(args)
-      Linkscape.config.logger.debug "the keys to cache are #{args}"
       key = name
       args.each {|value|
         if value.is_a? Hash
@@ -48,7 +47,8 @@ private
         else
           key << "/" << value.to_s
         end
-      }      
+      }
+      Linkscape.config.logger.debug "The keys to cache are #{key}"
       "lsapi_request_#{key.downcase.hash}"
     end
   
