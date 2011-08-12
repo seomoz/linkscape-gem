@@ -56,7 +56,7 @@ private
         # Invalid byte sequence.
       end
       
-      key = Digest::SHA1.hexdigest(key.downcase)
+      key = Digest::SHA1.hexdigest(key)
       "lsapi_request_#{key}"
     end
   
