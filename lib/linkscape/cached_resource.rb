@@ -50,6 +50,12 @@ private
         end
       }
       Linkscape.config.logger.debug "The keys to cache are #{key}"
+      begin
+        key = key.downcase
+      rescue ArgumentError
+        # Invalid byte sequence.
+      end
+      
       key = Digest::SHA1.hexdigest(key.downcase)
       "lsapi_request_#{key}"
     end
