@@ -45,7 +45,7 @@ class Linkscape::Link < Linkscape::Resource
   # @return [Array] An array of source columns to use by default.
   def self.get_source_cols
     [:root_domain, :domain_authority, :page_authority, :title, :canonical_source_url, 
-      :num_domain_links_to_domain, :num_root_domain_links_to_page, :internal_id]
+      :num_domain_links_to_domain, :num_root_domain_links_to_page]
   end
   
   ##
@@ -53,7 +53,7 @@ class Linkscape::Link < Linkscape::Resource
   #
   # @return [Array] An array of LinkCols to use by default.
   def self.get_link_cols
-    [:anchor_text, :flags]
+    [:anchor_text, :flags, :internal_id]
   end
   
   ##
