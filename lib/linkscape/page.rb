@@ -29,6 +29,6 @@ class Linkscape::Page < Linkscape::Resource
   # @return [Array<String|Symbol>] The columns to fetch for the Page.
   # @author Brad Seefeld (brad@urbaninfluence.com)
   def self.get_cols
-    [:title, :num_root_domain_links_to_page, :url, :http_status_code, :num_links, :page_authority]
+    [:title, :num_root_domain_links_to_page, :url, :http_status_code, :num_links, :page_authority, :internal_id]
   end
 end
