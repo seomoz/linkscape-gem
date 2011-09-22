@@ -44,15 +44,33 @@ class Linkscape::Fields
       :flag => 2**2,
       :desc => %Q[The link is actually a meta refresh from the source page to the target]
     },
+    :anchors_internal_pages_linking => {
+      :name => "Internal Pages Linking",
+      :flag => 2**3,
+      :key => :atuiu,
+      :desc => %Q[The number of internal pages linking with this term or phrase]
+    },
     :same_ip? => {
       :name => "Has Same IP?",
       :flag => 2**3,
       :desc => %Q[The link is between two pages hosted on the same IP address, strongly indicating a potential administrative relationship between the two.]
     },
+    :num_subdomains_on_domain_with_anchor_text => {
+      :name => "Internal Subdomains Linking",
+      :flag => 2**4,
+      :key => :atuif,
+      :desc => %Q[The number of subdomains on the same root domain with at least one link with this term or phrase"]
+    },
     :same_cblock? => {
       :name => "Has Same C-Block?",
       :flag => 2**4,
       :desc => %Q[The link is between two pages hosted on the same C Block of IP addresses, indicating a potential administrative relationship between the two.]
+    },
+    :anchors_num_external_subdomains_linking => {
+      :name => "External Subdomains Linking",
+      :flag => 2**6,
+      :key => :atuef,
+      :desc => %Q[The number of external subdomains with at least one link with this term or phrase]
     },
     :http_301? => {
       :name => "Is 301 Redirect?",
@@ -64,10 +82,22 @@ class Linkscape::Fields
       :flag => 2**7,
       :desc => %Q[The link is a 302 redirect.  The source page returned a 302 redirect to our crawler, indicating that the resource was temporarily available on the target.]
     },
+    :anchors_internal_mozrank_passed => {
+      :name => "Internal mozRank passed",
+      :flag => 2**8,
+      :key => :atuimp,
+      :desc => %Q[The amount of mozRank passed over all internal links with this term or phrase (on the 10 point scale)]
+    },
     :noscript? => {
       :name => "Appears in noscript",
       :flag => 2**8,
       :desc => %Q[The link was located within a noscript html block. This means the link may not have been visible to users using javascript.]
+    },
+    :anchors_external_mozrank_passed => {
+      :name => "External mozRank passed",
+      :flag => 2**9,
+      :key => :atuemp,
+      :desc => %Q[The amount of mozRank passed over all external links with this term or phrase (on the 10 point scale)]
     },
     :off_screen? => {
       :name => "Appears Off-Screen",
@@ -102,6 +132,7 @@ class Linkscape::Fields
     :flags => {
       :name => 'Flags',
       :flag => 2**1, # 2
+      :key => :lf,
       :desc => %Q[A bit field indicating a variety of attributes which apply to this link.]
     },
     :anchor_text => {
@@ -122,6 +153,12 @@ class Linkscape::Fields
       :key => :luuu,
       :desc => %Q[The URL in question, as it has been canonicalized in the Linkscape index (Target)]
     },
+    :normalized_anchor_text => {
+      :name => 'Normalized Anchor Text',
+      :flag => 2**3,
+      :key => :lnt,
+      :desc => %Q[The anchor text of the link, excluding markup]
+    },
     :subdomain => {
       :name => 'Subdomain of the URL',
       :flag => 2**3,
@@ -133,6 +170,18 @@ class Linkscape::Fields
       :flag => 2**4,
       :key => :upl,
       :desc => %Q[The root domain of the url.  For example: "seomoz.org"]
+    },
+    :mozrank_passed_to_target => {
+      :name => "MozRank Passed to Target URL",
+      :flag => 2**4,
+      :key => :lmrp,
+      :desc => %Q[The measure of the mozRank passed to the target URL. Requesting this metric will provide both the pretty 10-point score (lmrp) and the raw score (lmrr).]
+    },
+    :mozrank_passed_to_target_raw => {
+      :name => "MozRank Passed to Target URL",
+      :flag => 2**4,
+      :key => :lmrr,
+      :desc => %Q[The measure of the mozRank passed to the target URL. Requesting this metric will provide both the pretty 10-point score (lmrp) and the raw score (lmrr).]
     },
     :num_external_follow_links_to_page => {
       :name => 'Number of External Juice Passing Links',
@@ -377,11 +426,41 @@ class Linkscape::Fields
       :key  => :pda,
       :desc => %Q[The page authority of all pages on the root domain. This will return the pretty 100-point score.]
     },
+    :page_authority_raw => {
+      :name => 'Raw Page Authority',
+      :flag => 2**37,
+      :key => :upar,
+      :desc => %Q[The raw page authority of this URL. This will return the zero to one linear value.]
+    },
+    :domain_authority_raw => {
+      :name => 'Raw domain authority',
+      :flag => 2**38,
+      :key => :pdar,
+      :desc => %Q[The raw page authority of all pages on the root domain. This will return the zero to one linear value.]
+    },
     :num_external_links_to_page => {
       :name => "All external links page to page",
       :flag => 2**39,
       :key => :ued,
       :desc => %Q[The number of external links from one page to another (included followed and nofollowed).]
+    },
+    :num_follow_subdomains_to_page => {
+      :name => "Followed Subdomains Linking Page",
+      :key => :ujfq,
+      :flag => 2**40,
+      :desc => %Q[The number of unique subdomains with followed links to the target url.]
+    },
+    :num_follow_ips_link => {
+      :name => "Followed IPs Linking",
+      :key => :ujp,
+      :flag => 2**41,
+      :desc => %Q[The number unique IPs with a followable link to a target url.]
+    },
+    :num_ips_link => {
+      :name => "IPs Linking",
+      :key => :uip,
+      :flag => 2**42,
+      :desc => %Q[The total number of  unique IPs linking to a target url.]
     },
     :num_follow_domains_to_page => {
       :name => "Number of Followed Domains Linking to Page",
@@ -395,6 +474,12 @@ class Linkscape::Fields
       :flag => 2**44,
       :desc => %Q[The total number unique cblocks linking to a page.]
     },
+    :num_follow_cblocks_link => {
+      :name => "Followed CBlocks Linking",
+      :key => :ujb,
+      :flag => 2**45,
+      :desc => %Q[The total number unique cblocks with followed links to a page.]
+    },
     :num_follow_links_to_subdomain => {
       :name => "Number of Followed Links to Subdomain",
       :key => :fjid,
@@ -406,6 +491,12 @@ class Linkscape::Fields
       :flag => 2**47,
       :key => :fed,
       :desc => %Q[The total number (followed and nofollowed) external links to the subdomain of the url.]
+    },
+    :num_follow_subdomain_to_subdomain => {
+      :name => "Followed Subdomain Subdomains Links",
+      :flag => 2**48,
+      :key => :fjf,
+      :desc => %Q[The number of subdomains with followed links to the subdomain of the url.]
     },
     :num_follow_domains_to_subdomain => {
       :name => "Number of Domains with Follow Links to Subdomain",
@@ -431,11 +522,29 @@ class Linkscape::Fields
       :key  => :pjd,
       :desc => %Q[The total number of followed root domains linking to the target's domain.]
     },
+    :num_ips_link_to_domain => {
+      :name => "IPs Linking to Domain",
+      :flag => 2**53,
+      :key => :pip,
+      :desc => %Q[The total number of unique IPs linking to the target's domain.]
+    },
+    :num_followed_ips_link_to_domain => {
+      :name => "Followed IPs Linking to Domain",
+      :flag => 2**54,
+      :key => :pjip,
+      :desc => %Q[The total number of  unique IPs with followed links to the target's domain.]
+    },
     :num_cblocks_to_domain => {
       :name => "Number of C Blocks with Link to Domain",
       :flag => 2**55,
       :key  => :pib,
       :desc => %Q[The number of unique cblocks with a link to a domain.]
+    },
+    :num_follow_cblocks_link_domain => {
+      :nam => "Followed Cblock Linking Domain",
+      :flag => 2**56,
+      :key => :pjb,
+      :desc => %Q[The total number of cblock with followed links to a domain.]
     },
     
     # Fields that should not be included as flags, but are included in responses.
@@ -454,11 +563,7 @@ class Linkscape::Fields
       :key => :urrid,
       :desc => %Q[Internal ID of the canonical URL (Source)]
     },
-    :mozrank_passed_to_target => {
-      :name => "MozRank Passed to Target URL",
-      :key => :lmrp,
-      :desc => %Q[The pretty (ten point, logarithmically scaled) measure of the mozRank passed to the target URL in the Linkscape index (Link)]
-    },
+
     :internal_link_id => {
       :name => "Internal Link ID",
       :key => :lrid,
@@ -476,12 +581,28 @@ class Linkscape::Fields
     },
     :anchor_is_image => {
       :name => "Is the Anchor an Image?",
+      :flag => 2**10,
       :key => :atuf,
       :desc => %Q[If the anchor is an image]
     }
   }
-  
+
   MACHINE = {
+    :atfiu => {
+      :human => :anchors_internal_pages_linking
+    },
+    :atfef => {
+      :human => :anchors_num_external_subdomains_linking
+    },
+    :atfif => {
+      :human => :num_subdomains_on_domain_with_anchor_text
+    },
+    :atfimp => {
+      :human => :anchors_internal_mozrank_passed
+    },
+    :atfemp => {
+      :human => :anchors_external_mozrank_passed
+    },
     :atfeu => {
       :human => :num_page_links_with_anchor
     },
@@ -490,6 +611,21 @@ class Linkscape::Fields
     },
     :atft => {
       :human => :anchors_anchor_text
+    },
+    :atpef => {
+      :human => :anchors_num_external_subdomains_linking
+    },
+    :atpif => {
+      :human => :num_subdomains_on_domain_with_anchor_text
+    },
+    :atpimp => {
+      :human => :anchors_internal_mozrank_passed
+    },
+    :atpemp => {
+      :human => :anchors_external_mozrank_passed
+    },
+    :atpiu => {
+      :human => :anchors_internal_pages_linking
     },
     :atpt => {
       :human => :anchors_anchor_text
@@ -500,6 +636,18 @@ class Linkscape::Fields
     :atpep => {
       :human => :num_domain_links_with_anchor
     },
+    :appef => {
+      :human => :anchors_num_external_subdomains_linking
+    },
+    :appiu => {
+      :human => :anchors_internal_pages_linking
+    },
+    :appimp => {
+      :human => :anchors_internal_mozrank_passed
+    },
+    :appemp => {
+      :human => :anchors_external_mozrank_passed
+    },
     :appt => {
       :human => :anchors_anchor_text
     },
@@ -509,6 +657,24 @@ class Linkscape::Fields
     :appep => {
       :human => :num_domain_links_with_anchor
     },
+    :appif => {
+      :human => :num_subdomains_on_domain_with_anchor_text
+    },
+    :apfef => {
+      :human => :anchors_num_external_subdomains_linking
+    },
+    :apfif => {
+      :human => :num_subdomains_on_domain_with_anchor_text
+    },
+    :apfiu => {
+      :human => :anchors_internal_pages_linking
+    },
+    :apfimp => {
+      :human => :anchors_internal_mozrank_passed
+    },
+    :apfemp => {
+      :human => :anchors_external_mozrank_passed
+    },
     :apft => {
       :human => :anchors_anchor_text
     },
@@ -517,6 +683,21 @@ class Linkscape::Fields
     },
     :apfep => {
       :human => :num_domain_links_with_anchor
+    },
+    :apuef => {
+      :human => :anchors_num_external_subdomains_linking
+    },
+    :apuif => {
+      :human => :num_subdomains_on_domain_with_anchor_text
+    },
+    :apuiu => {
+      :human => :anchors_internal_pages_linking
+    },
+    :apuimp => {
+      :human => :anchors_internal_mozrank_passed
+    },
+    :apuemp => {
+      :human => :anchors_external_mozrank_passed
     },
     :aput => {
       :human => :anchors_anchor_text
