@@ -64,7 +64,7 @@ module Linkscape
 
     def fetch(uri, limit = 10)
       # You should choose better exception.
-      raise RecursionError, 'HTTP redirect too deep' if limit == 0
+      raise Linkscape::RecursionError, 'HTTP redirect too deep' if limit == 0
       
       # Fetch with a POST of thers is a body
       response = if @body
@@ -76,11 +76,22 @@ module Linkscape
         Net::HTTP.get_response(uri)
       end
       
-      
+      if response_is_a? Net::HTTPRedirection
+        fetch(response['location'], limit - 1)
+      elsif response.is_a? Net::HTTPOK
+        response
+      elsif response.is_a? Net::HTTPInternalServerError
+        raise Linkscape::InternalServerError
+      else
+        raise Linkscape::HTTPStatusError, "got #{response.class} instead of 200 OK"
+      end
 
-      return fetch(response['location'], limit - 1) if Net::HTTPSuccess == response
-
-      response
+    rescue Timeout::Error, Timeout::ExitException => e
+      raise Linkscape::TimeoutError
+    rescue EOFError => e
+      raise Linkscape::EOFError
+    rescue SystemCallException, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError, SocketError => e
+      raise Linkscape::Error, "#{e.class}: #{e.message}"
     end
 
   end
