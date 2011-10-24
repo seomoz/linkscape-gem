@@ -3,30 +3,32 @@
 # 
 # @author Brad Seefeld (brad@urbaninfluence.com)
 class Linkscape::Anchor < Linkscape::Resource
-  
+
   # The API path
   self.collection_name = "anchor-text"
 
   def self.find(*arguments)
-    scope   = arguments.slice!(0)
-    options = arguments.slice!(0) || {}
-    params = {}
-    if options[:params]
-      params = options[:params].clone
+    Linkscape.wrap_errors do
+      scope   = arguments.slice!(0)
+      options = arguments.slice!(0) || {}
+      params = {}
+      if options[:params]
+        params = options[:params].clone
+      end
+      options[:params] = params
+
+      # Init defaults as needed
+      params[:scope] = :term_to_page unless (params[:scope] or params[:Scope])
+      params[:sort]  = :domains_linking_page unless options[:sort]
+
+      params[:Cols]  = params[:cols] unless params[:Cols]
+      params[:Cols]  = get_cols unless params[:Cols]
+      params[:Cols]  = columns_to_bits(params[:Cols])
+      params.delete(:cols)
+      super(scope, options)
     end
-    options[:params] = params
-        
-    # Init defaults as needed
-    params[:scope] = :term_to_page unless (params[:scope] or params[:Scope])
-    params[:sort]  = :domains_linking_page unless options[:sort]
-    
-    params[:Cols]  = params[:cols] unless params[:Cols]
-    params[:Cols]  = get_cols unless params[:Cols]
-    params[:Cols]  = columns_to_bits(params[:Cols])
-    params.delete(:cols)
-    super(scope, options)
   end
-  
+
   ##
   # Default list of columns for the anchors resource.
   #

@@ -47,8 +47,8 @@ describe Linkscape::Resource do
        path.should == "/linkscape/resources/seomoz.org?Scope=good"
      end
      
-     it "throws an ArgumentError when no site is given" do
-       expect{ Linkscape::Resource.collection_path}.to raise_error(ArgumentError)
+     it "throws an Linkscape::Error::Error when no site is given" do
+       expect{ Linkscape::Resource.collection_path}.to raise_error(Linkscape::Error::Error)
      end
   end
   
@@ -73,8 +73,8 @@ describe Linkscape::Resource do
   
   context "hydrating from remote data" do
     
-    it "throws ArgumentError when nil is given" do
-      expect{ Linkscape::Resource.new.load(nil) }.to raise_error(ArgumentError)
+    it "throws Linkscape::Error::Error when nil is given" do
+      expect{ Linkscape::Resource.new.load(nil) }.to raise_error(Linkscape::Error::Error)
     end
     
     it "it does not error out when an empty hash is given" do
@@ -122,8 +122,8 @@ describe Linkscape::Resource do
       Linkscape::Resource.count("site", nil).should be_nil
     end
     
-    it "raises an ArgumentError when nil is given for site" do
-      expect{ Linkscape::Resource.count(nil, nil) }.to raise_error(ArgumentError)
+    it "raises an Linkscape::Error::Error when nil is given for site" do
+      expect{ Linkscape::Resource.count(nil, nil) }.to raise_error(Linkscape::Error::Error)
     end
     
     it "returns the count" do

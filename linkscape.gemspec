@@ -12,7 +12,6 @@ Gem::Specification.new do |s|
   s.summary     = "Provides an interface to the SEOmoz API"
   s.description = "Provides an interface to SEOmoz's suite of APIs, including the free and site intelligence APIs."
 
-  s.add_dependency "ruby-hmac"
   s.add_dependency "activeresource", ["~> 3.0.0"]
   s.add_dependency "will_paginate", ["~> 2.3"]
   s.add_development_dependency "rspec"

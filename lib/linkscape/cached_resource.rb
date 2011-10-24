@@ -1,20 +1,19 @@
 require 'active_support/concern'
-require 'hmac-sha1'
 
 ##
 # Provide caching of resources on reads.
 module Linkscape::CachedResource
   extend ActiveSupport::Concern
-  
+
   module ClassMethods
-    
+
     ##
     # @return [Integer] The number of seconds the resource should cached.
     # @author Brad Seefeld (brad@urbaninfluence.com)
     def cache_expires_in
       Linkscape.config.cache_for
     end
-    
+
     ##
     # This method is automatically called when a find operation is called. It attempts
     # to perform the find operation using the cache instead of going across the wire. If
@@ -25,41 +24,45 @@ module Linkscape::CachedResource
     # @return [Object] The response
     # @author Brad Seefeld (brad@urbaninfluence.com)
     def find(*arguments)
-      key = cache_key(arguments)
-      Linkscape.config.logger.debug "The Linkscape resource cache key is #{key}"
-      result = Linkscape.config.cache.read(key).try(:dup)
-      unless result
-        result = super
-        
-        # Assuming there is an error, an exception is thrown. Cache away!
-        Linkscape.config.cache.write(key, result, :expires_in => self.cache_expires_in)
-      end
-      
-      result
-    end
-    
-private
-    
-    def cache_key(args)
-      key = name
-      args.each {|value|
-        if value.is_a? Hash
-          key << "/" << expand_hash(value)
-        else
-          key << "/" << value.to_s
+      Linkscape.wrap_errors do
+        key = cache_key(arguments)
+        Linkscape.config.logger.debug "The Linkscape resource cache key is #{key}"
+        result = Linkscape.config.cache.read(key).try(:dup)
+        unless result
+          result = super
+
+          # Assuming there is an error, an exception is thrown. Cache away!
+          Linkscape.config.cache.write(key, result, :expires_in => self.cache_expires_in)
         end
-      }
-      Linkscape.config.logger.debug "The keys to cache are #{key}"
-      begin
-        key = key.downcase
-      rescue ArgumentError
-        # Invalid byte sequence.
+
+        result
       end
-      
-      key = Digest::SHA1.hexdigest(key)
-      "lsapi_request_#{key}"
     end
-  
+
+private
+
+    def cache_key(args)
+      Linkscape.wrap_errors do
+        key = name
+        args.each {|value|
+          if value.is_a? Hash
+            key << "/" << expand_hash(value)
+          else
+            key << "/" << value.to_s
+          end
+        }
+        Linkscape.config.logger.debug "The keys to cache are #{key}"
+        begin
+          key = key.downcase
+        rescue ArgumentError
+          # Invalid byte sequence.
+        end
+
+        key = Digest::SHA1.hexdigest(key)
+        "lsapi_request_#{key}"
+      end
+    end
+
     def expand_hash(hash)
       str = ""
       Hash[hash.sort].each do |k, v|

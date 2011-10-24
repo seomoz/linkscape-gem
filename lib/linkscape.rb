@@ -1,3 +1,4 @@
+require 'linkscape/error'
 require 'linkscape/configuration'
 require 'linkscape/link'
 require 'linkscape/anchor'
@@ -18,7 +19,6 @@ end
 
 
 module Linkscape
-
   def self.config
     @config ||= Configuration.new
   end

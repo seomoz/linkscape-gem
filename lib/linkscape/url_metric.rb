@@ -2,13 +2,13 @@
 # Resource model for a URL Metric. One URL Metric exists per URL.
 #
 class Linkscape::UrlMetric < Linkscape::Resource
-  
+
   # The LSAPI path for this resource.
   self.collection_name = "url-metrics"
-  
+
   # A magical number that the API returns if the resource is not found (instead of a 404).
-  NOT_FOUND_ID = 18446744073709551615
-  
+  NOT_FOUND_ID = 2**64 - 1
+
   ##
   # Generate the path part of the URL to find a single resource.
   # 
@@ -18,16 +18,18 @@ class Linkscape::UrlMetric < Linkscape::Resource
   # @return [String] The path part of the URL.
   # @author Brad Seefeld (brad@urbaninfluence.com)
   def self.element_path(id, prefix_options = {}, query_options = nil)
-    prefix_options, query_options = split_options(prefix_options) if query_options.nil?
-    
-    # Init defaults as needed
-    query_options[:Cols] = query_options[:cols]
-    query_options.delete(:cols)
-    query_options[:Cols] = get_cols unless query_options[:Cols]
-    query_options[:Cols] = columns_to_bits(query_options[:Cols])
-    super
+    Linkscape.wrap_errors do
+      prefix_options, query_options = split_options(prefix_options) if query_options.nil?
+
+      # Init defaults as needed
+      query_options[:Cols] = query_options[:cols]
+      query_options.delete(:cols)
+      query_options[:Cols] = get_cols unless query_options[:Cols]
+      query_options[:Cols] = columns_to_bits(query_options[:Cols])
+      super
+    end
   end
-  
+
   ##
   # @return [Boolean] True if the metrics were found.
   # @author Brad Seefeld (brad@urbaninfluence.com)
@@ -35,7 +37,7 @@ class Linkscape::UrlMetric < Linkscape::Resource
     return false unless @attributes[:internal_id]
     internal_id != NOT_FOUND_ID
   end
-  
+
   ##
   # @return [Boolean] True if the supplied URL was canonical.
   # @author Brad Seefeld (brad@urbaninfluence.com)
@@ -43,100 +45,102 @@ class Linkscape::UrlMetric < Linkscape::Resource
     return false unless @attributes[:internal_id] and @attributes[:canonical_internal_id]
     internal_id == canonical_internal_id
   end
-  
+
   def num_internal_follow_links_to_page
     return nil unless present?(:num_follow_links_to_page, :num_external_follow_links_to_page)    
     num_follow_links_to_page - num_external_follow_links_to_page
   end
-  
+
   def num_nofollow_links_to_page
     return nil unless present?(:num_links, :num_follow_links_to_page)
     num_links - num_follow_links_to_page
   end
-  
+
   def num_external_nofollow_links_to_page
     return nil unless present?(:num_external_links_to_page, :num_external_follow_links_to_page)
     num_external_links_to_page - num_external_follow_links_to_page
   end
-  
+
   def num_internal_nofollow_links_to_page
     return nil unless present?(:num_nofollow_links_to_page, :num_external_nofollow_links_to_page)
     num_nofollow_links_to_page - num_external_nofollow_links_to_page
   end
-  
+
   def num_internal_links_to_page
     return nil unless present?(:num_links, :num_external_links_to_page)    
     num_links - num_external_links_to_page
   end
-  
+
   def num_internal_follow_links_to_subdomain
     return nil unless present?(:num_follow_links_to_subdomain, :num_external_follow_links_to_subdomain)
     num_follow_links_to_subdomain - num_external_follow_links_to_subdomain
   end
-  
+
   def num_internal_links_to_subdomain
     return nil unless present?(:num_links_to_subdomain, :num_external_links_to_subdomain)
     num_links_to_subdomain - num_external_links_to_subdomain
   end
-  
+
   def num_nofollow_links_to_subdomain
     return nil unless present?(:num_links_to_subdomain, :num_follow_links_to_subdomain)    
     num_links_to_subdomain - num_follow_links_to_subdomain
   end
-  
+
   def num_external_nofollow_links_to_subdomain
     return nil unless present?(:num_external_links_to_subdomain, :num_external_follow_links_to_subdomain)
     num_external_links_to_subdomain - num_external_follow_links_to_subdomain
   end
-  
+
   def num_internal_nofollow_links_to_subdomain
     return nil unless present?(:num_nofollow_links_to_subdomain, :num_external_nofollow_links_to_subdomain)
     num_nofollow_links_to_subdomain - num_external_nofollow_links_to_subdomain
   end
-  
+
   def num_internal_links_to_domain
     return nil unless present?(:num_links_to_domain, :num_external_links_to_domain)
     num_links_to_domain - num_external_links_to_domain
   end
-  
+
   def num_nofollow_links_to_domain
     return nil unless present?(:num_links_to_domain, :num_follow_links_to_domain)    
     num_links_to_domain - num_follow_links_to_domain
   end
-  
+
   def num_external_nofollow_links_to_domain
     return nil unless present?(:num_external_links_to_domain, :num_external_follow_links_to_domain)
     num_external_links_to_domain - num_external_follow_links_to_domain
   end
-  
+
   def num_internal_nofollow_links_to_domain
     return nil unless present?(:num_nofollow_links_to_domain, :num_external_nofollow_links_to_domain)
     num_nofollow_links_to_domain - num_external_nofollow_links_to_domain
   end
-  
+
   def num_internal_follow_links_to_domain
     return nil unless present?(:num_follow_links_to_domain, :num_external_follow_links_to_domain)
     num_follow_links_to_domain - num_external_follow_links_to_domain
   end
-  
+
   def to_json(options = {})
-    methods = [:canonical?, :num_internal_follow_links_to_page, :num_nofollow_links_to_page,
-      :num_external_nofollow_links_to_page, :num_internal_nofollow_links_to_page, :num_internal_links_to_page,
-      :num_internal_follow_links_to_subdomain, :num_internal_links_to_subdomain, :num_nofollow_links_to_subdomain,
-      :num_external_nofollow_links_to_subdomain, :num_internal_nofollow_links_to_subdomain,
-      :num_internal_links_to_domain, :num_nofollow_links_to_domain, :num_external_nofollow_links_to_domain,
-      :num_internal_nofollow_links_to_domain, :num_internal_follow_links_to_domain
-    ]
-    available = []
-    methods.each do |method|
-      if self.respond_to? method
-        available << method
+    Linkscape.wrap_errors do
+      methods = [:canonical?, :num_internal_follow_links_to_page, :num_nofollow_links_to_page,
+        :num_external_nofollow_links_to_page, :num_internal_nofollow_links_to_page, :num_internal_links_to_page,
+        :num_internal_follow_links_to_subdomain, :num_internal_links_to_subdomain, :num_nofollow_links_to_subdomain,
+        :num_external_nofollow_links_to_subdomain, :num_internal_nofollow_links_to_subdomain,
+        :num_internal_links_to_domain, :num_nofollow_links_to_domain, :num_external_nofollow_links_to_domain,
+        :num_internal_nofollow_links_to_domain, :num_internal_follow_links_to_domain
+      ]
+      available = []
+      methods.each do |method|
+        if self.respond_to? method
+          available << method
+        end
       end
+      options[:methods] = available unless options[:methods]
+      super(options)
     end
-    options[:methods] = available unless options[:methods]
-    super(options)
   end
-  
+
   def self.get_cols
     [:title, :subdomain, :root_domain, :num_external_links_to_subdomain,
       :num_external_follow_links_to_domain, :page_authority, :domain_authority, 
@@ -150,7 +154,7 @@ class Linkscape::UrlMetric < Linkscape::Resource
       :num_cblocks_to_domain
     ]
   end
-  
+
 private
 
   def present?(*fields)
