@@ -9,7 +9,7 @@ module Linkscape
       params[:access_id] ||= Linkscape.config.access_id
       string_to_sign = keys_to_sign.collect{|k| params[k].to_s}.join("\n")
       key ||= Linkscape.config.access_key
-      signature = CGI::escape(Digest::HMAC.base64digest(key, string_to_sign, Digest::SHA1).chomp)
+      signature = CGI::escape(Digest::HMAC.base64digest(string_to_sign, key, Digest::SHA1).chomp)
       params[:signature] = signature
     end
   end
