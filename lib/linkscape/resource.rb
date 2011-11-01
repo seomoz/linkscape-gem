@@ -48,6 +48,7 @@ class Linkscape::Resource < ActiveResource::Base
   # @author Brad Seefeld (brad@urbaninfluence.com)
   def method_missing(method_symbol, *arguments) #:nodoc:
     Linkscape.wrap_errors do
+      self.load
       method_name = method_symbol.to_s
 
       return attributes[method_name] if attributes.include?(method_name)
