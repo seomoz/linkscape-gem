@@ -65,7 +65,7 @@ class Linkscape::Link < Linkscape::Resource
   def load(attributes = {})
     Linkscape.wrap_errors do
       super
-      flags = @attributes[:lf]
+      flags = @attributes[:flags]
       return unless flags
 
       flags = flags.to_i
@@ -78,7 +78,7 @@ class Linkscape::Link < Linkscape::Resource
       link_flags.each {|key|
         @attributes[key] = (flags & Linkscape::Fields::HUMAN[key][:flag]) > 0
       }
-      @attributes.delete(:lf)
+      @attributes.delete(:flags)
     end
   end
 
