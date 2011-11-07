@@ -76,7 +76,7 @@ module Linkscape
         Net::HTTP.get_response(uri)
       end
       
-      if response_is_a? Net::HTTPRedirection
+      if response.is_a? Net::HTTPRedirection
         fetch(response['location'], limit - 1)
       elsif response.is_a? Net::HTTPOK
         response
