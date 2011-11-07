@@ -90,7 +90,7 @@ module Linkscape
       raise Linkscape::TimeoutError
     rescue EOFError => e
       raise Linkscape::EOFError
-    rescue SystemCallException, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError, SocketError => e
+    rescue SystemCallError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError, SocketError => e
       raise Linkscape::Error, "#{e.class}: #{e.message}"
     end
 
