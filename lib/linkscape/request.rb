@@ -77,7 +77,7 @@ module Linkscape
       end
       
       if response.is_a? Net::HTTPRedirection
-        fetch(response['location'], limit - 1)
+        fetch(URI.parse(response['location']), limit - 1)
       elsif response.is_a? Net::HTTPOK
         response
       elsif response.is_a? Net::HTTPInternalServerError
