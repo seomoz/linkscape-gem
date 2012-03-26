@@ -396,23 +396,11 @@ class Linkscape::Fields
       :key => :us,
       :desc => %Q[The HTTP status code recorded by Linkscape for this URL (if available)]
     },
-    :num_nofollow_links_to_subdomain => {
-      :name => 'Number of nofollow Links to Subdomain',
-      :flag => 2**29,
-      :key => :fnid,
-      :desc => %Q[The number of non-juice-passing links to the subdomain of the url.]
-    },
     :num_links_to_subdomain => {
       :name => "Number of Links to Subdomain",
       :flag => 2**32,
       :key => :fuid,
       :desc => %Q[Total links (including internal and nofollow links) to the subdomain of the url in question.]
-    },
-    :num_nofollow_links_to_domain => {
-      :name => 'Number of non Juice Links Linking to Root Domain',
-      :flag => 2**33,
-      :key => :pnid,
-      :desc => %Q[The number of non-juice-passing links to the root domain of the url.]
     },
     :num_links_to_domain => {
       :name => "Number of Links to Root Domain",
@@ -455,12 +443,6 @@ class Linkscape::Fields
       :flag => 2**39,
       :key => :ued,
       :desc => %Q[The number of external links from one page to another (included followed and nofollowed).]
-    },
-    :num_nofollow_links_to_page => {
-      :name => 'Number of non Juice Passing Links Linking',
-      :flag => 2**39,
-      :key => :unid,
-      :desc => %Q[The number of non-juice-passing links (internal or external) to the url.]
     },
     :num_follow_subdomains_to_page => {
       :name => "Followed Subdomains Linking Page",
@@ -564,7 +546,25 @@ class Linkscape::Fields
       :key => :pjb,
       :desc => %Q[The total number of cblock with followed links to a domain.]
     },
-    
+    :num_nofollow_links_to_page => {
+      :name => 'Number of non Juice Passing Links Linking',
+      :flag => 2**58,
+      :key => :unid,
+      :desc => %Q[The number of non-juice-passing links (internal or external) to the url.]
+    },
+    :num_nofollow_links_to_subdomain => {
+      :name => 'Number of nofollow Links to Subdomain',
+      :flag => 2**59,
+      :key => :fnid,
+      :desc => %Q[The number of non-juice-passing links to the subdomain of the url.]
+    },
+    :num_nofollow_links_to_domain => {
+      :name => 'Number of non Juice Links Linking to Root Domain',
+      :flag => 2**60,
+      :key => :pnid,
+      :desc => %Q[The number of non-juice-passing links to the root domain of the url.]
+    },
+
     # Fields that should not be included as flags, but are included in responses.
     :internal_source_url_id => {
       :name => 'Internal Source URL ID',
