@@ -51,11 +51,6 @@ class Linkscape::UrlMetric < Linkscape::Resource
     num_follow_links_to_page - num_external_follow_links_to_page
   end
 
-  def num_nofollow_links_to_page
-    return nil unless present?(:num_links, :num_follow_links_to_page)
-    num_links - num_follow_links_to_page
-  end
-
   def num_external_nofollow_links_to_page
     return nil unless present?(:num_external_links_to_page, :num_external_follow_links_to_page)
     num_external_links_to_page - num_external_follow_links_to_page
@@ -81,11 +76,6 @@ class Linkscape::UrlMetric < Linkscape::Resource
     num_links_to_subdomain - num_external_links_to_subdomain
   end
 
-  def num_nofollow_links_to_subdomain
-    return nil unless present?(:num_links_to_subdomain, :num_follow_links_to_subdomain)    
-    num_links_to_subdomain - num_follow_links_to_subdomain
-  end
-
   def num_external_nofollow_links_to_subdomain
     return nil unless present?(:num_external_links_to_subdomain, :num_external_follow_links_to_subdomain)
     num_external_links_to_subdomain - num_external_follow_links_to_subdomain
@@ -99,11 +89,6 @@ class Linkscape::UrlMetric < Linkscape::Resource
   def num_internal_links_to_domain
     return nil unless present?(:num_links_to_domain, :num_external_links_to_domain)
     num_links_to_domain - num_external_links_to_domain
-  end
-
-  def num_nofollow_links_to_domain
-    return nil unless present?(:num_links_to_domain, :num_follow_links_to_domain)    
-    num_links_to_domain - num_follow_links_to_domain
   end
 
   def num_external_nofollow_links_to_domain
@@ -151,7 +136,7 @@ class Linkscape::UrlMetric < Linkscape::Resource
       :moztrust, :subdomain_mozrank, :subdomain_moztrust, :root_domain_moztrust, :root_domain_mozrank,
       :num_domain_links_to_subdomain, :num_domain_links_to_domain, :canonical_url, :canonical_source_url,
       :num_follow_domains_to_page, :num_cblocks_to_page, :num_follow_domains_to_subdomain, :num_follow_domains_to_domain,
-      :num_cblocks_to_domain
+      :num_cblocks_to_domain, :num_nofollow_links_to_page, :num_nofollow_links_to_domain, :num_nofollow_links_to_subdomain
     ]
   end
 
