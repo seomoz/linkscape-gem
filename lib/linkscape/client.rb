@@ -134,10 +134,18 @@ module Linkscape
       Linkscape::Request.run(@options.merge(options))
     end
 
+    def last_update
+      Linkscape::Request.run_raw(@options.merge(:api => 'metadata/last_update'))
+    end
+
     def status(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       options[:api] = 'status'
       Linkscape::Request.run(@options.merge(options))
+    end
+
+    def last_update
+      Linkscape::Request.run_raw(@options.merge(:api => 'metadata/last_update')).to_i
     end
 
 

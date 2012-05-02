@@ -15,6 +15,10 @@ module Linkscape
     def self.run(options)
       self.new(options).run
     end
+
+    def self.run_raw(options)
+      self.new(options).run_raw
+    end
     
     def initialize(options)
      
@@ -49,6 +53,10 @@ module Linkscape
       res = fetch(URI.parse(@requestURL))
       # res = fetch(URI.parse('http://martian.at/other/ose.json'))
       return Response.new(self, res)
+    end
+
+    def run_raw
+      fetch(URI.parse(@requestURL)).body
     end
 
     def inspect
