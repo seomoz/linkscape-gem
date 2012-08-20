@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
 
   s.add_dependency "activeresource", ["~> 3.0.0"]
   s.add_dependency "will_paginate", ["~> 2.3"]
+  s.add_development_dependency "rake"
   s.add_development_dependency "rspec"
   s.add_development_dependency "fakeweb"
 

@@ -6,6 +6,7 @@ require 'linkscape/page'
 require 'linkscape/url_metric'
 require 'linkscape/fields'
 require 'linkscape/signer'
+require 'linkscape/metadata'
 
 begin
   require 'json'
