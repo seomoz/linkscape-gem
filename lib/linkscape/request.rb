@@ -47,6 +47,10 @@ module Linkscape
 
       options[:limit] = 1000 if options[:limit] && options[:limit] > 1000
       @requestURL += "&Limit=#{options[:limit]}" if options[:limit]
+      
+      [:AnchorPhraseRid, :AnchorTermRid, :SourceDomain].each do |key|
+        @requestURL += "&#{key}=#{options[key]}" if options[key]
+      end
     end
     
     def run
