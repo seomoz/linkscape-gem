@@ -411,10 +411,15 @@ module Linkscape
         :key => :text,
         :desc => %Q[The Anchor Text term or phrase],
       },
-      :i => {
+      :rid => {
         :name => 'Internal Target ID',
         :key => :record_id,
         :desc => %Q[Internal ID of the target URL],
+      },
+      :i => {
+        :name => 'Internal Target Domain ID',
+        :key => :pl_domain_id,
+        :desc => %Q[Internal ID of the target PL Domain],
       },
       :iu => {
         :name => 'Internal Pages Linking',

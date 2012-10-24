@@ -3,15 +3,20 @@ module Linkscape
     module AnchorMetrics
 
       RequestBits = {
+        :record_id => {
+          :name => 'record_id',
+          :flag => 2**0, # 1
+          :desc => %Q[Internal record ID of the target]
+        },
         :text => {
           :name => 'text',
           :flag => 2**1, # 2
           :desc => %Q[The anchor text term or phrase]
         },
-        :record_id => {
-          :name => 'record_id',
+        :pl_domain_id => {
+          :name => 'pl_domain_id',
           :flag => 2**2, # 4
-          :desc => %Q[Internal record ID of the target]
+          :desc => %Q[Internal record ID of the target's domain]
         },
         :internal_pages_linking => {
           :name => 'Internal Pages Linking',
