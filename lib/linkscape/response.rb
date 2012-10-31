@@ -10,6 +10,7 @@ module Linkscape
       attr_reader :type, :subjects
 
       class Flags
+        attr_reader :value
         def initialize(bitfield, type)
           @value = bitfield
           @flags = Linkscape::Constants::LinkMetrics::ResponseFlags.to_a.collect{|k,vv| k if (@value & vv[:flag]) == vv[:flag]}.compact if type == :link
