@@ -15,6 +15,10 @@ module Linkscape
     def self.run(options)
       self.new(options).run
     end
+
+    def self.run_raw(options)
+      self.new(options).run_raw
+    end
     
     def initialize(options)
      
@@ -43,12 +47,20 @@ module Linkscape
 
       options[:limit] = 1000 if options[:limit] && options[:limit] > 1000
       @requestURL += "&Limit=#{options[:limit]}" if options[:limit]
+      
+      [:AnchorPhraseRid, :AnchorTermRid, :SourceDomain].each do |key|
+        @requestURL += "&#{key}=#{options[key]}" if options[key]
+      end
     end
     
     def run
       res = fetch(URI.parse(@requestURL))
       # res = fetch(URI.parse('http://martian.at/other/ose.json'))
       return Response.new(self, res)
+    end
+
+    def run_raw
+      fetch(URI.parse(@requestURL)).body
     end
 
     def inspect
@@ -64,7 +76,7 @@ module Linkscape
 
     def fetch(uri, limit = 10)
       # You should choose better exception.
-      raise RecursionError, 'HTTP redirect too deep' if limit == 0
+      raise Linkscape::RecursionError, 'HTTP redirect too deep' if limit == 0
       
       # Fetch with a POST of thers is a body
       response = if @body
@@ -76,11 +88,22 @@ module Linkscape
         Net::HTTP.get_response(uri)
       end
       
-      
+      if response.is_a? Net::HTTPRedirection
+        fetch(URI.parse(response['location']), limit - 1)
+      elsif response.is_a? Net::HTTPOK
+        response
+      elsif response.is_a? Net::HTTPInternalServerError
+        raise Linkscape::InternalServerError
+      else
+        raise Linkscape::HTTPStatusError, "got #{response.class} instead of 200 OK"
+      end
 
-      return fetch(response['location'], limit - 1) if Net::HTTPSuccess == response
-
-      response
+    rescue Timeout::Error, Timeout::ExitException => e
+      raise Linkscape::TimeoutError
+    rescue ::EOFError => e
+      raise Linkscape::EOFError
+    rescue SystemCallError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError, SocketError => e
+      raise Linkscape::Error, "#{e.class}: #{e.message}"
     end
 
   end
