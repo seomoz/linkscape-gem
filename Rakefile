@@ -1,23 +1,6 @@
 require 'rubygems'
 require 'rake'
 
-begin
-  require 'jeweler'
-  Jeweler::Tasks.new do |gem|
-    gem.name = "linkscape"
-    gem.summary = %Q{Provides an interface to the SEOmoz API}
-    gem.description = %Q{Provides an interface to SEOmoz's suite of APIs, including the free and site intelligence APIs.}
-    gem.email = %q{api@seomoz.org}
-    gem.homepage = "http://github.com/seomoz/linkscape-gem"
-    gem.authors = ["Martin Tithonium", "Jeff Pollard", "Bryce Howard"]
-    gem.add_dependency "ruby-hmac", ">= 0"
-    # gem is a Gem::Specification... see http://www.rubygems.org/read/chapter/20 for additional settings
-  end
-  Jeweler::GemcutterTasks.new
-rescue LoadError
-  puts "Jeweler (or a dependency) not available. Install it with: gem install jeweler"
-end
-
 require 'rake/testtask'
 Rake::TestTask.new(:test) do |test|
   test.libs << 'lib' << 'test'

@@ -1,6 +1,7 @@
 module Linkscape
   class Request
-    require 'net/http'
+    require 'faraday'
+    require 'faraday_middleware'
     require 'uri'
     require 'cgi'
     # require 'base64'
@@ -79,30 +80,31 @@ module Linkscape
       raise Linkscape::RecursionError, 'HTTP redirect too deep' if limit == 0
       
       # Fetch with a POST of thers is a body
+      conn = Faraday.new(:url => uri) do |f|
+        f.use FaradayMiddleware::FollowRedirects, :limit => limit
+        f.adapter Faraday.default_adapter
+      end
       response = if @body
-        http = Net::HTTP.new(uri.host, uri.port)
-        request = Net::HTTP::Post.new(uri.request_uri)
-        request.body = @body.to_json
-        http.request(request)
+        conn.post do |req|
+          req.body = @body.to_json
+        end
       else
-        Net::HTTP.get_response(uri)
+        conn.get
       end
       
-      if response.is_a? Net::HTTPRedirection
-        fetch(URI.parse(response['location']), limit - 1)
-      elsif response.is_a? Net::HTTPOK
+      if response.success?
         response
-      elsif response.is_a? Net::HTTPInternalServerError
+      elsif (500..599).include?(response.status)
         raise Linkscape::InternalServerError
       else
-        raise Linkscape::HTTPStatusError, "got #{response.class} instead of 200 OK"
+        raise Linkscape::HTTPStatusError, "got #{response.status} instead of 200 OK"
       end
 
     rescue Timeout::Error, Timeout::ExitException => e
       raise Linkscape::TimeoutError
     rescue ::EOFError => e
       raise Linkscape::EOFError
-    rescue SystemCallError, Net::HTTPBadResponse, Net::HTTPHeaderSyntaxError, Net::ProtocolError, SocketError => e
+    rescue SystemCallError, Faraday::Error, Net::ProtocolError, SocketError => e
       raise Linkscape::Error, "#{e.class}: #{e.message}"
     end
 
