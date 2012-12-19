@@ -183,7 +183,9 @@ module Linkscape
     end
 
 
-
+    def endpoint
+      "#{@options[:apiHost]}/#{@options[:apiRoot]}"
+    end
 
     def inspect
       %Q[#<#{self.class}:#{"0x%x" % self.object_id} api="#{@options[:apiHost]}/#{@options[:apiRoot]}" accessID="#{@options[:accessID]}">]
