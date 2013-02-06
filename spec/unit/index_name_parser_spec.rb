@@ -1,4 +1,6 @@
+require 'spec_helper'
 require 'linkscape/current_index_data'
+
 module Linkscape
   describe CurrentIndexData do
     def set_index_data_expectation(index_data, index, sub_index, locked)
