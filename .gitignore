@@ -20,4 +20,6 @@ pkg
 .bundle
 bundle
 
+config/credentials.yml
+
 ## PROJECT::SPECIFIC

@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+gemspec
 
 gem 'rake', '>= 10'
 
@@ -7,3 +8,6 @@ gem 'rake', '>= 10'
 end
 
 gem 'simplecov', :require => false, :group => :test
+gem 'vcr', '>= 2.2'
+gem 'debugger', '>= 0.10.4'
+gem 'timecop', '>= 0.3.5'

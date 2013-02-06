@@ -1,3 +1,5 @@
+require 'linkscape/current_index_data'
+
 module Linkscape
   class Client
 
@@ -16,6 +18,11 @@ module Linkscape
       }.merge(options)
     end
 
+    def index_name
+      api = 'metadata/index_name'
+      response = Linkscape::Request.run_raw(@options.merge(:api => api))
+      CurrentIndexData.new(response)
+    end
 
     def mozRank(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}

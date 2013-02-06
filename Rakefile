@@ -1,7 +1,7 @@
 task :default => [:test, :check_coverage]
 
 task :test do
-  sh "bundle exec rspec spec/unit"
+  sh "bundle exec rspec spec/unit spec/integration"
 end
 
 desc "Checks the spec coverage and fails if it is less than 100%"
