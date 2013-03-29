@@ -7,9 +7,9 @@ module Linkscape
     # require 'base64'
     # require 'rubygems'
     # require 'hmac-sha1'
-    
+
     attr_accessor :requestURL
-    
+
     URL_TEMPLATE = %Q[http://:apiHost:/:apiRoot:/:api:/:url:?AccessID=:accessID:&Expires=:expiration:&Signature=:signature:]
     MAX_URL_LENGTH = 500
 
@@ -20,11 +20,11 @@ module Linkscape
     def self.run_raw(options)
       self.new(options).run_raw
     end
-    
+
     def initialize(options)
-     
+
       new_vals = {}
-      if options[:url] 
+      if options[:url]
         case options[:url]
         when String
           if options[:url].length > MAX_URL_LENGTH
@@ -48,12 +48,12 @@ module Linkscape
 
       options[:limit] = 1000 if options[:limit] && options[:limit] > 1000
       @requestURL += "&Limit=#{options[:limit]}" if options[:limit]
-      
+
       [:AnchorPhraseRid, :AnchorTermRid, :SourceDomain].each do |key|
         @requestURL += "&#{key}=#{options[key]}" if options[key]
       end
     end
-    
+
     def run
       res = fetch(URI.parse(@requestURL))
       # res = fetch(URI.parse('http://martian.at/other/ose.json'))
@@ -78,7 +78,7 @@ module Linkscape
     def fetch(uri, limit = 10)
       # You should choose better exception.
       raise Linkscape::RecursionError, 'HTTP redirect too deep' if limit == 0
-      
+
       # Fetch with a POST of thers is a body
       conn = Faraday.new(:url => uri) do |f|
         f.use FaradayMiddleware::FollowRedirects, :limit => limit
@@ -91,11 +91,11 @@ module Linkscape
       else
         conn.get
       end
-      
+
       if response.success?
         response
       elsif (500..599).include?(response.status)
-        raise Linkscape::InternalServerError
+        raise Linkscape::InternalServerError, "Response: #{response.inspect}"
       else
         raise Linkscape::HTTPStatusError, "got #{response.status} instead of 200 OK"
       end
