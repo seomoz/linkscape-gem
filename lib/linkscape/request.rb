@@ -95,18 +95,23 @@ module Linkscape
       if response.success?
         response
       elsif (500..599).include?(response.status)
-        raise Linkscape::InternalServerError, "Response: #{response.inspect}"
+        raise Linkscape::InternalServerError, error_msg(e)
       else
-        raise Linkscape::HTTPStatusError, "got #{response.status} instead of 200 OK"
+        raise Linkscape::HTTPStatusError, error_msg(e)
       end
 
     rescue Timeout::Error, Timeout::ExitException => e
-      raise Linkscape::TimeoutError
+      raise Linkscape::TimeoutError, error_msg(e)
     rescue ::EOFError => e
-      raise Linkscape::EOFError
+      raise Linkscape::EOFError, error_msg(e)
     rescue SystemCallError, Faraday::Error, Net::ProtocolError, SocketError => e
-      raise Linkscape::Error, "#{e.class}: #{e.message}"
+      raise Linkscape::Error, error_msg(e)
     end
 
+  private
+
+    def error_msg(error)
+      "#{error.class}: #{error.message}"
+    end
   end
 end
