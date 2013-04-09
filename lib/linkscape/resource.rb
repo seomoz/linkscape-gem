@@ -1,6 +1,7 @@
 require "active_resource"
 require "linkscape/cached_resource"
-require "will_paginate"
+require "linkscape/json_format"
+require "will_paginate/collection"
 
 ##
 # A generic linkscape resource class. Actual resources should extend this
@@ -11,7 +12,7 @@ class Linkscape::Resource < ActiveResource::Base
   self.site = "http://lsapi.seomoz.com/linkscape"
 
   # API always serves JSON
-  self.format = :json
+  self.format = Linkscape::JsonFormat
 
   self.include_root_in_json = false
 
