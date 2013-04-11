@@ -1,3 +1,4 @@
+require 'linkscape/monkey_patches'
 require 'linkscape/error'
 require 'linkscape/configuration'
 require 'linkscape/link'
