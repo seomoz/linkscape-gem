@@ -8,6 +8,20 @@ class Linkscape::Metadata < Linkscape::Resource
   # The API path
   self.collection_name = "metadata"
 
+  # The metadata API returns plain numbers, not a full-fledged JSON blob.
+  # ActiveResource 3.2 strips the root from JSON objects if only one key
+  # is present, but this causes an error when the value at that key
+  # is not an object itself. However, this behavior is desirable for all
+  # other resources, which is why the format is only overridden here.
+  self.format = Module.new do
+    extend ActiveResource::Formats::JsonFormat
+    extend self
+
+    def decode(json)
+      ActiveSupport::JSON.decode(json)
+    end
+  end
+
   ##
   # Get the last index update
   #
