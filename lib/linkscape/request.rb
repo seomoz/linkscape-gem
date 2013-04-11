@@ -95,9 +95,9 @@ module Linkscape
       if response.success?
         response
       elsif (500..599).include?(response.status)
-        raise Linkscape::InternalServerError, error_msg(e)
+        raise Linkscape::InternalServerError, response.inspect
       else
-        raise Linkscape::HTTPStatusError, error_msg(e)
+        raise Linkscape::HTTPStatusError, response.inspect
       end
 
     rescue Timeout::Error, Timeout::ExitException => e
