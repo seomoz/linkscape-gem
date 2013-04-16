@@ -776,7 +776,19 @@ class Linkscape::Fields
     :atff => {
       :human => :anchor_is_image,
       :desc  => %Q[The anchor is an image]
-    }
+    },
+    :urls => {
+      :human => :num_urls_crawled,
+    },
+    :fqdns => {
+      :human => :num_domains_crawled,
+    },
+    :plds => {
+      :human => :num_root_domains_crawled,
+    },
+    :links => {
+      :human => :num_links_crawled
+    },
   }
   HUMAN.each { |key, value|
     value[:human] = key
