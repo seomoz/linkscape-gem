@@ -23,21 +23,29 @@ class Linkscape::Metadata < Linkscape::Resource
   end
 
   class << self
+    class << self
+      private
+
+      def find_and_fetch(field)
+        define_method(field) { find(field.to_s).try(field) }
+      end
+    end
+
     ##
     # Get the last index update
     #
     # @return [Fixnum] When the index was last updated.
-    def last_update
-      find_and_fetch(:last_update)
-    end
+    find_and_fetch :last_update
 
     ##
     # Get the next index update
     #
     # @return [Fixnum] When the index will be updated next.
-    def next_update
-      find_and_fetch(:next_update)
-    end
+    find_and_fetch :next_update
+
+    ##
+    # @return [Fixnum] The current crawl's duration, in days.
+    find_and_fetch :crawl_duration
 
     ##
     # Get the current index stats.
@@ -60,12 +68,6 @@ class Linkscape::Metadata < Linkscape::Resource
         prefix_options, query_options = split_options(prefix_options) if query_options.nil?
         "#{prefix(prefix_options)}#{collection_name}/#{URI.escape id.to_s}.#{format.extension}#{query_string(query_options)}"
       end
-    end
-
-  private
-
-    def find_and_fetch(field)
-      find(field.to_s).try(field)
     end
   end
 end
