@@ -66,7 +66,10 @@ class Linkscape::Metadata < Linkscape::Resource
     def element_path(id, prefix_options = {}, query_options = nil)
       Linkscape.wrap_errors do
         prefix_options, query_options = split_options(prefix_options) if query_options.nil?
-        "#{prefix(prefix_options)}#{collection_name}/#{URI.escape id.to_s}.#{format.extension}#{query_string(query_options)}"
+        result = "#{prefix(prefix_options)}#{collection_name}/#{URI.escape(id.to_s)}"
+        result << ".#{format.extension}" unless id == 'index_stats'
+        result << "#{query_string(query_options)}"
+        result
       end
     end
   end

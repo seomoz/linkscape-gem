@@ -31,6 +31,11 @@ describe Linkscape::Metadata do
   describe '::index_stats' do
     it 'returns the current set of index stats, humanized' do
       stats = { urls: 83122215182, fqdns: 12140091376, plds: 141967157, links: 801586268337 }
+      FakeWeb.register_uri(
+        :get,
+        'http://lsapi.seomoz.com/linkscape/metadata/index_stats',
+        body: stats.to_json
+      )
       register_endpoint('index_stats', stats)
       result = described_class.index_stats
       result.num_urls_crawled.should == stats[:urls]
