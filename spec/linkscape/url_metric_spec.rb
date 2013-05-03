@@ -44,7 +44,7 @@ describe Linkscape::UrlMetric do
     end
     
     it "is able to calculate the number of nofollow links to page" do
-      metrics = Linkscape::UrlMetric.new({:uid => 10, :ujid => 5})
+      metrics = Linkscape::UrlMetric.new({:unid => 5})
       metrics.num_nofollow_links_to_page.should == 5
     end
     
@@ -54,8 +54,8 @@ describe Linkscape::UrlMetric do
     end
     
     it "is able to calculate internal nofollow links to page" do
-      metrics = Linkscape::UrlMetric.new({:ued => 10, :ueid => 5, :uid => 10, :ujid => 1})
-      metrics.num_internal_nofollow_links_to_page.should == 4
+      metrics = Linkscape::UrlMetric.new({:ued => 6, :unid => 2, :ueid => 7})
+      metrics.num_internal_nofollow_links_to_page.should == 3
     end
     
     it "is able to calculate the number of internal links" do
@@ -91,7 +91,7 @@ describe Linkscape::UrlMetric do
     end
     
     it "calculates the number of nofollow links" do
-      metrics = Linkscape::UrlMetric.new({:fuid => 10, :fjid => 7})
+      metrics = Linkscape::UrlMetric.new({:fnid => 3 })
       metrics.num_nofollow_links_to_subdomain.should == 3
     end
     
@@ -101,7 +101,7 @@ describe Linkscape::UrlMetric do
     end
     
     it "calculates the number of internal nofollow links" do
-      metrics = Linkscape::UrlMetric.new({:fuid => 10, :fjid => 1, :fed => 10, :feid => 3})
+      metrics = Linkscape::UrlMetric.new({:fnid => 9, :fed => 10, :feid => 3})
       metrics.num_internal_nofollow_links_to_subdomain.should == 2
     end
     
@@ -138,7 +138,7 @@ describe Linkscape::UrlMetric do
     end
     
     it "calculates the number of nofollow links" do
-      metrics = Linkscape::UrlMetric.new({:puid => 10, :pjid => 7})
+      metrics = Linkscape::UrlMetric.new({:pnid => 3})
       metrics.num_nofollow_links_to_domain.should == 3
     end
     
@@ -148,7 +148,7 @@ describe Linkscape::UrlMetric do
     end
     
     it "calculates the number of internal nofollow links" do
-      metrics = Linkscape::UrlMetric.new({:puid => 10, :pjid => 1, :ped => 10, :peid => 3})
+      metrics = Linkscape::UrlMetric.new({:pnid => 9, :ped => 10, :peid => 3})
       metrics.num_internal_nofollow_links_to_domain.should == 2
     end
     
