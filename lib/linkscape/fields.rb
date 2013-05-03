@@ -778,17 +778,29 @@ class Linkscape::Fields
       :desc  => %Q[The anchor is an image]
     },
     :urls => {
-      :human => :num_urls_crawled,
+      :human => :num_urls_crawled
     },
     :fqdns => {
-      :human => :num_domains_crawled,
+      :human => :num_domains_crawled
     },
     :plds => {
-      :human => :num_root_domains_crawled,
+      :human => :num_root_domains_crawled
     },
     :links => {
       :human => :num_links_crawled
     },
+    :nofollow => {
+      :human => :links_crawled_nofollow_portion
+    },
+    :rel_canonical => {
+      :human => :links_crawled_rel_canonical_portion
+    },
+    :links_per_page => {
+      :human => :average_num_links_per_page_crawled
+    },
+    :external_links_per_page => {
+      :human => :average_num_external_links_per_page_crawled
+    }
   }
   HUMAN.each { |key, value|
     value[:human] = key

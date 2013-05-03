@@ -30,7 +30,17 @@ describe Linkscape::Metadata do
 
   describe '::index_stats' do
     it 'returns the current set of index stats, humanized' do
-      stats = { urls: 83122215182, fqdns: 12140091376, plds: 141967157, links: 801586268337 }
+      stats = {
+        crawl_duration: 38,
+        urls: 90875257743,
+        fqdns: 8514925232,
+        plds: 163482796,
+        links: 917461264950,
+        nofollow: 0.0215,
+        rel_canonical: 0.1483,
+        links_per_page: 76.45,
+        external_links_per_page: 10.95
+      }
       FakeWeb.register_uri(
         :get,
         'http://lsapi.seomoz.com/linkscape/metadata/index_stats',
@@ -38,10 +48,15 @@ describe Linkscape::Metadata do
       )
       register_endpoint('index_stats', stats)
       result = described_class.index_stats
+      result.crawl_duration.should == stats[:crawl_duration]
       result.num_urls_crawled.should == stats[:urls]
       result.num_domains_crawled.should == stats[:fqdns]
       result.num_root_domains_crawled.should == stats[:plds]
       result.num_links_crawled.should == stats[:links]
+      result.links_crawled_nofollow_portion.should == stats[:nofollow]
+      result.links_crawled_rel_canonical_portion.should == stats[:rel_canonical]
+      result.average_num_links_per_page_crawled.should == stats[:links_per_page]
+      result.average_num_external_links_per_page_crawled.should == stats[:external_links_per_page]
     end
   end
 
