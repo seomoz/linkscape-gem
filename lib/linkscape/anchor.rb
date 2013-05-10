@@ -34,7 +34,20 @@ class Linkscape::Anchor < Linkscape::Resource
   #
   # @return [Array] An array of columns to fetch from the remote API.
   def self.get_cols
-    [:anchors_anchor_text, :num_domain_links_with_anchor, :num_page_links_with_anchor, 
-      :root_domain, :anchor_flags, :internal_id]
+    [
+      :anchor_flags,
+      :anchors_anchor_text,
+      :internal_id,
+      :num_external_page_links_with_anchor,
+      :num_external_root_domain_links_with_anchor,
+      :num_internal_page_links_with_anchor,
+      :root_domain,
+    ]
+  end
+
+  def num_page_links_with_anchor
+    if present?(:num_internal_page_links_with_anchor, :num_external_page_links_with_anchor)
+      num_internal_page_links_with_anchor + num_external_page_links_with_anchor 
+    end
   end
 end

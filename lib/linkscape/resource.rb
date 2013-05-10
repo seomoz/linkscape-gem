@@ -206,6 +206,10 @@ class Linkscape::Resource < ActiveResource::Base
 
 private
 
+  def present?(*fields)
+    fields.all? { |field| respond_to?(field) && send(field) }
+  end
+
   def self.normalize_query(params)
     params = params.clone
     # Handle case sensitivity issue.
