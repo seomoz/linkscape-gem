@@ -673,7 +673,7 @@ class Linkscape::Fields
       :human => :num_external_page_links_with_anchor
     },
     :appep => {
-      :human => :num_domain_links_with_anchor
+      :human => :num_external_root_domain_links_with_anchor
     },
     :appif => {
       :human => :num_subdomains_on_domain_with_anchor_text
@@ -724,7 +724,7 @@ class Linkscape::Fields
       :human => :num_external_page_links_with_anchor
     },
     :apuep => {
-      :human => :num_domain_links_with_anchor
+      :human => :num_external_root_domain_links_with_anchor
     },
     :atuif => {
       :human => :num_subdomains_on_domain_with_anchor_text
