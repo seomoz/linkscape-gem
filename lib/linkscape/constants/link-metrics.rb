@@ -13,6 +13,11 @@ module Linkscape
           :flag => 2**2, # 4
           :desc => %Q[The anchor text of the link, including any markup (e.g. image tags with alt text).]
         },
+        :normalized_text => {
+          :name => 'Normalized Anchor Text',
+          :flag => 2**3, # 8
+          :desc => %Q[The anchor text of the link, excluding markup (e.g. image tags with alt text).]
+        },
         :mozrank => {
           :name => 'mozRank Passed',
           :flag => 2**4, # 16
@@ -80,6 +85,11 @@ module Linkscape
           :name => 'Same Root Domain',
           :flag => 2**12, # 4096
           :desc => %Q[The link is between two pages on the same root domain.  The link is not internal, but this strongly indicates an administrative relationship between the two pages.]
+        },
+        :image_tag => {
+          :name => 'Image Tag',
+          :flag => 2**13, # 8192
+          :desc => %Q[The link includes an img tag.]
         },
         :feed_autodiscovery => {
           :name => 'Feed Autodiscovery',

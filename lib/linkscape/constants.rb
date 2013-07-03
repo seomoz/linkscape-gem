@@ -368,6 +368,11 @@ module Linkscape
         :key => :text,
         :desc => %Q[The anchor text of the link, including any markup (e.g. image tags with alt text)],
       },
+      :nt => {
+        :name => 'Normalized Anchor Text',
+        :key => :normalized_text,
+        :desc => %Q[The anchor text of the link, excluding any markup (e.g. image tags with alt text)],
+      },
       :src => {
         :name => 'Source Internal ID',
         :key => :source_internal_id,
