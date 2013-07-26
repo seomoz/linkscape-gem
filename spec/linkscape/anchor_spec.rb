@@ -12,7 +12,7 @@ describe Linkscape::Anchor do
   context "finding anchors" do
     it "is able to find anchors" do
       site = "test.com"
-      uri = "http://lsapi.seomoz.com/linkscape/anchor-text/#{site}?Cols=1211&Limit=50&Offset=0&Scope=term_to_page&Sort=domains_linking_page"
+      uri = "http://lsapi.seomoz.com/linkscape/anchor-text/#{site}?Cols=2305843009213695163&Limit=50&Offset=0&Scope=term_to_page&Sort=domains_linking_page"
       FakeWeb.register_uri(:get, uri, :body => '[{"test": "something"}]')
       described_class.find(:all, :params => {:site => site, :Offset => 0, :Limit => 50}).length.should == 1
     end

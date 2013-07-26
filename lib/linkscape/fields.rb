@@ -602,7 +602,12 @@ class Linkscape::Fields
       :flag => 2**10,
       :key => :atuf,
       :desc => %Q[If the anchor is an image]
-    }
+    },
+    :url_schema => {
+      :name => 'URL schema (HTTP/HTTPS)',
+      :flag => 2**61,
+      :desc => 'If Mozscape has crawled HTTP and/or HTTPS'
+    },
   }
 
   MACHINE = {
@@ -800,7 +805,7 @@ class Linkscape::Fields
     },
     :external_links_per_page => {
       :human => :average_num_external_links_per_page_crawled
-    }
+    },
   }
   HUMAN.each { |key, value|
     value[:human] = key

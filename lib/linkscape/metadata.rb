@@ -55,14 +55,6 @@ class Linkscape::Metadata < Linkscape::Resource
       find('index_stats')
     end
 
-    ##
-    # Default list of columns for the metadata resource.
-    #
-    # @return [Array] An array of columns to fetch from the remote API.
-    def get_cols
-      [:last_update, :next_update, :index_stats]
-    end
-
     def element_path(id, prefix_options = {}, query_options = nil)
       Linkscape.wrap_errors do
         prefix_options, query_options = split_options(prefix_options) if query_options.nil?

@@ -31,6 +31,16 @@ class Linkscape::Resource < ActiveResource::Base
     Linkscape.wrap_errors do
       super
       attributes.each do |key, value|
+        [['usch', ''], ['luusch', 'target_']].each do |schema_key, prefix|
+          if key == schema_key
+            @attributes[:"#{prefix}source_http?"] = bit_enabled?(value, 2**0)
+            @attributes[:"#{prefix}source_https?"] = bit_enabled?(value, 2**1)
+            @attributes[:"#{prefix}canonical_http?"] = bit_enabled?(value, 2**24)
+            @attributes[:"#{prefix}canonical_https?"] = bit_enabled?(value, 2**25)
+            @attributes.delete key
+          end
+        end
+
         property_alias = Linkscape::Fields::MACHINE[key.to_sym]
         if property_alias
           @attributes[property_alias[:human].to_s] = value.dup rescue value
@@ -38,6 +48,10 @@ class Linkscape::Resource < ActiveResource::Base
         end
       end
     end
+  end
+
+  def bit_enabled?(value, bit)
+    (value && bit) > 0
   end
 
   ##
