@@ -31,12 +31,12 @@ class Linkscape::Resource < ActiveResource::Base
     Linkscape.wrap_errors do
       super
       attributes.each do |key, value|
-        [['usch', ''], ['luusch', 'target_']].each do |schema_key, prefix|
+        [['usch', 'source'], ['luusch', 'target']].each do |schema_key, prefix|
           if key == schema_key
-            @attributes[:"#{prefix}source_http?"] = bit_enabled?(value, 2**0)
-            @attributes[:"#{prefix}source_https?"] = bit_enabled?(value, 2**1)
-            @attributes[:"#{prefix}canonical_http?"] = bit_enabled?(value, 2**24)
-            @attributes[:"#{prefix}canonical_https?"] = bit_enabled?(value, 2**25)
+            @attributes[:"#{prefix}_source_http?"] = bit_enabled?(value, 2**0)
+            @attributes[:"#{prefix}_source_https?"] = bit_enabled?(value, 2**1)
+            @attributes[:"#{prefix}_canonical_http?"] = bit_enabled?(value, 2**24)
+            @attributes[:"#{prefix}_canonical_https?"] = bit_enabled?(value, 2**25)
             @attributes.delete key
           end
         end
