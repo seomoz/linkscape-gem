@@ -51,7 +51,7 @@ class Linkscape::Resource < ActiveResource::Base
   end
 
   def bit_enabled?(value, bit)
-    (value && bit) > 0
+    (value & bit) > 0
   end
 
   ##
