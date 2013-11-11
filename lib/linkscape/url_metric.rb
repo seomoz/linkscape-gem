@@ -24,7 +24,7 @@ class Linkscape::UrlMetric < Linkscape::Resource
       # Init defaults as needed
       query_options[:Cols] = query_options[:cols]
       query_options.delete(:cols)
-      query_options[:Cols] = get_cols unless query_options[:Cols]
+      query_options[:Cols] = COLS unless query_options[:Cols]
       query_options[:Cols] = columns_to_bits(query_options[:Cols])
       super
     end
@@ -106,39 +106,72 @@ class Linkscape::UrlMetric < Linkscape::Resource
     num_follow_links_to_domain - num_external_follow_links_to_domain
   end
 
+  METHODS = [
+    :canonical?,
+    :num_internal_follow_links_to_page,
+    :num_nofollow_links_to_page,
+    :num_external_nofollow_links_to_page,
+    :num_internal_nofollow_links_to_page,
+    :num_internal_links_to_page,
+    :num_internal_follow_links_to_subdomain,
+    :num_internal_links_to_subdomain,
+    :num_nofollow_links_to_subdomain,
+    :num_external_nofollow_links_to_subdomain,
+    :num_internal_nofollow_links_to_subdomain,
+    :num_internal_links_to_domain,
+    :num_nofollow_links_to_domain,
+    :num_external_nofollow_links_to_domain,
+    :num_internal_nofollow_links_to_domain,
+    :num_internal_follow_links_to_domain
+  ]
+
   def to_json(options = {})
     Linkscape.wrap_errors do
-      methods = [:canonical?, :num_internal_follow_links_to_page, :num_nofollow_links_to_page,
-        :num_external_nofollow_links_to_page, :num_internal_nofollow_links_to_page, :num_internal_links_to_page,
-        :num_internal_follow_links_to_subdomain, :num_internal_links_to_subdomain, :num_nofollow_links_to_subdomain,
-        :num_external_nofollow_links_to_subdomain, :num_internal_nofollow_links_to_subdomain,
-        :num_internal_links_to_domain, :num_nofollow_links_to_domain, :num_external_nofollow_links_to_domain,
-        :num_internal_nofollow_links_to_domain, :num_internal_follow_links_to_domain
-      ]
-      available = []
-      methods.each do |method|
-        if self.respond_to? method
-          available << method
-        end
-      end
-      options[:methods] = available unless options[:methods]
+      options[:methods] ||= METHODS.select { |method| respond_to?(method) }
       super(options)
     end
   end
 
-  def self.get_cols
-    [:title, :subdomain, :root_domain, :num_external_links_to_subdomain,
-      :num_external_follow_links_to_domain, :page_authority, :domain_authority, 
-      :num_external_links_to_page, :num_links_to_subdomain, :num_follow_links_to_subdomain, 
-      :num_external_follow_links_to_subdomain, :num_root_domain_links_to_page, :num_links,
-      :num_links_to_domain, :num_follow_links_to_domain, :num_external_links_to_domain,
-      :num_external_follow_links_to_page, :num_follow_links_to_page, :subdomain, :mozrank,
-      :moztrust, :subdomain_mozrank, :subdomain_moztrust, :root_domain_moztrust, :root_domain_mozrank,
-      :num_domain_links_to_subdomain, :num_domain_links_to_domain, :canonical_url, :canonical_source_url,
-      :num_follow_domains_to_page, :num_cblocks_to_page, :num_follow_domains_to_subdomain, :num_follow_domains_to_domain,
-      :num_cblocks_to_domain, :num_nofollow_links_to_page, :num_nofollow_links_to_domain, :num_nofollow_links_to_subdomain
-    ]
-  end
+  COLS = [
+    :title,
+    :subdomain,
+    :root_domain,
+    :num_external_links_to_subdomain,
+    :num_external_follow_links_to_domain,
+    :page_authority,
+    :domain_authority, 
+    :num_external_links_to_page,
+    :num_links_to_subdomain,
+    :num_follow_links_to_subdomain,
+    :num_external_follow_links_to_subdomain,
+    :num_root_domain_links_to_page,
+    :num_links,
+    :num_links_to_domain,
+    :num_follow_links_to_domain,
+    :num_external_links_to_domain,
+    :num_external_follow_links_to_page,
+    :num_follow_links_to_page,
+    :subdomain,
+    :mozrank,
+    :moztrust,
+    :subdomain_mozrank,
+    :subdomain_moztrust,
+    :root_domain_moztrust,
+    :root_domain_mozrank,
+    :num_domain_links_to_subdomain,
+    :num_domain_links_to_domain,
+    :canonical_url,
+    :canonical_source_url,
+    :num_follow_domains_to_page,
+    :num_cblocks_to_page,
+    :num_follow_domains_to_subdomain,
+    :num_follow_domains_to_domain,
+    :num_cblocks_to_domain,
+    :num_nofollow_links_to_page,
+    :num_nofollow_links_to_domain,
+    :num_nofollow_links_to_subdomain,
+    :url_schema
+  ]
 
 private
 

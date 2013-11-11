@@ -16,15 +16,15 @@ class Linkscape::Link < Linkscape::Resource
       # Init defaults as needed
       params[:scope]       = :page_to_page unless (params[:scope] or params[:Scope])
       params[:sort]        = :domain_authority unless params[:sort]
-      params[:target_cols] = get_target_cols unless params[:target_cols]
-      params[:source_cols] = get_source_cols unless params[:source_cols]
+      params[:target_cols] = TARGET_COLS unless params[:target_cols]
+      params[:source_cols] = SOURCE_COLS unless params[:source_cols]
 
       params[:Filter] = params[:filter] unless params[:Filter]
       params.delete(:filter)
 
       # Add link columns.
       link_cols = params[:link_cols]
-      link_cols = get_link_cols unless link_cols
+      link_cols = LINK_COLS unless link_cols
       params[:LinkCols] = columns_to_bits(link_cols) 
       params.delete(:link_cols)
 
@@ -32,30 +32,30 @@ class Linkscape::Link < Linkscape::Resource
     end
   end
 
-  ##
-  # Provide default target columns to fetch from remote.
-  #
-  # @return [Array] An array of target columns to use by default
-  def self.get_target_cols
-    [:canonical_target_url, :root_domain, :subdomain]
-  end
+  TARGET_COLS = [
+    :canonical_target_url,
+    :root_domain,
+    :subdomain,
+    :url_schema
+  ]
 
-  ##
-  # Provide default source columns to fetch from remote.
-  #
-  # @return [Array] An array of source columns to use by default.
-  def self.get_source_cols
-    [:root_domain, :domain_authority, :page_authority, :title, :canonical_source_url, 
-      :num_domain_links_to_domain, :num_root_domain_links_to_page]
-  end
+  SOURCE_COLS = [
+    :root_domain,
+    :domain_authority,
+    :page_authority,
+    :title,
+    :canonical_source_url, 
+    :num_domain_links_to_domain,
+    :num_root_domain_links_to_page,
+    :url_schema
+  ]
 
-  ##
-  # Provide default link columns to fetch from remote.
-  #
-  # @return [Array] An array of LinkCols to use by default.
-  def self.get_link_cols
-    [:anchor_text, :flags, :internal_id]
-  end
+  LINK_COLS = [
+    :anchor_text,
+    :flags, 
+    :internal_id,
+    :url_schema
+  ]
 
   ##
   # Hydrate this link instance with attributes fresh off the wire. In particular,
@@ -71,13 +71,27 @@ class Linkscape::Link < Linkscape::Resource
       flags = flags.to_i
 
       # Expand the bit flag field
-      link_flags = [:nofollow?, :same_sub_domain?, :meta_refresh?, :same_ip?, 
-        :same_cblock?, :http_301?, :http_302?, :noscript?, :off_screen?, :meta_nofollow?,
-        :same_root_domain?, :feed?, :rel_canonical?, :via_301?]
+      link_flags = [
+        :nofollow?,
+        :same_sub_domain?,
+        :meta_refresh?,
+        :same_ip?, 
+        :same_cblock?,
+        :http_301?,
+        :http_302?,
+        :noscript?,
+        :off_screen?,
+        :meta_nofollow?,
+        :same_root_domain?,
+        :feed?,
+        :rel_canonical?,
+        :via_301?
+      ]
 
-      link_flags.each {|key|
+      link_flags.each do |key|
         @attributes[key] = (flags & Linkscape::Fields::HUMAN[key][:flag]) > 0
-      }
+      end
+
       @attributes.delete(:flags)
     end
   end

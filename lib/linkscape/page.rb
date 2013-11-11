@@ -19,7 +19,7 @@ class Linkscape::Page < Linkscape::Resource
 
       # Add columns.
       cols = params[:cols]
-      cols = get_cols unless cols
+      cols = COLS unless cols
       params[:Cols] = columns_to_bits(cols) 
       params.delete(:cols)
 
@@ -27,10 +27,14 @@ class Linkscape::Page < Linkscape::Resource
     end
   end
 
-  ##
-  # @return [Array<String|Symbol>] The columns to fetch for the Page.
-  # @author Brad Seefeld (brad@urbaninfluence.com)
-  def self.get_cols
-    [:title, :num_root_domain_links_to_page, :url, :http_status_code, :num_links, :page_authority, :internal_id]
-  end
+  COLS = [
+    :title,
+    :num_root_domain_links_to_page,
+    :url,
+    :http_status_code,
+    :num_links,
+    :page_authority,
+    :internal_id,
+    :url_schema
+  ]
 end

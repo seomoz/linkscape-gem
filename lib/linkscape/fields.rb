@@ -44,7 +44,7 @@ class Linkscape::Fields
       :flag => 2**2,
       :desc => %Q[The link is actually a meta refresh from the source page to the target]
     },
-    :anchors_internal_pages_linking => {
+    :num_internal_page_links_with_anchor => {
       :name => "Internal Pages Linking",
       :flag => 2**3,
       :key => :atuiu,
@@ -189,7 +189,7 @@ class Linkscape::Fields
       :key => :ueid,
       :desc => %Q[The number of juice-passing external links to the url.]
     },
-    :num_page_links_with_anchor => {
+    :num_external_page_links_with_anchor => {
       :name => "Numbers of Pages with the Anchor",
       :flag => 2**5,
       :key  => :atueu
@@ -206,7 +206,7 @@ class Linkscape::Fields
       :key => :peid,
       :desc => %Q[The number of juice-passing external links to the root domain of the url.]
     },
-    :num_domain_links_with_anchor => {
+    :num_external_root_domain_links_with_anchor => {
       :name => "Number of Domains using this Anchor Text",
       :flag => 2**7,
       :key => :atuep
@@ -602,12 +602,17 @@ class Linkscape::Fields
       :flag => 2**10,
       :key => :atuf,
       :desc => %Q[If the anchor is an image]
-    }
+    },
+    :url_schema => {
+      :name => 'URL schema (HTTP/HTTPS)',
+      :flag => 2**61,
+      :desc => 'If Mozscape has crawled HTTP and/or HTTPS'
+    },
   }
 
   MACHINE = {
     :atfiu => {
-      :human => :anchors_internal_pages_linking
+      :human => :num_internal_page_links_with_anchor
     },
     :atfef => {
       :human => :anchors_num_external_subdomains_linking
@@ -622,10 +627,10 @@ class Linkscape::Fields
       :human => :anchors_external_mozrank_passed
     },
     :atfeu => {
-      :human => :num_page_links_with_anchor
+      :human => :num_external_page_links_with_anchor
     },
     :atfep => {
-      :human => :num_domain_links_with_anchor
+      :human => :num_external_root_domain_links_with_anchor
     },
     :atft => {
       :human => :anchors_anchor_text
@@ -643,22 +648,22 @@ class Linkscape::Fields
       :human => :anchors_external_mozrank_passed
     },
     :atpiu => {
-      :human => :anchors_internal_pages_linking
+      :human => :num_internal_page_links_with_anchor
     },
     :atpt => {
       :human => :anchors_anchor_text
     },
     :atpeu => {
-      :human => :num_page_links_with_anchor
+      :human => :num_external_page_links_with_anchor
     },
     :atpep => {
-      :human => :num_domain_links_with_anchor
+      :human => :num_external_root_domain_links_with_anchor
     },
     :appef => {
       :human => :anchors_num_external_subdomains_linking
     },
     :appiu => {
-      :human => :anchors_internal_pages_linking
+      :human => :num_internal_page_links_with_anchor
     },
     :appimp => {
       :human => :anchors_internal_mozrank_passed
@@ -670,10 +675,10 @@ class Linkscape::Fields
       :human => :anchors_anchor_text
     },
     :appeu => {
-      :human => :num_page_links_with_anchor
+      :human => :num_external_page_links_with_anchor
     },
     :appep => {
-      :human => :num_domain_links_with_anchor
+      :human => :num_external_root_domain_links_with_anchor
     },
     :appif => {
       :human => :num_subdomains_on_domain_with_anchor_text
@@ -685,7 +690,7 @@ class Linkscape::Fields
       :human => :num_subdomains_on_domain_with_anchor_text
     },
     :apfiu => {
-      :human => :anchors_internal_pages_linking
+      :human => :num_internal_page_links_with_anchor
     },
     :apfimp => {
       :human => :anchors_internal_mozrank_passed
@@ -697,10 +702,10 @@ class Linkscape::Fields
       :human => :anchors_anchor_text
     },
     :apfeu => {
-      :human => :num_page_links_with_anchor
+      :human => :num_external_page_links_with_anchor
     },
     :apfep => {
-      :human => :num_domain_links_with_anchor
+      :human => :num_external_root_domain_links_with_anchor
     },
     :apuef => {
       :human => :anchors_num_external_subdomains_linking
@@ -709,7 +714,7 @@ class Linkscape::Fields
       :human => :num_subdomains_on_domain_with_anchor_text
     },
     :apuiu => {
-      :human => :anchors_internal_pages_linking
+      :human => :num_internal_page_links_with_anchor
     },
     :apuimp => {
       :human => :anchors_internal_mozrank_passed
@@ -721,10 +726,10 @@ class Linkscape::Fields
       :human => :anchors_anchor_text
     },
     :apueu => {
-      :human => :num_page_links_with_anchor
+      :human => :num_external_page_links_with_anchor
     },
     :apuep => {
-      :human => :num_domain_links_with_anchor
+      :human => :num_external_root_domain_links_with_anchor
     },
     :atuif => {
       :human => :num_subdomains_on_domain_with_anchor_text
@@ -776,7 +781,31 @@ class Linkscape::Fields
     :atff => {
       :human => :anchor_is_image,
       :desc  => %Q[The anchor is an image]
-    }
+    },
+    :urls => {
+      :human => :num_urls_crawled
+    },
+    :fqdns => {
+      :human => :num_domains_crawled
+    },
+    :plds => {
+      :human => :num_root_domains_crawled
+    },
+    :links => {
+      :human => :num_links_crawled
+    },
+    :nofollow => {
+      :human => :links_crawled_nofollow_portion
+    },
+    :rel_canonical => {
+      :human => :links_crawled_rel_canonical_portion
+    },
+    :links_per_page => {
+      :human => :average_num_links_per_page_crawled
+    },
+    :external_links_per_page => {
+      :human => :average_num_external_links_per_page_crawled
+    },
   }
   HUMAN.each { |key, value|
     value[:human] = key

@@ -1,3 +1,4 @@
+require 'linkscape/monkey_patches'
 require 'linkscape/error'
 require 'linkscape/configuration'
 require 'linkscape/link'
@@ -7,17 +8,6 @@ require 'linkscape/url_metric'
 require 'linkscape/fields'
 require 'linkscape/signer'
 require 'linkscape/metadata'
-
-begin
-  require 'json'
-  require 'linkscape/json'
-  ActiveSupport::JSON.backend = Linkscape::JSON
-rescue LoadError => e
-  warn "Error loading json wrapper. Staying with ActiveSupport defaults"
-end
-
-#require File.join(directory, 'hash-ext') unless Hash.method_defined?(:symbolize_keys)
-
 
 module Linkscape
   def self.config
