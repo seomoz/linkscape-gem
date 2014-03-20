@@ -148,7 +148,6 @@ module Linkscape
           :flag => 2**29, # 536870912
           :desc => %Q[The HTTP status code recorded by Linkscape for this URL (if available)]
         },
-
         :page_authority => {
           :name => 'Page Authority',
           :flag => 2**35, # 34359738368
@@ -159,7 +158,16 @@ module Linkscape
           :flag => 2**36, # 68719476736
           :desc => %Q[The page authority of all pages on the root domain. This will return the pretty 100-point score.]
         },
-        
+        :page_authority_raw => {
+          :name => 'Raw Page Authority',
+          :flag => 2**37, # 137438953472
+          :desc => %Q[The page authority of this URL. This will return the raw score.]
+        },
+        :domain_authority_raw => {
+          :name => 'Raw Domain Authority',
+          :flag => 2**38, # 274877906944
+          :desc => %Q[The page authority of all pages on the root domain. This will return the raw score.]
+        },
         :all_external_links => {
           :name => 'All external links page to page',
           :flag => 2**39,
@@ -250,18 +258,12 @@ module Linkscape
           :flag => 2**56,
           :desc => %Q[The total number of cblock with followed links to a domain.]
         },
-        
-        :page_authority_raw => {
-          :name => 'Raw Page Authority',
-          :flag => 2**37, # 137438953472
-          :desc => %Q[The page authority of this URL. This will return the raw score.]
+        :url_schema => {
+          :name => 'URL schema (HTTP/HTTPS)',
+          :flag => 2**61,
+          :desc => 'If Mozscape has crawled HTTP and/or HTTPS'
         },
-        :domain_authority_raw => {
-          :name => 'Raw Domain Authority',
-          :flag => 2**38, # 274877906944
-          :desc => %Q[The page authority of all pages on the root domain. This will return the raw score.]
-        },
-        
+
         # The following are calculated values. If you ask for them,
         # we'll convert it into a request for the fields they
         # depend on. In the Response, we'll then set the key from
@@ -338,16 +340,36 @@ module Linkscape
         :pl_domain_unfollowed_ips_linking => {
           :flag => 2**53 | 2**54,
         },
-
-        
-
       }
+
       RequestBits[:all] = {
         :name => 'All columns',
         :flag => RequestBits.keys.inject(0) {|sum,k| sum | RequestBits[k][:flag]},
         :desc => %Q[Requests all known columns from the API]
       }
 
+      UrlSchemaFlags = {
+        :http_present => {
+          :name => 'HTTP present',
+          :flag => 2**0,
+          :desc => %Q[An HTTP version of the URL was found.]
+        },
+        :https_present => {
+          :name => 'HTTPS present',
+          :flag => 2**1,
+          :desc => %Q[An HTTPS version of the URL was found.]
+        },
+        :http_canonical => {
+          :name => 'HTTP canonical',
+          :flag => 2**24,
+          :desc => %Q[An HTTP version of the URL is canonical.]
+        },
+        :https_canonical => {
+          :name => 'HTTPS canonical',
+          :flag => 2**25,
+          :desc => %Q[An HTTPS version of the URL is canonical.]
+        },
+      }
     end
   end
 end
