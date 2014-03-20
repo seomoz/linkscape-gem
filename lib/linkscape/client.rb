@@ -36,7 +36,6 @@ module Linkscape
       Linkscape::Request.run(@options.merge(options))
     end
 
-
     def urlMetrics(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
@@ -54,7 +53,6 @@ module Linkscape
 
       Linkscape::Request.run(@options.merge(options))
     end
-
 
     def topLinks(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
@@ -83,7 +81,6 @@ module Linkscape
 
       Linkscape::Request.run(@options.merge(options))
     end
-
 
     def allLinks(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
@@ -125,7 +122,6 @@ module Linkscape
 
       Linkscape::Request.run(@options.merge(options))
     end
-
 
     def topPages(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
@@ -194,7 +190,6 @@ module Linkscape
       Linkscape::Request.run(@options.merge(options))
     end
 
-
     def endpoint
       "#{@options[:apiHost]}/#{@options[:apiRoot]}"
     end
@@ -228,6 +223,5 @@ module Linkscape
 
       bits
     end
-
   end
 end
