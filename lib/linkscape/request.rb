@@ -60,7 +60,7 @@ module Linkscape
     end
 
     def inspect
-      #<Linkscape::Request:0x1016228a0 @requestURL="http://lsapi.seomoz.com/linkscape/mozrank/www.martian.at%2F?AccessID=ose&Expires=1258772331&Signature=Hfwssn0ZbWMe9MEf6%2FWoHOGFHzQ%3D">
+      #<Linkscape::Request:0x1016228a0 @requestURL="http://lsapi.dal.moz.com/linkscape/mozrank/www.martian.at%2F?AccessID=ose&Expires=1258772331&Signature=Hfwssn0ZbWMe9MEf6%2FWoHOGFHzQ%3D">
       %Q[#<#{self.class}="#{@requestURL}">]
     end
 
