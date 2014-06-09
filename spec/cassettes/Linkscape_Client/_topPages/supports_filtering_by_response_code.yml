@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://lsapi.seomoz.com/linkscape/top-pages/moz.com?AccessID=platform&Expires=1402356551&Signature=lo3zyzjqCfC5qMvZqewbpayEseA%3D&Cols=2305843593866118149&Sort=page_authority&Filter=status4xx&Offset=0&Limit=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      accept-ranges:
+      - bytes
+      age:
+      - '0'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Mon, 09 Jun 2014 23:24:16 GMT
+      retry-after:
+      - ''
+      via:
+      - 1.1 varnish, 1.1 varnish
+      x-accessid:
+      - platform
+      x-row-count:
+      - '4'
+      x-row_count:
+      - ''
+      x-unknownapi:
+      - ''
+      x-varnish:
+      - 132692444, 1722841114
+      content-length:
+      - '503'
+      connection:
+      - Close
+    body:
+      encoding: UTF-8
+      string: '[{"ued":45,"uipl":30,"upa":62.08958767950261,"us":404,"usch":16842753,"ut":"","uu":"moz.com/web2.0/short"},{"ued":188,"uipl":23,"upa":61.47040449590342,"us":404,"usch":16842753,"ut":"","uu":"moz.com/chapter-5-keyword-research"},{"ued":8,"uipl":4,"upa":60.65275254419002,"us":404,"usch":16842753,"ut":"","uu":"moz.com/blog/category/web-design"},{"ued":51,"uipl":25,"upa":60.08377071329031,"us":404,"usch":16842753,"ut":"","uu":"moz.com/chapter-4-basics-of-search-engine-friendly-design-and-development"}]'
+    http_version: 
+  recorded_at: Mon, 09 Jun 2014 23:24:11 GMT
+recorded_with: VCR 2.4.0
