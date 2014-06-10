@@ -2,7 +2,7 @@
 http_interactions:
 - request:
     method: get
-    uri: http://lsapi.seomoz.com/linkscape/metadata/index_name?AccessID=platform&Expires=1402356551&Signature=lo3zyzjqCfC5qMvZqewbpayEseA%3D
+    uri: http://lsapi.seomoz.com/linkscape/metadata/index_name?AccessID=platform&Expires=1360181535&Signature=Jq5gnlgluAbnwDVvHHNOqf9Cimk%3D
     body:
       encoding: US-ASCII
       string: ''
@@ -19,32 +19,28 @@ http_interactions:
       content-type:
       - application/json
       date:
-      - Mon, 09 Jun 2014 23:24:11 GMT
+      - Wed, 06 Feb 2013 20:07:12 GMT
       etag:
-      - '"3786170359"'
+      - ! '"1735071074"'
       last-modified:
-      - Mon, 09 Jun 2014 23:24:11 GMT
-      retry-after:
-      - ''
+      - Tue, 05 Feb 2013 18:48:42 GMT
       server:
       - lighttpd/1.4.28
       via:
       - 1.1 varnish
       x-accessid:
       - platform
-      x-row_count:
-      - ''
-      x-unknownapi:
-      - ''
       x-varnish:
-      - '1722841095'
+      - '1241505470'
       content-length:
       - '5'
       connection:
       - Close
     body:
-      encoding: UTF-8
-      string: 126-1
+      encoding: US-ASCII
+      string: ! '75-1
+
+'
     http_version: 
-  recorded_at: Mon, 09 Jun 2014 23:24:11 GMT
+  recorded_at: Wed, 06 Feb 2013 20:07:15 GMT
 recorded_with: VCR 2.4.0
