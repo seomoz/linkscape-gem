@@ -132,9 +132,12 @@ module Linkscape
 
       sort = options.delete(:sort) || :page_authority
 
+      filter = options.fetch(:filter, 'all')
+
       options[:query] = {
         'Cols' => translateBitfield(options[:cols], options[:columns], options[:sourcecols], options[:sourcecolumns], options[:urlcols], :type => :url),
-        'Sort' => sort.to_s
+        'Sort' => sort.to_s,
+        'Filter' => filter.to_s
       }
 
       raise MissingArgument, "topPages requires a list of columns to return." unless options[:query]['Cols'].nonzero?
