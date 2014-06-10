@@ -4,9 +4,6 @@ require 'linkscape/client'
 require 'yaml'
 require 'linkscape'
 
-require 'pp'
-require 'debugger'
-
 module Linkscape
   describe Client, :vcr, :vcr_recorded_time do
     let(:client) { Client.new(credentials.fetch('accessID'), credentials.fetch('secretKey')) }
