@@ -53,6 +53,12 @@ module Linkscape
         statuses = response.data.map { |d| d[:source][:status] }
         expect(statuses.size).to be > 0
         statuses.each { |s| expect(s).to be_between(400, 499) }
+
+        params.merge!(:filter => 'status302')
+        response = client.topPages(uri, uri_type, params)
+        statuses = response.data.map { |d| d[:source][:status] }
+        expect(statuses.size).to be > 0
+        statuses.each { |s| expect(s).to eq 302 }
       end
     end
   end
