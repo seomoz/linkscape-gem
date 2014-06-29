@@ -120,11 +120,18 @@ module Linkscape
     
     attr_accessor :request, :response, :data, :valid
     
+    INCAPSULAERROR_CONTENTTYPE = %r{text/html}
+    INCAPSULAERROR_BODY = %r{Request unsuccessful. Incapsula incident ID}
+
     def initialize(request, response)
       @valid = false
       @request = request
       @response = response
       if Net::HTTPSuccess === response
+        if response['Content-Type'] =~ INCAPSULAERROR_CONTENTTYPE &&
+           response.body =~ INCAPSULAERROR_BODY
+          raise Linkscape::IncapsulaError.new(response.body)
+        end
         @data = ResponseData.new(JSON.parse(response.body))
         @valid = true
       end
