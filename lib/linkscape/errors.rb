@@ -7,6 +7,8 @@ module Linkscape
   class EOFError < Error; end
 
   class RecursionError < Error; end
+
+  class GatewayError < Error; end
 end
 
 class AuthenticationError < StandardError; end

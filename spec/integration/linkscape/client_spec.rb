@@ -60,6 +60,24 @@ module Linkscape
         expect(statuses.size).to be > 0
         statuses.each { |s| expect(s).to eq 302 }
       end
+
+      context 'when throttled by incapsula' do
+        it 'raises a Linkscape::Gateway error' do
+          expect {
+            params = {
+                :cols => schema_source_columns,
+                :sort => sort,
+                :limit => 4,
+                :offset => 0,
+                :filter => 'status4xx'
+              }
+            response = client.topPages(uri, uri_type, params)
+            statuses = response.data.map { |d| d[:source][:status] }
+          }.to raise_error Linkscape::GatewayError
+
+
+        end
+      end
     end
   end
 end

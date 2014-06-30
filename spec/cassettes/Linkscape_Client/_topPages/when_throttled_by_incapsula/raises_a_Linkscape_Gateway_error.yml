@@ -1,0 +1,43 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://lsapi.seomoz.com/linkscape/top-pages/moz.com?AccessID=platform&Expires=1404163899&Signature=FhwQ6kzCxQp7tz%2FHxNw7w0PNz20%3D&Cols=2305843593866118149&Sort=page_authority&Filter=status4xx&Offset=0&Limit=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      User-Agent:
+      - Faraday v0.8.8
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      content-type:
+      - text/html
+      cache-control:
+      - no-cache
+      connection:
+      - close
+      content-length:
+      - '659'
+      x-iinfo:
+      - 10-84021116-0 0NNY RT(1404164030560 0) q(0 -1 -1 -1) r(0 -1) B12(8,8024,0)
+        U5
+      set-cookie:
+      - incap_ses_227_149733=grK6feyujCNCg9+nj3cmA77XsVMAAAAA/1CzCaXBbmuK6JPQerxgVA==;
+        path=/; Domain=.seomoz.com, visid_incap_149733=dq42T/FbSvmmNuiaxbOp5r7XsVMAAAAAQUIPAAAAAAB3/+aCuUmkjDxXMa+cpt/I;
+        expires=Wed, 29 Jun 2016 11:36:39 GMT; path=/; Domain=.seomoz.com
+    body:
+      encoding: US-ASCII
+      string: ! '<html><head><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW"><meta
+        name="format-detection" content="telephone=no"><meta name="viewport" content="initial-scale=1.0"><meta
+        http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"></head><body style="margin:0px"><iframe
+        src="/_Incapsula_Resource?CWUDNSAI=9&xinfo=10-84021116-0 0NNY RT(1404164030560
+        0) q(0 -1 -1 -1) r(0 -1) B12(8,8024,0) U5&incident_id=227000290108350774-527833252852072922&edet=12&cinfo=d0b9b1c1c0e6430208000000"
+        frameborder=0 width="100%" height="100%" marginheight="0px" marginwidth="0px">Request
+        unsuccessful. Incapsula incident ID: 227000290108350774-527833252852072922</iframe></body></html>'
+    http_version: 
+  recorded_at: Mon, 30 Jun 2014 21:26:39 GMT
+recorded_with: VCR 2.4.0

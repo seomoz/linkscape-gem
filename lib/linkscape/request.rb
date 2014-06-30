@@ -4,6 +4,7 @@ module Linkscape
     require 'faraday_middleware'
     require 'uri'
     require 'cgi'
+
     # require 'base64'
     # require 'rubygems'
     # require 'hmac-sha1'
@@ -82,6 +83,7 @@ module Linkscape
       # Fetch with a POST of thers is a body
       conn = Faraday.new(:url => uri) do |f|
         f.use FaradayMiddleware::FollowRedirects, :limit => limit
+        f.use Linkscape::Middleware::GatewayError
         f.adapter Faraday.default_adapter
       end
       response = if @body

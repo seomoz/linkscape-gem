@@ -16,6 +16,7 @@ require File.join(directory, 'linkscape', 'client')
 require File.join(directory, 'linkscape', 'request')
 require File.join(directory, 'linkscape', 'response')
 require File.join(directory, 'linkscape', 'errors')
+require File.join(directory, 'linkscape', 'middleware', 'gateway_error')
 
 module Linkscape
   def self.root_directory
