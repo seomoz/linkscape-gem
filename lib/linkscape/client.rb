@@ -179,8 +179,19 @@ module Linkscape
       Linkscape::Request.run(@options.merge(options))
     end
 
+    def metadata(*args)
+      options = Hash === args.last ? args.pop.symbolize_keys : {}
+      command = args.first ? args.shift : options[:command]
+      url_file_extension = :json unless command == :index_stats
 
+      valid_commands = [:last_update, :next_update, :index_stats]
+      raise InvalidArgument, "metadata command must be valid (#{valid_commands.join(', ')})" unless valid_commands.include? command
 
+      options[:api] = 'metadata'
+      options[:url] = "#{command.to_s}#{".#{url_file_extension.to_s}" unless url_file_extension.nil?}"
+
+      Linkscape::Request.run(@options.merge(options))
+    end
 
     def inspect
       %Q[#<#{self.class}:#{"0x%x" % self.object_id} api="#{@options[:apiHost]}/#{@options[:apiRoot]}" accessID="#{@options[:accessID]}">]

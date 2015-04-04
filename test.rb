@@ -41,3 +41,7 @@ do_request c.allLinks(url, :page, :domain, :domains_linking_page, :urlcols => [:
 do_request c.topPages(url, :page, :cols => :all, :limit => 3, :limit => 3)
 # 
 do_request c.anchorMetrics(url, :phrase, :page, :cols => :all, :scope => "page_to_domain", :filters => :external, :sort => :domains_linking_page, :limit => 3)
+
+do_request c.metadata(:last_update)
+do_request c.metadata(:next_update)
+do_request c.metadata(:index_stats)

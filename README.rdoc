@@ -114,6 +114,14 @@ This call accepts the following options:
 * <tt>:limit</tt> - The # of links (limit) you would like to return.
 * <tt>:offset</tt> = The number of records to offset before returning the 1st record of results.
 
+=== metadata
+
+Returns index statistics and release dates.
+
+  client.metadata(type)
+
+The parameter <tt>:type</tt> of this method can be either <tt>:last_update</tt>, <tt>:next_update</tt>, or <tt>:index_stats</tt>. It specifies the type of index metadata you are requesting.
+
 == Requesting Data on Multiple URLs
 
 For the API calls which support it, you may request data on multiple URLs by passing an
