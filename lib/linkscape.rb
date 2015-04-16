@@ -2,6 +2,7 @@ require 'rubygems'
 require 'cgi'
 require 'base64'
 require 'hmac-sha1'
+require 'pathname'
 
 directory = File.expand_path(File.dirname(__FILE__))
 
@@ -15,3 +16,9 @@ require File.join(directory, 'linkscape', 'client')
 require File.join(directory, 'linkscape', 'request')
 require File.join(directory, 'linkscape', 'response')
 require File.join(directory, 'linkscape', 'errors')
+
+module Linkscape
+  def self.root_directory
+    Pathname.new File.expand_path('./..', File.dirname(__FILE__))
+  end
+end

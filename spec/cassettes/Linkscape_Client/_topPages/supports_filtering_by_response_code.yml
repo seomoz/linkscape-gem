@@ -1,0 +1,89 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://lsapi.seomoz.com/linkscape/top-pages/moz.com?AccessID=platform&Expires=1402359604&Signature=iDEDNj9iY2x%2FxcZVPzeMPpPhPXI%3D&Cols=2305843593866118149&Sort=page_authority&Filter=status4xx&Offset=0&Limit=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      accept-ranges:
+      - bytes
+      age:
+      - '0'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Tue, 10 Jun 2014 00:15:05 GMT
+      retry-after:
+      - ''
+      via:
+      - 1.1 varnish, 1.1 varnish
+      x-accessid:
+      - platform
+      x-row-count:
+      - '4'
+      x-row_count:
+      - ''
+      x-unknownapi:
+      - ''
+      x-varnish:
+      - 748990171, 1723151025
+      content-length:
+      - '503'
+      connection:
+      - Close
+    body:
+      encoding: UTF-8
+      string: '[{"ued":45,"uipl":30,"upa":62.08958767950261,"us":404,"usch":16842753,"ut":"","uu":"moz.com/web2.0/short"},{"ued":188,"uipl":23,"upa":61.47040449590342,"us":404,"usch":16842753,"ut":"","uu":"moz.com/chapter-5-keyword-research"},{"ued":8,"uipl":4,"upa":60.65275254419002,"us":404,"usch":16842753,"ut":"","uu":"moz.com/blog/category/web-design"},{"ued":51,"uipl":25,"upa":60.08377071329031,"us":404,"usch":16842753,"ut":"","uu":"moz.com/chapter-4-basics-of-search-engine-friendly-design-and-development"}]'
+    http_version: 
+  recorded_at: Tue, 10 Jun 2014 00:15:04 GMT
+- request:
+    method: get
+    uri: http://lsapi.seomoz.com/linkscape/top-pages/moz.com?AccessID=platform&Expires=1402359604&Signature=iDEDNj9iY2x%2FxcZVPzeMPpPhPXI%3D&Cols=2305843593866118149&Sort=page_authority&Filter=status302&Offset=0&Limit=4
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      accept-ranges:
+      - bytes
+      age:
+      - '0'
+      content-type:
+      - application/json; charset=utf-8
+      date:
+      - Tue, 10 Jun 2014 00:15:06 GMT
+      retry-after:
+      - ''
+      via:
+      - 1.1 varnish, 1.1 varnish
+      x-accessid:
+      - platform
+      x-row-count:
+      - '4'
+      x-row_count:
+      - ''
+      x-unknownapi:
+      - ''
+      x-varnish:
+      - 343020178, 531599948
+      content-length:
+      - '471'
+      connection:
+      - Close
+    body:
+      encoding: UTF-8
+      string: '[{"ued":5406,"uipl":175,"upa":78.78170491957067,"us":302,"usch":17104897,"ut":"","uu":"moz.com/blog.php"},{"ued":56,"uipl":33,"upa":72.77339725124446,"us":302,"usch":17235969,"ut":"","uu":"moz.com/posts/manage"},{"ued":203,"uipl":70,"upa":70.91401180861499,"us":302,"usch":17104897,"ut":"","uu":"moz.com/blogdetail.php?ID=1347"},{"ued":76,"uipl":50,"upa":66.37072703669975,"us":302,"usch":17235969,"ut":"","uu":"moz.com/blog/how-to-grow-21-tactics-to-acquire-customers"}]'
+    http_version: 
+  recorded_at: Tue, 10 Jun 2014 00:15:04 GMT
+recorded_with: VCR 2.4.0

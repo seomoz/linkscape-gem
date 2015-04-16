@@ -1,25 +1,30 @@
 module Linkscape
   class Request
-    require 'net/http'
+    require 'faraday'
+    require 'faraday_middleware'
     require 'uri'
     require 'cgi'
     # require 'base64'
     # require 'rubygems'
     # require 'hmac-sha1'
-    
+
     attr_accessor :requestURL
-    
+
     URL_TEMPLATE = %Q[http://:apiHost:/:apiRoot:/:api:/:url:?AccessID=:accessID:&Expires=:expiration:&Signature=:signature:]
     MAX_URL_LENGTH = 500
 
     def self.run(options)
       self.new(options).run
     end
-    
+
+    def self.run_raw(options)
+      self.new(options).run_raw
+    end
+
     def initialize(options)
-     
+
       new_vals = {}
-      if options[:url] 
+      if options[:url]
         case options[:url]
         when String
           if options[:url].length > MAX_URL_LENGTH
@@ -43,12 +48,20 @@ module Linkscape
 
       options[:limit] = 1000 if options[:limit] && options[:limit] > 1000
       @requestURL += "&Limit=#{options[:limit]}" if options[:limit]
+
+      [:AnchorPhraseRid, :AnchorTermRid, :SourceDomain].each do |key|
+        @requestURL += "&#{key}=#{options[key]}" if options[key]
+      end
     end
-    
+
     def run
       res = fetch(URI.parse(@requestURL))
       # res = fetch(URI.parse('http://martian.at/other/ose.json'))
       return Response.new(self, res)
+    end
+
+    def run_raw
+      fetch(URI.parse(@requestURL)).body
     end
 
     def inspect
@@ -64,24 +77,41 @@ module Linkscape
 
     def fetch(uri, limit = 10)
       # You should choose better exception.
-      raise RecursionError, 'HTTP redirect too deep' if limit == 0
-      
+      raise Linkscape::RecursionError, 'HTTP redirect too deep' if limit == 0
+
       # Fetch with a POST of thers is a body
-      response = if @body
-        http = Net::HTTP.new(uri.host, uri.port)
-        request = Net::HTTP::Post.new(uri.request_uri)
-        request.body = @body.to_json
-        http.request(request)
-      else
-        Net::HTTP.get_response(uri)
+      conn = Faraday.new(:url => uri) do |f|
+        f.use FaradayMiddleware::FollowRedirects, :limit => limit
+        f.adapter Faraday.default_adapter
       end
-      
-      
+      response = if @body
+        conn.post do |req|
+          req.body = @body.to_json
+        end
+      else
+        conn.get
+      end
 
-      return fetch(response['location'], limit - 1) if Net::HTTPSuccess == response
+      if response.success?
+        response
+      elsif (500..599).include?(response.status)
+        raise Linkscape::InternalServerError, response.inspect
+      else
+        raise Linkscape::HTTPStatusError, response.inspect
+      end
 
-      response
+    rescue Timeout::Error, Timeout::ExitException => e
+      raise Linkscape::TimeoutError, error_msg(e)
+    rescue ::EOFError => e
+      raise Linkscape::EOFError, error_msg(e)
+    rescue SystemCallError, Faraday::Error, Net::ProtocolError, SocketError => e
+      raise Linkscape::Error, error_msg(e)
     end
 
+  private
+
+    def error_msg(error)
+      "#{error.class}: #{error.message}"
+    end
   end
 end

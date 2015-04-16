@@ -17,5 +17,12 @@ tmtags
 coverage
 rdoc
 pkg
+.bundle
+bundle
+
+config/credentials.yml
 
 ## PROJECT::SPECIFIC
+
+## ignore bin stubs
+bin

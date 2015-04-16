@@ -1,0 +1,46 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: http://lsapi.seomoz.com/linkscape/metadata/index_name?AccessID=platform&Expires=1360181535&Signature=Jq5gnlgluAbnwDVvHHNOqf9Cimk%3D
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers: {}
+  response:
+    status:
+      code: 200
+      message: 
+    headers:
+      accept-ranges:
+      - bytes
+      age:
+      - '0'
+      content-type:
+      - application/json
+      date:
+      - Wed, 06 Feb 2013 20:07:12 GMT
+      etag:
+      - ! '"1735071074"'
+      last-modified:
+      - Tue, 05 Feb 2013 18:48:42 GMT
+      server:
+      - lighttpd/1.4.28
+      via:
+      - 1.1 varnish
+      x-accessid:
+      - platform
+      x-varnish:
+      - '1241505470'
+      content-length:
+      - '5'
+      connection:
+      - Close
+    body:
+      encoding: US-ASCII
+      string: ! '75-1
+
+'
+    http_version: 
+  recorded_at: Wed, 06 Feb 2013 20:07:15 GMT
+recorded_with: VCR 2.4.0

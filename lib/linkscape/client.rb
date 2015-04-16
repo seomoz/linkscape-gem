@@ -1,19 +1,28 @@
+require 'linkscape/current_index_data'
+
 module Linkscape
   class Client
+
+    attr_reader :options
+
     def initialize(*args)
       options = Hash === args.last ? args.pop : {}
       @accessID = args.first ? args.shift : (options[:id] || options[:ID] || options[:accessID])
       @secretKey = args.first ? args.shift : (options[:secret] || options[:secretKey] || options[:key])
-      
+
       @options = {
         :apiHost => 'lsapi.seomoz.com',
         :apiRoot => 'linkscape',
         :accessID => @accessID,
         :secretKey => @secretKey
       }.merge(options)
-      
     end
 
+    def index_name
+      api = 'metadata/index_name'
+      response = Linkscape::Request.run_raw(@options.merge(:api => api))
+      CurrentIndexData.new(response)
+    end
 
     def mozRank(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
@@ -27,7 +36,6 @@ module Linkscape
       Linkscape::Request.run(@options.merge(options))
     end
 
-
     def urlMetrics(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
@@ -40,20 +48,19 @@ module Linkscape
       options[:query] = {
         'Cols' => translateBitfield(options[:cols], options[:columns], options[:fields], :type => :url)
       }
-      
+
       raise MissingArgument, "urlMetrics requires a list of columns to return." unless options[:query]['Cols'].nonzero?
-      
+
       Linkscape::Request.run(@options.merge(options))
     end
-
 
     def topLinks(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
       whichSet = (args.first ? args.shift : (options[:set] || 'none')).to_sym
-      
+
       raise MissingArgument, "topLinks requires a set (:page, :subdomain, :domain) and a url." unless whichSet and url
-      
+
       options[:url] = url
 
       options[:api] = {
@@ -61,9 +68,9 @@ module Linkscape
         :subdomain => 'subdomain-linklist',
         :domain => 'rootdomain-linklist',
       }[whichSet]
-      
+
       raise InvalidArgument, "topLinks set must be one of :page, :subdomain, :domain" unless options[:api]
-      
+
       options[:query] = {
         'SourceCols' => translateBitfield(options[:sourcecols], options[:sourcecolumns], options[:urlcols], :type => :url),
         'TargetCols' => translateBitfield(options[:targetcols], options[:targetcolumns], options[:urlcols], :type => :url),
@@ -71,10 +78,9 @@ module Linkscape
       }
 
       raise MissingArgument, "topLinks requires a list of columns for Source, Target, and/or Link." unless options[:query]['SourceCols'].nonzero? or options[:query]['TargetCols'].nonzero? or options[:query]['LinkCols'].nonzero?
-      
+
       Linkscape::Request.run(@options.merge(options))
     end
-
 
     def allLinks(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
@@ -113,24 +119,29 @@ module Linkscape
       }
 
       raise MissingArgument, "allLinks requires a list of columns for Source, Target, and/or Link." unless options[:query]['SourceCols'].nonzero? or options[:query]['TargetCols'].nonzero? or options[:query]['LinkCols'].nonzero?
-      
+
       Linkscape::Request.run(@options.merge(options))
     end
 
-    
     def topPages(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
-      
+
       options[:url] = url
       options[:api] = 'top-pages'
-      
+
+      sort = options.delete(:sort) || :page_authority
+
+      filter = options.fetch(:filter, 'all')
+
       options[:query] = {
         'Cols' => translateBitfield(options[:cols], options[:columns], options[:sourcecols], options[:sourcecolumns], options[:urlcols], :type => :url),
+        'Sort' => sort.to_s,
+        'Filter' => filter.to_s
       }
 
       raise MissingArgument, "topPages requires a list of columns to return." unless options[:query]['Cols'].nonzero?
-      
+
       Linkscape::Request.run(@options.merge(options))
     end
 
@@ -140,6 +151,13 @@ module Linkscape
       Linkscape::Request.run(@options.merge(options))
     end
 
+    def last_update
+      Linkscape::Request.run_raw(@options.merge(:api => 'metadata/last_update')).to_i
+    end
+
+    def next_update
+      Linkscape::Request.run_raw(@options.merge(:api => 'metadata/next_update')).to_i
+    end
 
     def anchorMetrics(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
@@ -175,19 +193,20 @@ module Linkscape
       }
 
       # raise MissingArgument, "anchorMetrics requires a list of columns to return." unless options[:query]['Cols'].nonzero?
-      
+
       Linkscape::Request.run(@options.merge(options))
     end
 
-
-
+    def endpoint
+      "#{@options[:apiHost]}/#{@options[:apiRoot]}"
+    end
 
     def inspect
       %Q[#<#{self.class}:#{"0x%x" % self.object_id} api="#{@options[:apiHost]}/#{@options[:apiRoot]}" accessID="#{@options[:accessID]}">]
     end
-    
+
     private
-    
+
     def translateBitfield *columns
       options = Hash === columns.last ? columns.pop : {}
 
@@ -195,7 +214,7 @@ module Linkscape
       columns.compact!
 
       bits = columns.inject(0) do |bitfield, key|
-        requestBit = 
+        requestBit =
           if options[:type] == :url
             Linkscape::Constants::URLMetrics::RequestBits[key]
           elsif options[:type] == :link
@@ -208,9 +227,8 @@ module Linkscape
         raise InvalidArgument, "Unknown #{options[:type]} flag '#{key.inspect}'".gsub(/  +/, ' ') unless requestBit
         bitfield |= requestBit[:flag]
       end
-      
+
       bits
     end
-    
   end
 end

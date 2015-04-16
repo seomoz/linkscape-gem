@@ -27,7 +27,6 @@ module Linkscape
         :key => :canonical_internal_id,
         :desc => %Q[Internal ID of the canonical URL],
       },
-
       :us => {
         :name => 'HTTP Status',
         :key => :status,
@@ -38,7 +37,6 @@ module Linkscape
         :key => :title,
         :desc => %Q[The title of the target URL, if a title is available],
       },
-
       :ff => {
         :name => 'Time of Last FQ Domain Update',
         :key => :fq_domain_updated_at,
@@ -54,7 +52,6 @@ module Linkscape
         :key => :updated_at,
         :desc => %Q[The unix timestamp giving a rough idea of how fresh the data is of the target URL],
       },
-
       :fid => {
         :name => 'Number of Links to FQ Domain',
         :key => :fq_domain_fq_domains_linking,
@@ -105,7 +102,6 @@ module Linkscape
         :key => :external_links,
         :desc => %Q[The number of external (from other subdomains), juice passing links to the target URL in the Linkscape index],
       },
-
       :fejp => {
         :name => 'External mozRank sum of all FQ Domain Pages',
         :key => :fq_domain_external_mozrank_sum,
@@ -126,7 +122,6 @@ module Linkscape
         :key => :pl_domain_mozrank_sum,
         :desc => %Q[The pretty (logarithmically scaled) sum of the mozRank of all the pages of the PL domain of the target URL in the Linkscape index],
       },
-
       :fejr => {
         :name => 'External mozRank sum of all FQ Domain Pages (raw)',
         :key => :fq_domain_external_mozrank_sum_raw,
@@ -147,7 +142,6 @@ module Linkscape
         :key => :pl_domain_mozrank_sum_raw,
         :desc => %Q[The raw (linearly scaled) sum of the mozRank of all the pages of the PL domain of the target URL in the Linkscape index],
       },
-
       :fmrp => {
         :name => 'mozRank of FQ Domain',
         :key => :fq_domain_mozrank,
@@ -163,7 +157,6 @@ module Linkscape
         :key => :mozrank,
         :desc => %Q[The pretty (ten point, logarithmically scaled) measure of the mozRank of the target URL in the Linkscape index],
       },
-
       :fmrr => {
         :name => 'mozRank of FQ Domain (raw)',
         :key => :fq_domain_mozrank_raw,
@@ -179,7 +172,6 @@ module Linkscape
         :key => :mozrank_raw,
         :desc => %Q[The raw (zero to one, linearly scaled) measure of the mozRank of the target URL in the Linkscape index],
       },
-
       :ftrp => {
         :name => 'mozTrust of FQ Domain',
         :key => :fq_domain_moztrust,
@@ -210,7 +202,6 @@ module Linkscape
         :key => :moztrust_raw,
         :desc => %Q[The raw (zero to one, linearly scaled) measure of the mozTrust of the target URL in the Linkscape index],
       },
-
       :uemrp => {
         :name => 'External mozRank',
         :key => :external_mozrank,
@@ -241,7 +232,6 @@ module Linkscape
         :key => :pl_domain,
         :desc => %Q[The pay-level domain (PL domain) as it's identified in the Linkscape index],
       },
-      
       :ued => {
         :key => :all_external_links,
         :name => 'All external links page to page',
@@ -332,8 +322,6 @@ module Linkscape
         :name => 'Followed Cblock Linking Domain',
         :desc => %Q[The total number of cblock with followed links to a domain.]
       },
-      
-      
       :upa => {
         :name => 'Page Authority',
         :key => :page_authority,
@@ -354,19 +342,29 @@ module Linkscape
         :key => :domain_authority_raw,
         :desc => %Q[The raw (zero to one, linearly scaled) domain authority of the target URL's PL domain],
       },
-      
+      :usch => {
+        :name => 'URL schema (HTTP/HTTPS)',
+        :key => :url_schema,
+        :desc => %Q[Bit flags for: https present true/false, and https canonical true/false],
+      },
+
     }
+
     URLResponsePrefixes = {
       nil  => :source,
       :lu  => :target,
     }
-    
-    
+
     LinkResponseFields = {
       :t => {
         :name => 'Anchor Text',
         :key => :text,
         :desc => %Q[The anchor text of the link, including any markup (e.g. image tags with alt text)],
+      },
+      :nt => {
+        :name => 'Normalized Anchor Text',
+        :key => :normalized_text,
+        :desc => %Q[The anchor text of the link, excluding any markup (e.g. image tags with alt text)],
       },
       :src => {
         :name => 'Source Internal ID',
@@ -400,21 +398,26 @@ module Linkscape
         :desc => %Q[The pretty (ten point, logarithmically scaled) measure of the mozRank passed to the target URL in the Linkscape index],
       },
     }
+
     LinkResponsePrefixes = {
       :l   => :link,
     }
-    
-    
+
     AnchorResponseFields = {
       :t => {
         :name => 'Anchor Text',
         :key => :text,
         :desc => %Q[The Anchor Text term or phrase],
       },
-      :i => {
+      :rid => {
         :name => 'Internal Target ID',
         :key => :record_id,
         :desc => %Q[Internal ID of the target URL],
+      },
+      :i => {
+        :name => 'Internal Target Domain ID',
+        :key => :pl_domain_id,
+        :desc => %Q[Internal ID of the target PL Domain],
       },
       :iu => {
         :name => 'Internal Pages Linking',
@@ -480,19 +483,19 @@ module Linkscape
       [:juice_internal_links,                       [ :juice_links,                  :external_links                     ]],
       [:internal_links,                             [ :links,                        :all_external_links                 ]],
       [:unfollowed_internal_links,                  [ :internal_links,               :juice_internal_links               ]],
-      
+
       [:fq_domain_unfollowed_external_links,        [ :fq_domain_all_external_links, :fq_domain_external_links           ]],
       [:fq_domain_unfollowed_links,                 [ :fq_domain_links,              :fq_domain_juice_links              ]],
       [:fq_domain_juice_internal_links,             [ :fq_domain_juice_links,        :fq_domain_external_links           ]],
       [:fq_domain_internal_links,                   [ :fq_domain_links,              :fq_domain_all_external_links       ]],
       [:fq_domain_unfollowed_internal_links,        [ :fq_domain_internal_links,     :fq_domain_juice_internal_links     ]],
-      
+
       [:pl_domain_unfollowed_external_links,        [ :pl_domain_all_external_links, :pl_domain_external_links           ]],
       [:pl_domain_unfollowed_links,                 [ :pl_domain_links,              :pl_domain_juice_links              ]],
       [:pl_domain_juice_internal_links,             [ :pl_domain_juice_links,        :pl_domain_external_links           ]],
       [:pl_domain_internal_links,                   [ :pl_domain_links,              :pl_domain_all_external_links       ]],
       [:pl_domain_unfollowed_internal_links,        [ :pl_domain_internal_links,     :pl_domain_juice_internal_links     ]],
-      
+
       [:unfollowed_fq_domains_linking,              [ :fq_domains_linking,           :juice_fq_domains_linking           ]],
       [:unfollowed_pl_domains_linking,              [ :pl_domains_linking,           :juice_pl_domains_linking           ]],
       [:fq_domain_unfollowed_fq_domains_linking,    [ :fq_domain_fq_domains_linking, :fq_domain_juice_fq_domains_linking ]],
@@ -504,7 +507,7 @@ module Linkscape
       [:pl_domain_unfollowed_ips_linking,           [ :pl_domain_ips_linking,        :pl_domain_juice_ips_linking        ]],
     ]
     ResponseFields = {}
-    
+
     URLResponsePrefixes.each do |prefix, subject|
       URLResponseFields.each do |k,v|
         v = v.dup.merge(
@@ -515,6 +518,7 @@ module Linkscape
         ResponseFields[v[:source]] = v
       end
     end
+
     LinkResponsePrefixes.each do |prefix, subject|
       LinkResponseFields.each do |k,v|
         v = v.dup.merge(
@@ -525,6 +529,7 @@ module Linkscape
         ResponseFields[v[:source]] = v
       end
     end
+
     AnchorResponsePrefixes.each do |prefix, subject|
       AnchorResponseFields.each do |k,v|
         v = v.dup.merge(
@@ -535,11 +540,10 @@ module Linkscape
         ResponseFields[v[:source]] = v
       end
     end
-    
+
     ResponseFields.keys.each {|k| ResponseFields[ResponseFields[k][:key]] ||= ResponseFields[k] if ResponseFields[k][:key] }
-    
+
     LongestNameLength = ResponseFields.collect{|k,v|v[:name].length}.max
     LongestKeyLength = ResponseFields.collect{|k,v|v[:key].to_s.length}.max
-    
   end
 end
