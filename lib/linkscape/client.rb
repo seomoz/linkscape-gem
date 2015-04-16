@@ -155,6 +155,10 @@ module Linkscape
       Linkscape::Request.run_raw(@options.merge(:api => 'metadata/last_update')).to_i
     end
 
+    def next_update
+      Linkscape::Request.run_raw(@options.merge(:api => 'metadata/next_update')).to_i
+    end
+
     def anchorMetrics(*args)
       options = Hash === args.last ? args.pop.symbolize_keys : {}
       url = args.first ? args.shift : options[:url]
