@@ -9,7 +9,7 @@ module Linkscape
     def initialize(data)
       indexs, lock = data.split(' ')
       @index, @sub_index = indexs.split('-').map {|x| x.to_i}
-      @locked = (lock == "(locked)")
+      @locked = (lock == "(L)")
     end
   end
 end
